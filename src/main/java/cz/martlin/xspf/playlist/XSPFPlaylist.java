@@ -1,6 +1,8 @@
 package cz.martlin.xspf.playlist;
 
 import java.io.File;
+import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -12,10 +14,8 @@ import cz.martlin.xspf.util.XSPFException;
 import cz.martlin.xspf.util.XMLFileLoaderStorer;
 import cz.martlin.xspf.util.XSPFDocumentUtility;
 
-public class XSPFPlaylist implements BaseXSPFElement {
+public class XSPFPlaylist extends XSPFCommon /* implements BaseXSPFElement */ {
 	protected static final String XSPF_STANDART_VERSION = "1";
-	protected static final XSPFDocumentUtility util = new XSPFDocumentUtility(null, "http://xspf.org/ns/0/");
-	
 	private final Document document;
 
 	public XSPFPlaylist(Document document) throws XSPFException {
@@ -31,28 +31,31 @@ public class XSPFPlaylist implements BaseXSPFElement {
 	}
 	
 	@Override
-	public XSPFDocumentUtility getUtil() {
-		return util;
+	public Element getElement() {
+		return getRootElement();
 	}
-
+	
 	/////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public String getTitle() throws XSPFException {
-		Element root = getRootElement();
-		return util.getElementText(root, "title");
+	
+	public LocalDateTime getDate() throws XSPFException {
+		return getDate("date");
 	}
 
-	@Override
-	public void setTitle(String title) throws XSPFException {
-		Element root = getRootElement();
-		util.setElementText(root, "title", title);
+	public void setDate(LocalDateTime date) throws XSPFException {
+		setDate("date", date);
 	}
 
-	@Override
-	public Element getExtension() throws XSPFException {
+	public URI getLicence() throws XSPFException {
+		return getUri("info");
+	}
+
+	public void setLicence(URI licence) throws XSPFException {
+		setUri("licence", licence);
+	}
+	
+	public Element getAttribution() throws XSPFException {
 		Element root = getRootElement();
-		return util.getOrCreateChildElem(root, "extension");
+		return util.getChildElem(root, "attribution");
 	}
 
 	public List<XSPFTrack> getTracks() throws XSPFException {
@@ -77,12 +80,25 @@ public class XSPFPlaylist implements BaseXSPFElement {
 		}
 	}
 
-	private Element getRootElement() {
-		// TODO verify elem name
-		// TODO verify xspf format version
-		return document.getDocumentElement();
+
+	/////////////////////////////////////////////////////////////////////////////////////
+
+	private URI textToUri(String value) {
+		return URI.create(value);
+	}
+	
+	private String uriToText(URI uri) {
+		return uri.toASCIIString();
 	}
 
+	private LocalDateTime textToDate(String value) {
+		return LocalDateTime.parse(value);
+	}
+	
+	private String dateToText(LocalDateTime date) {
+		return date.toString();
+	}
+	
 	/////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -124,5 +140,13 @@ public class XSPFPlaylist implements BaseXSPFElement {
 			throw new XSPFException("The supported version of XSPF is " + XSPF_STANDART_VERSION);
 		}
 	}
+	
 
+	/////////////////////////////////////////////////////////////////////////////////////
+
+	private Element getRootElement() {
+		return document.getDocumentElement();
+	}
+	
+	
 }

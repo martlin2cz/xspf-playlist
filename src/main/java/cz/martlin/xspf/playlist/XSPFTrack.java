@@ -1,6 +1,5 @@
 package cz.martlin.xspf.playlist;
 
-import java.net.URI;
 import java.time.Duration;
 import java.util.Objects;
 
@@ -9,7 +8,7 @@ import org.w3c.dom.Element;
 import cz.martlin.xspf.util.XSPFDocumentUtility;
 import cz.martlin.xspf.util.XSPFException;
 
-public class XSPFTrack implements BaseXSPFElement {
+public class XSPFTrack extends XSPFCommon {
 	protected static final XSPFDocumentUtility util = XSPFPlaylist.util;
 
 	private final Element element;
@@ -20,75 +19,43 @@ public class XSPFTrack implements BaseXSPFElement {
 		this.element = element;
 	}
 
+	@Override
 	public Element getElement() {
 		return element;
 	}
 
-	@Override
-	public XSPFDocumentUtility getUtil() {
-		return util;
-	}
 	///////////////////////////////////////////////////////////////////////////
-	@Override
-	public String getTitle() throws XSPFException {
-		return util.getElementText(element, "title");
-	}
 
-	@Override
-	public void setTitle(String title) throws XSPFException {
-		util.setElementText(element, "title", title);
-	}
 
 	public Duration getDuration() throws XSPFException {
-		return util.getElementValue(element, "duration", //
-				(v) -> parseDuration(v));
+		return getDuration("duration");
 	}
 
 	public void setDuration(Duration duration) throws XSPFException {
-		util.setElementValue(element, "duration", duration, //
-				(d) -> stringifyDuration(d));
+		setDuration("duration", duration);
 	}
-
-	public String getAnnotation() throws XSPFException {
-		return util.getElementText(element, "annotation");
+	
+	public String getAlbum() throws XSPFException {
+		return get("album");
 	}
-
-	public void setAnnotation(String annotation) throws XSPFException {
-		util.setElementText(element, "annotation", annotation);
+	
+	public void setAlbum(String album) throws XSPFException {
+		set("album", album);
 	}
-
-	public URI getLocation() throws XSPFException {
-		return util.getElementValue(element, "location", (v) -> parseUri(v));
+	
+	public int getTrackNum() throws XSPFException {
+		return getInt("trackNum");
 	}
-
-	public void setLocation(URI location) throws XSPFException {
-		util.setElementValue(element, "location", location, (v) -> stringifyUri(v));
-	}
-
-	@Override
-	public Element getExtension() throws XSPFException {
-		return util.getOrCreateChildElem(element, "extension");
+	
+	public void setTrackNum(int trackNum) throws XSPFException {
+		setInt("trackNum", trackNum);
 	}
 
 ///////////////////////////////////////////////////////////////////////////
 
-	private Duration parseDuration(String text) {
-		long milis = Long.parseLong(text);
-		return Duration.ofMillis(milis);
-	}
+	
 
-	private String stringifyDuration(Duration duration) {
-		long milis = duration.toMillis();
-		return Long.toString(milis);
-	}
-
-	private URI parseUri(String text) {
-		return URI.create(text);
-	}
-
-	private String stringifyUri(URI uri) {
-		return uri.toASCIIString();
-	}
+	
 
 ///////////////////////////////////////////////////////////////////////////
 
