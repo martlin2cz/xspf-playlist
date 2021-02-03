@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<playlist xmlns="http://xspf.org/ns/0/" xmlns:jmop="https://github.com/martlin2cz/jmop/schemas/xspf-extension.xsd" version="1">
+    <title>Discovery</title>
+    <extension aplication="https://github.com/martlin2cz/jmop">
+        <jmop:playlist created="today" currentTrack="1." numberOfPlays="tons"/>
+    </extension>
+    <trackList>
+        <track>
+            <title>One More Time</title>
+            <identifier>OMT</identifier>
+            <annotation>One More Time (featuring Romanthony)</annotation>
+            <duration>5:20</duration>
+        </track>
+        <track>
+            <title>Aerodynamic</title>
+            <identifier>AD</identifier>
+            <annotation>Aerodynamic</annotation>
+            <duration>3:27</duration>
+        </track>
+        <track>
+            <title>Veridis Quo</title>
+            <identifier>VQ</identifier>
+            <annotation>Veridis Quo</annotation>
+            <duration>5:44</duration>
+        </track>
+    </trackList>
+</playlist>
+

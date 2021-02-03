@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<playlist xmlns="http://xspf.org/ns/0/" version="1">
+    <title>Discovery</title>
+    <trackList>
+        <track>
+            <title>One More Time</title>
+            <identifier>OMT</identifier>
+            <annotation>One More Time (featuring Romanthony)</annotation>
+            <duration>320000.0</duration>
+        </track>
+        <track>
+            <title>Aerodynamic</title>
+            <identifier>AD</identifier>
+            <annotation>Aerodynamic</annotation>
+            <duration>207000.0</duration>
+        </track>
+        <track>
+            <title>Veridis Quo</title>
+            <identifier>VQ</identifier>
+            <annotation>Veridis Quo</annotation>
+            <duration>344000.0</duration>
+        </track>
+    </trackList>
+</playlist>
+
