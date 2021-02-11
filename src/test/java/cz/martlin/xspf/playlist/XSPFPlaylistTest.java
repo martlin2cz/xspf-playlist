@@ -11,6 +11,12 @@ import org.opentest4j.AssertionFailedError;
 
 import cz.martlin.xspf.util.XSPFException;
 
+/**
+ * Replaced by the new, more precise, test classes.
+ * @author martin
+ *
+ */
+@Deprecated
 class XSPFPlaylistTest {
 
 	@Test

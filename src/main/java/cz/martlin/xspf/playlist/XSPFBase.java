@@ -3,6 +3,8 @@ package cz.martlin.xspf.playlist;
 import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -46,11 +48,13 @@ public abstract class XSPFBase {
 	}
 
 	private LocalDateTime textToDate(String text) {
-		return LocalDateTime.parse(text);
+		TemporalAccessor ta = DateTimeFormatter.ISO_DATE_TIME.parse(text);
+		return LocalDateTime.from(ta);
 	}
 
 	private static String dateToText(LocalDateTime date) {
-		return date.toString();
+		TemporalAccessor ta = date;
+		return DateTimeFormatter.ISO_DATE_TIME.format(ta);
 	}
 
 	private static String intToStr(int num) {

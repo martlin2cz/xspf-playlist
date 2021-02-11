@@ -38,12 +38,12 @@ public class XSPFPlaylist extends XSPFCommon {
 		setDate("date", date);
 	}
 
-	public URI getLicence() throws XSPFException {
-		return getUri("licence");
+	public URI getLicense() throws XSPFException {
+		return getUri("license");
 	}
 
 	public void setLicence(URI licence) throws XSPFException {
-		setUri("licence", licence);
+		setUri("license", licence);
 	}
 	
 	public XSPFAttribution getAttribution() throws XSPFException {

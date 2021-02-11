@@ -278,7 +278,7 @@ public class XSPFDocumentUtility {
 
 	private <T> T textToValue(String text, TextToValueMapper<T> mapper) throws XSPFException {
 		try {
-			return mapper.textToValue(text);
+			return mapper.textToValue(text.trim());
 		} catch (Exception e) {
 			throw new XSPFException("Cannot convert " + text + " value", e);
 		}
