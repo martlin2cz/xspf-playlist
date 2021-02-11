@@ -9,7 +9,7 @@ import cz.martlin.xspf.util.XSPFDocumentUtility;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFTrack extends XSPFCommon {
-	protected static final XSPFDocumentUtility util = XSPFPlaylist.util;
+	protected static final XSPFDocumentUtility util = XSPFPlaylist.UTIL;
 
 	private final Element track;
 

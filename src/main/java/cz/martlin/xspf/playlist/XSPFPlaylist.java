@@ -5,34 +5,27 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import cz.martlin.xspf.util.XSPFException;
 import cz.martlin.xspf.util.XMLFileLoaderStorer;
-import cz.martlin.xspf.util.XSPFDocumentUtility;
+import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFPlaylist extends XSPFCommon {
-	protected static final String XSPF_STANDART_VERSION = "1";
-	private final Document document;
 
-	public XSPFPlaylist(Document document) throws XSPFException {
+	private final Element element;
+
+	public XSPFPlaylist(Element element) {
 		super();
 
-		Objects.requireNonNull(document, "The document must be provided");
-		this.document = document;
-		util.init(document);
-	}
-
-	public Document getDocument() {
-		return document;
+		Objects.requireNonNull(element, "The element must be provided");
+		this.element = element;
 	}
 	
 	@Override
 	public Element getElement() {
-		return getRootElement();
+		return element;
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -57,31 +50,22 @@ public class XSPFPlaylist extends XSPFCommon {
 		return getOne("attribution", (e) -> new XSPFAttribution(e));
 	}
 	
-	//TODO set attribution
+	public void setAttribution(XSPFAttribution attribution) throws XSPFException {
+		setOne("attribution", attribution);
+	}
 
 
 	public List<XSPFTrack> getTracks() throws XSPFException {
-		Element root = getRootElement();
-		Element trackList = util.getChildElem(root, "trackList");
-		return util.listChildrenElems(trackList, "track").stream() //
-				.map(e -> new XSPFTrack(e)) //
-				.collect(Collectors.toList()); //
+		return getAll("trackList", (e) -> new XSPFTrack(e));
 	}
 
 	public XSPFTrack newTrack() {
-		Element element = document.createElement("track");
-		return new XSPFTrack(element);
+		return createOne("track", (e) -> new XSPFTrack(e));
 	}
 
 	public void setTracks(List<XSPFTrack> tracks) throws XSPFException {
-		Element root = getRootElement();
-		Element trackList = util.replaceChildElem(root, "trackList");
-		for (XSPFTrack track : tracks) {
-			Element trackElem = track.getElement();
-			trackList.appendChild(trackElem);
-		}
+		setAll("trackList", tracks);
 	}
-
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
@@ -96,39 +80,6 @@ public class XSPFPlaylist extends XSPFCommon {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	public static XSPFPlaylist load(File file) throws XSPFException {
-		Document document = XMLFileLoaderStorer.loadDocument(file);
-		verify(document);
-		return new XSPFPlaylist(document);
-	}
-
-	public static XSPFPlaylist create() throws XSPFException {
-		Document document = XMLFileLoaderStorer.createEmptyDocument();
-		prepare(document);
-		return new XSPFPlaylist(document);
-	}
-
-	public void save(File file) throws XSPFException {
-		XMLFileLoaderStorer.saveDocument(document, file);
-	}
-
-	private static void prepare(Document document) throws XSPFException {
-		Element root = util.getOrCreateRootElem(document, "playlist");
-		util.setElementAttr(root, "version", XSPF_STANDART_VERSION);
-	}
-
-	private static void verify(Document document) throws XSPFException {
-		Element root = util.getRootElem(document, "playlist");
-		String version = util.getElementAttr(root, "version");
-		if (!version.equals(XSPF_STANDART_VERSION)) {
-			throw new XSPFException("The supported version of XSPF is " + XSPF_STANDART_VERSION);
-		}
-	}
-
-	/////////////////////////////////////////////////////////////////////////////////////
-
-	private Element getRootElement() {
-		return document.getDocumentElement();
-	}
+	
 
 }

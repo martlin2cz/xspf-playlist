@@ -16,15 +16,16 @@ class XSPFPlaylistTest {
 	@Test
 	void testSome() throws XSPFException {
 		File fileToRead = TestingXSPFFiles.fileToReadAssumed("some.xspf");
-		XSPFPlaylist playlist = XSPFPlaylist.load(fileToRead);
-
+		XSPFFile file = XSPFFile.load(fileToRead);
+		XSPFPlaylist playlist = file.getPlaylist();
+		
 		verifyPlaylist(playlist);
 
 		File fileToWrite = TestingXSPFFiles.fileToWriteAssumed("some.xspf");
-		playlist.save(fileToWrite);
+		file.save(fileToWrite);
 
-		XSPFPlaylist reloadedPlaylist = XSPFPlaylist.load(fileToWrite);
-
+		XSPFFile reloadedFile = XSPFFile.load(fileToWrite);
+		XSPFPlaylist reloadedPlaylist = reloadedFile.getPlaylist();
 		verifyPlaylist(reloadedPlaylist);
 	}
 
@@ -48,15 +49,17 @@ class XSPFPlaylistTest {
 	public void testPlaylistFile(String name) {
 		try {
 			File fileToRead = TestingXSPFFiles.fileToReadAssumed(name);
-			XSPFPlaylist playlist = XSPFPlaylist.load(fileToRead);
-	
+			XSPFFile file = XSPFFile.load(fileToRead);
+			XSPFPlaylist playlist = file.getPlaylist();
+			
 			verifyPlaylist(playlist);
 	
 			File fileToWrite = TestingXSPFFiles.fileToWriteAssumed(name);
-			playlist.save(fileToWrite);
+			file.save(fileToWrite);
 	
-			XSPFPlaylist reloadedPlaylist = XSPFPlaylist.load(fileToWrite);
-	
+			XSPFFile reloadedFile = XSPFFile.load(fileToWrite);
+			XSPFPlaylist reloadedPlaylist = reloadedFile.getPlaylist();
+			
 			verifyPlaylist(reloadedPlaylist);
 		} catch (XSPFException e) {
 			fail("The file " + name + " failed.", e);

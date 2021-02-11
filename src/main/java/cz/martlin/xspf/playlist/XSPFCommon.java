@@ -78,20 +78,37 @@ public abstract class XSPFCommon extends XSPFBase {
 	public List<XSPFLink> getLinks() throws XSPFException {
 		return getAll("link", (e) -> new XSPFLink(e));
 	}
+	
+	public XSPFLink createLink() throws XSPFException {
+		return createOne("link", (e) -> new XSPFLink(e));
+	}
 
 	public void setLinks(List<XSPFLink> links) throws XSPFException {
 		setAll("link", links);
 	}
 
-	public List<Element> getMetas() throws XSPFException {
-		Element elem = getElement();
-		return util.listChildrenElems(elem, "meta");
+	public List<XSPFMeta> getMetas() throws XSPFException {
+		return getAll("meta", (e) -> new XSPFMeta(e));
+	}
+	
+	public XSPFMeta createMeta() throws XSPFException {
+		return createOne("meta", (e) -> new XSPFMeta(e));
+	}
+	
+	public void setMetas(List<XSPFMeta> metas) throws XSPFException {
+		setAll("meta", metas);
 	}
 
-	public Element getExtension() throws XSPFException {
+	public XSPFExtension getExtension(URI application) throws XSPFException {
 		Element elem = getElement();
-		return util.getOrCreateChildElem(elem, "extension");
+		Element extensionElem = UTIL.getOrCreateChildElem(elem, "extension");
+		return new XSPFExtension(extensionElem, application);
 	}
+	
+//	public XSPFExtension setExtension(String application) throws XSPFException {
+//		Element elem = getElement();
+//		return util.getOrCreateChildElem(elem, "extension");
+//	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
