@@ -1,19 +1,20 @@
 package cz.martlin.xspf.playlist;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-public class XSPFAttribution extends XSPFBase {
+public class XSPFAttribution extends XSPFElement {
 
-	private final Element element;
+	private final Element attribution;
 
 	public XSPFAttribution(Element element) {
 		super();
-		this.element = element;
+		this.attribution = element;
 	}
 
 	@Override
-	public Element getElement() {
-		return this.element;
+	protected Element getElement() {
+		return attribution;
 	}
 	
 	//TODO ?

@@ -4,10 +4,11 @@ import java.net.URI;
 import java.util.Objects;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import cz.martlin.xspf.util.XSPFException;
 
-public class XSPFLink extends XSPFBase {
+public class XSPFLink extends XSPFElement {
 
 	private final Element link;
 
@@ -18,7 +19,7 @@ public class XSPFLink extends XSPFBase {
 	}
 
 	@Override
-	public Element getElement() {
+	protected Element getElement() {
 		return link;
 	}
 

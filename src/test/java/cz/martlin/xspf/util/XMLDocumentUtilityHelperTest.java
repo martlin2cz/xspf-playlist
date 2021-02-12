@@ -50,7 +50,7 @@ class XMLDocumentUtilityHelperTest {
 
 	@Test
 	void testGetChild() throws XSPFException {
-		Element foo = document.getDocumentElement();
+		Element foo = helper.getChild(document, "foo");
 		Element bar = helper.getChild(foo, "bar");
 		
 		assertEquals("test:bar", bar.getTagName());
@@ -62,7 +62,7 @@ class XMLDocumentUtilityHelperTest {
 
 	@Test
 	void testGetOrCreateChild() throws XSPFException {
-		Element foo = document.getDocumentElement();
+		Element foo = helper.getOrCreateChild(document, "foo");
 		Element bar = helper.getOrCreateChild(foo, "bar");
 		
 		assertEquals("test:bar", bar.getTagName());
@@ -96,16 +96,6 @@ class XMLDocumentUtilityHelperTest {
 		assertEquals("test:foo", foo.getTagName());
 		
 		assertThrows(XSPFException.class, () -> helper.getRoot(document, "lorem"));
-	}
-
-	@Test
-	void testGetOrCreateRoot() throws XSPFException {
-		Element foo = helper.getOrCreateRoot(document, "foo");
-		assertEquals("test:foo", foo.getTagName());
-		
-		assertThrows(XSPFException.class, () -> helper.getRoot(document, "lorem"));
-		
-		//TODO verify it creates new one on empty document
 	}
 
 	@Test

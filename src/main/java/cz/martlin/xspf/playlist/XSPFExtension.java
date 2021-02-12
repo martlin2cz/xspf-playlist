@@ -3,20 +3,21 @@ package cz.martlin.xspf.playlist;
 import java.net.URI;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-public class XSPFExtension extends XSPFBase {
-	private final Element element;
+public class XSPFExtension extends XSPFElement {
+	private final Element extension;
 	private final URI application;
 	
 	public XSPFExtension(Element element, URI application) {
 		super();
-		this.element = element;
+		this.extension = element;
 		this.application = application;
 	}
 	
 	@Override
-	public Element getElement() {
-		return this.element;
+	protected Element getElement() {
+		return extension;
 	}
 	
 	public URI getApplication() {

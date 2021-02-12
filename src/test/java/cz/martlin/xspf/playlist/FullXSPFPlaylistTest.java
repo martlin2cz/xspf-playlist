@@ -56,21 +56,41 @@ class FullXSPFPlaylistTest {
 		assertEquals(URI.create("https://github.com/martlin2cz/jmop/xspf-playlist/sample-licence.txt"), //
 				playlist.getLicense());
 	}
-	
+
 	@Test
 	void testCreate() throws XSPFException {
 		XSPFFile file = XSPFFile.create();
 		XSPFPlaylist playlist = file.getPlaylist();
-		
+
 		fill(playlist);
-		
+
 		verify(playlist);
 	}
 
-	private void fill(XSPFPlaylist playlist) {
-		// TODO fill with the testing
-		
+	private void fill(XSPFPlaylist playlist) throws XSPFException {
+		fillBasicProperties(playlist);
+
 	}
 
+	private void fillBasicProperties(XSPFPlaylist playlist) throws XSPFException {
+		playlist.setTitle("Sample playlist");
+
+		playlist.setCreator("m@rtlin");
+
+		playlist.setAnnotation("Sample playlist with some testing track.");
+
+		playlist.setInfo(URI.create("https://github.com/martlin2cz/jmop/xspf-playlist/sample-info.htm"));
+
+		playlist.setLocation(URI.create(
+				"https://github.com/martlin2cz/jmop/xspf-playlist/scr/test/resources/cz/martlin/xspf/playlist/full.xspf"));
+
+		playlist.setIdentifier(URI.create("sample.playist"));
+
+		playlist.setImage(URI.create("https://github.com/martlin2cz/jmop/xspf-playlist/sample-image.png"));
+
+		playlist.setDate(LocalDateTime.of(2020, 02, 11, 23, 24, 32));
+
+		playlist.setLicense(URI.create("https://github.com/martlin2cz/jmop/xspf-playlist/sample-licence.txt"));
+	}
 
 }

@@ -44,15 +44,15 @@ public class XMLDocumentUtilityHelper {
 		return createNewElement(document, elemName);
 	}
 
-	public Element createChild(Element owner, String elemName) {
+	public Element createChild(Node owner, String elemName) {
 		return createChildElement(owner, elemName);
 	}
 
-	public Element getChild(Element owner, String elemName) throws XSPFException {
+	public Element getChild(Node owner, String elemName) throws XSPFException {
 		return getChildElement(owner, elemName, true);
 	}
 
-	public Element getOrCreateChild(Element owner, String elemName) throws XSPFException {
+	public Element getOrCreateChild(Node owner, String elemName) throws XSPFException {
 		Element child = getChildElement(owner, elemName, false);
 		if (child == null) {
 			child = createChildElement(owner, elemName);
@@ -60,41 +60,42 @@ public class XMLDocumentUtilityHelper {
 		return child;
 	}
 	
-	public List<Element> getChildren(Element owner, String elemName) throws XSPFException {
+	public List<Element> getChildren(Node owner, String elemName) throws XSPFException {
 		return getChildrenElements(owner, elemName);
 	}
 
-	public boolean hasChildren(Element owner, String elemName) throws XSPFException {
+	public boolean hasChildren(Node owner, String elemName) throws XSPFException {
 		return !getChildrenElements(owner, elemName).isEmpty();
 	}
 
+	@Deprecated
 	public Element getRoot(Document document, String elemName) throws XSPFException {
 		return getChildElement(document, elemName, true);
 	}
 
-	public Element getOrCreateRoot(Document document, String elemName) throws XSPFException {
-		Element child = getChildElement(document, elemName, false);
-		
-		if (child == null) {
-			if (hasRoot(document)) {
-				throw new XSPFException("Document has different root than " + elemName + "");
-			} else {
-				child = createChildElement(document, elemName);
-			}
-		}
-		
-		return child;
-	}
+//	public Element getOrCreateRoot(Document document, String elemName) throws XSPFException {
+//		Element child = getChildElement(document, elemName, false);
+//		
+//		if (child == null) {
+//			if (hasRoot(document)) {
+//				throw new XSPFException("Document has different root than " + elemName + "");
+//			} else {
+//				child = createChildElement(document, elemName);
+//			}
+//		}
+//		
+//		return child;
+//	}
 	
-	public boolean hasRoot(Document document) throws XSPFException {
-		return !getChildrenElements(document, null).isEmpty();
-	}
+//	public boolean hasRoot(Document document) throws XSPFException {
+//		return !getChildrenElements(document, null).isEmpty();
+//	}
 
-	public void addChild(Element owner, Element child) {
+	public void addChild(Node owner, Element child) {
 		addChildElement(owner, child);
 	}
 
-	public void removeChild(Element owner, Element child) {
+	public void removeChild(Node owner, Element child) {
 		removeChildElement(owner, child);
 	}
 

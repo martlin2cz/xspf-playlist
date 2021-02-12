@@ -66,45 +66,37 @@ public class XMLDocumentUtility {
 	/////////////////////////////////////////////////////////////////////////////////////
 	// list/get/get or create child(ren)
 
-	public List<Element> listChildrenElems(Element container, String elemName) throws XSPFException {
+	public List<Element> listChildrenElems(Node container, String elemName) throws XSPFException {
 		return helper.getChildren(container, elemName);
 	}
 
-	public Element getRootElem(Document doc, String elemName) throws XSPFException {
-		return helper.getRoot(doc, elemName);
-	}
-
-	public Element getOrCreateRootElem(Document doc, String elemName) throws XSPFException {
-		return helper.getOrCreateRoot(doc, elemName);
-	}
-
-	public Element getChildElem(Element owner, String elemName) throws XSPFException {
+	public Element getChildElem(Node owner, String elemName) throws XSPFException {
 		return helper.getChild(owner, elemName);
 	}
 
-	public Element getOrCreateChildElem(Element owner, String elemName) throws XSPFException {
+	public Element getOrCreateChildElem(Node owner, String elemName) throws XSPFException {
 		return helper.getOrCreateChild(owner, elemName);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// add/remove/replace by element name
 
-	public void removeChildElement(Element owner, String elemName) throws XSPFException {
+	public void removeChildElement(Node owner, String elemName) throws XSPFException {
 		Element elem = helper.getChild(owner, elemName);
 		removeChildElement(owner, elem);
 	}
 
-	public void removeChildElements(Element owner, String elemName) throws XSPFException {
+	public void removeChildElements(Node owner, String elemName) throws XSPFException {
 		List<Element> elems = helper.getChildren(owner, elemName);
 		removeChildElements(owner, elems);
 	}
 
-	public void replaceChildElement(Element owner, String elemName, Element replacement) throws XSPFException {
+	public void replaceChildElement(Node owner, String elemName, Element replacement) throws XSPFException {
 		Element elem = helper.getChild(owner, elemName);
 		replaceChildElement(owner, elem, replacement);
 	}
 
-	public void replaceChildElements(Element owner, String elemName, List<Element> replacements) throws XSPFException {
+	public void replaceChildElements(Node owner, String elemName, List<Element> replacements) throws XSPFException {
 		List<Element> elems = helper.getChildren(owner, elemName);
 		replaceChildElements(owner, elems, replacements);
 	}
@@ -116,32 +108,32 @@ public class XMLDocumentUtility {
 		return helper.createNew(context, name);
 	}
 
-	public void addChildElement(Element owner, Element elem) {
+	public void addChildElement(Node owner, Element elem) {
 		helper.addChild(owner, elem);
 	}
 
-	public void addChildElements(Element owner, List<Element> elems) {
+	public void addChildElements(Node owner, List<Element> elems) {
 		for (Element elem : elems) {
 			helper.addChild(owner, elem);
 		}
 	}
 
-	public void removeChildElement(Element owner, Element elem) {
+	public void removeChildElement(Node owner, Element elem) {
 		helper.removeChild(owner, elem);
 	}
 
-	public void removeChildElements(Element owner, List<Element> elems) {
+	public void removeChildElements(Node owner, List<Element> elems) {
 		for (Element elem : elems) {
 			helper.removeChild(owner, elem);
 		}
 	}
 
-	public void replaceChildElement(Element owner, Element original, Element replacement) throws XSPFException {
+	public void replaceChildElement(Node owner, Element original, Element replacement) throws XSPFException {
 		helper.removeChild(owner, original);
 		helper.addChild(owner, replacement);
 	}
 
-	public void replaceChildElements(Element owner, List<Element> originals, List<Element> replacements)
+	public void replaceChildElements(Node owner, List<Element> originals, List<Element> replacements)
 			throws XSPFException {
 		for (Element elem : originals) {
 			helper.removeChild(owner, elem);

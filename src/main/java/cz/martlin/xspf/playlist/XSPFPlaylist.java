@@ -1,31 +1,28 @@
 package cz.martlin.xspf.playlist;
 
-import java.io.File;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import cz.martlin.xspf.util.XMLFileLoaderStorer;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFPlaylist extends XSPFCommon {
 
-	private final Element element;
+	private final Element playlist;
 
 	public XSPFPlaylist(Element element) {
 		super();
 
 		Objects.requireNonNull(element, "The element must be provided");
-		this.element = element;
+		this.playlist = element;
 	}
 	
 	@Override
-	public Element getElement() {
-		return element;
+	protected Element getElement() {
+		return playlist;
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -42,8 +39,8 @@ public class XSPFPlaylist extends XSPFCommon {
 		return getUri("license");
 	}
 
-	public void setLicence(URI licence) throws XSPFException {
-		setUri("license", licence);
+	public void setLicense(URI license) throws XSPFException {
+		setUri("license", license);
 	}
 	
 	public XSPFAttribution getAttribution() throws XSPFException {
@@ -53,7 +50,6 @@ public class XSPFPlaylist extends XSPFCommon {
 	public void setAttribution(XSPFAttribution attribution) throws XSPFException {
 		setOne("attribution", attribution);
 	}
-
 
 	public List<XSPFTrack> getTracks() throws XSPFException {
 		return getAll("trackList", (e) -> new XSPFTrack(e));

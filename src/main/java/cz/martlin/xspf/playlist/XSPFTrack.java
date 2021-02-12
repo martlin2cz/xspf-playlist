@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Objects;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import cz.martlin.xspf.util.XMLDocumentUtility;
 import cz.martlin.xspf.util.XSPFException;
@@ -19,11 +20,12 @@ public class XSPFTrack extends XSPFCommon {
 		this.track = track;
 	}
 
+	
 	@Override
-	public Element getElement() {
+	protected Element getElement() {
 		return track;
 	}
-
+	
 	///////////////////////////////////////////////////////////////////////////
 
 

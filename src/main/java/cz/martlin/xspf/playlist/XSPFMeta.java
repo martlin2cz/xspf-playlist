@@ -4,22 +4,23 @@ import java.net.URI;
 import java.util.Objects;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import cz.martlin.xspf.util.XSPFException;
 
-public class XSPFMeta extends XSPFBase {
+public class XSPFMeta extends XSPFElement {
 
-	private final Element link;
+	private final Element meta;
 
-	public XSPFMeta(Element link) {
+	public XSPFMeta(Element meta) {
 		super();
-		Objects.requireNonNull(link, "The link element has to be specified");
-		this.link = link;
+		Objects.requireNonNull(meta, "The meta element has to be specified");
+		this.meta = meta;
 	}
 
 	@Override
-	public Element getElement() {
-		return link;
+	protected Element getElement() {
+		return meta;
 	}
 
 ///////////////////////////////////////////////////////////////////////////

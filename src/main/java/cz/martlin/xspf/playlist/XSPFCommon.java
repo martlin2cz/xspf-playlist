@@ -1,17 +1,13 @@
 package cz.martlin.xspf.playlist;
 
 import java.net.URI;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.w3c.dom.Element;
 
-import cz.martlin.xspf.util.XMLDocumentUtility;
 import cz.martlin.xspf.util.XSPFException;
 
-public abstract class XSPFCommon extends XSPFBase {
+public abstract class XSPFCommon extends XSPFElement {
 
 	public XSPFCommon() {
 		super();
@@ -32,7 +28,7 @@ public abstract class XSPFCommon extends XSPFBase {
 	}
 
 	public void setIdentifier(URI identifier) throws XSPFException {
-		setUri("info", identifier);
+		setUri("identifier", identifier);
 	}
 
 	public String getTitle() throws XSPFException {
