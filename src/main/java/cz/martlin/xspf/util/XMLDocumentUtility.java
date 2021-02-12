@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import cz.martlin.xspf.util.XMLDocumentUtilityHelper.TextToValueMapper;
 import cz.martlin.xspf.util.XMLDocumentUtilityHelper.ValueToTextMapper;
@@ -16,93 +17,37 @@ public class XMLDocumentUtility {
 		this.helper = new XMLDocumentUtilityHelper(nsName, nsURL);
 	}
 
-	public void init(Document document) throws XSPFException {
-		helper.setNSattribute(document);
-	}
-
-
+//	public void init(Document document) throws XSPFException {
+//		helper.setNSattribute(document);
+//	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// get/set element content text/value
 
-	/**
-	 * @deprecated use {@link #getElementValue(Element, TextToValueMapper)} and
-	 *             {@link TextToValueMapper#TEXT_TO_STRING}
-	 * @param owner
-	 * @param elemName
-	 * @return
-	 * @throws XSPFException
-	 */
-	public String getChildElementText(Element owner, String elemName) throws XSPFException {
-		Element child = helper.getChild(owner, elemName, true);
-		return helper.getElementValue(child);
-	}
-
-	/**
-	 * @deprecated use
-	 *             {@link #setChildElementValue(Element, String, Object, ValueToTextMapper)
-	 *             and {@link ValueToTextMapper#STRING_TO_TEXT}.
-	 * @param owner
-	 * @param elemName
-	 * @param value
-	 * @throws XSPFException
-	 */
-	public void setChildElementText(Element owner, String elemName, String value) throws XSPFException {
-		Element child = helper.getOrCreateChild(owner, elemName);
-		helper.setElementValue(child, value);
-	}
-
 	public <T> T getChildElementValue(Element owner, String elemName, TextToValueMapper<T> mapper)
 			throws XSPFException {
-		Element elem = helper.getChild(owner, elemName, true);
-		String text = helper.getElementValue(elem);
-		return helper.textToValue(text, mapper);
-	}
 
-	public <T> void setElementValue(Element elem, T value, ValueToTextMapper<T> mapper) throws XSPFException {
-		String text = helper.valueToText(value, mapper);
-		helper.setElementValue(elem, text);
-	}
-
-	public <T> T getElementValue(Element elem, TextToValueMapper<T> mapper) throws XSPFException {
-		String text = helper.getElementValue(elem);
-		return helper.textToValue(text, mapper);
+		Element elem = helper.getChild(owner, elemName);
+		return getElementValue(elem, mapper);
 	}
 
 	public <T> void setChildElementValue(Element owner, String elemName, T value, ValueToTextMapper<T> mapper)
 			throws XSPFException {
 
 		Element elem = helper.getOrCreateChild(owner, elemName);
+		setElementValue(elem, value, mapper);
+	}
+
+	public <T> void setElementValue(Element elem, T value, ValueToTextMapper<T> mapper) throws XSPFException {
+		
 		String text = helper.valueToText(value, mapper);
 		helper.setElementValue(elem, text);
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////
-	// get/set element attr text/value
-
-	/**
-	 * @deprecated use {@link #getElementAttr(Element, String, TextToValueMapper)} and
-	 *             {@link TextToValueMapper#TEXT_TO_STRING}
-	 * @param owner
-	 * @param attrName
-	 * @return
-	 * @throws XSPFException
-	 */
-	public String getElementAttr(Element owner, String attrName) throws XSPFException {
-		return helper.getAttrValue(owner, attrName);
-	}
-
-	/**
-	 * @deprecated use
-	 *             {@link #getElementAttr(Element, String, TextToValueMapper)}
-	 *             and {@link ValueToTextMapper#STRING_TO_TEXT}.
-	 * @param owner
-	 * @param attrName
-	 * @param value
-	 * @throws XSPFException
-	 */
-	public void setElementAttr(Element owner, String attrName, String value) throws XSPFException {
-		helper.setAttrValue(owner, attrName, value);
+	public <T> T getElementValue(Element elem, TextToValueMapper<T> mapper) throws XSPFException {
+		
+		String text = helper.getElementValue(elem);
+		return helper.textToValue(text, mapper);
 	}
 
 	public <T> T getElementAttr(Element owner, String attrName, TextToValueMapper<T> mapper) throws XSPFException {
@@ -121,20 +66,20 @@ public class XMLDocumentUtility {
 	/////////////////////////////////////////////////////////////////////////////////////
 	// list/get/get or create child(ren)
 
-	public List<Element> listChildrenElems(Element container, String elemName) {
-		return helper.listChildren(container, elemName);
+	public List<Element> listChildrenElems(Element container, String elemName) throws XSPFException {
+		return helper.getChildren(container, elemName);
 	}
 
 	public Element getRootElem(Document doc, String elemName) throws XSPFException {
-		return helper.getChild(doc, elemName, true);
+		return helper.getRoot(doc, elemName);
 	}
 
 	public Element getOrCreateRootElem(Document doc, String elemName) throws XSPFException {
-		return helper.getOrCreateChild(doc, elemName);
+		return helper.getOrCreateRoot(doc, elemName);
 	}
 
 	public Element getChildElem(Element owner, String elemName) throws XSPFException {
-		return helper.getChild(owner, elemName, true);
+		return helper.getChild(owner, elemName);
 	}
 
 	public Element getOrCreateChildElem(Element owner, String elemName) throws XSPFException {
@@ -142,21 +87,67 @@ public class XMLDocumentUtility {
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
-	// add/remove/replace child(ren)
+	// add/remove/replace by element name
 
-	public Element replaceChildElem(Element owner, String elemName) throws XSPFException {
-		return helper.replaceChild(owner, elemName);
+	public void removeChildElement(Element owner, String elemName) throws XSPFException {
+		Element elem = helper.getChild(owner, elemName);
+		removeChildElement(owner, elem);
 	}
 
-	public void replaceChildElem(Element owner, String elemName, Element replacement) throws XSPFException {
-		helper.removeChild(owner, elemName);
-		owner.appendChild(replacement); // TODO use internal method
+	public void removeChildElements(Element owner, String elemName) throws XSPFException {
+		List<Element> elems = helper.getChildren(owner, elemName);
+		removeChildElements(owner, elems);
 	}
 
-	public void replaceAllChildren(Element owner, String elemName, List<Element> elements) throws XSPFException {
-		helper.removeChildren(owner, elemName);
-		for (Element elem : elements) {
-			owner.appendChild(elem); // TODO use internal method
+	public void replaceChildElement(Element owner, String elemName, Element replacement) throws XSPFException {
+		Element elem = helper.getChild(owner, elemName);
+		replaceChildElement(owner, elem, replacement);
+	}
+
+	public void replaceChildElements(Element owner, String elemName, List<Element> replacements) throws XSPFException {
+		List<Element> elems = helper.getChildren(owner, elemName);
+		replaceChildElements(owner, elems, replacements);
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	// add/remove/replace existing childr(en) element(s)
+
+	public Element createNewElement(Node context, String name) {
+		return helper.createNew(context, name);
+	}
+
+	public void addChildElement(Element owner, Element elem) {
+		helper.addChild(owner, elem);
+	}
+
+	public void addChildElements(Element owner, List<Element> elems) {
+		for (Element elem : elems) {
+			helper.addChild(owner, elem);
+		}
+	}
+
+	public void removeChildElement(Element owner, Element elem) {
+		helper.removeChild(owner, elem);
+	}
+
+	public void removeChildElements(Element owner, List<Element> elems) {
+		for (Element elem : elems) {
+			helper.removeChild(owner, elem);
+		}
+	}
+
+	public void replaceChildElement(Element owner, Element original, Element replacement) throws XSPFException {
+		helper.removeChild(owner, original);
+		helper.addChild(owner, replacement);
+	}
+
+	public void replaceChildElements(Element owner, List<Element> originals, List<Element> replacements)
+			throws XSPFException {
+		for (Element elem : originals) {
+			helper.removeChild(owner, elem);
+		}
+		for (Element elem : replacements) {
+			helper.addChild(owner, elem);
 		}
 	}
 

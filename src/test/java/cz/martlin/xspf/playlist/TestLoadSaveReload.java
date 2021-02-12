@@ -19,11 +19,11 @@ public class TestLoadSaveReload {
 	public void testIt(String fileName) throws XSPFException {
 		System.out.println("== Testing " + fileName + " ==");
 
-		File fileToRead = TestingXSPFFiles.fileToReadAssumed(fileName);
+		File fileToRead = TestingFiles.fileToReadAssumed("playlist", fileName);
 		XSPFFile file = XSPFFile.load(fileToRead);
 		XSPFPlaylist playlist = file.getPlaylist();
 
-		File fileToWrite = TestingXSPFFiles.fileToWriteAssumed(fileName);
+		File fileToWrite = TestingFiles.fileToWriteAssumed(fileName);
 		file.save(fileToWrite);
 
 		XSPFFile reloadedFile = XSPFFile.load(fileToWrite);

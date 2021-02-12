@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import cz.martlin.xspf.util.XMLDocumentUtility;
 import cz.martlin.xspf.util.XMLDocumentUtilityHelper;
@@ -65,14 +66,24 @@ public abstract class XSPFBase {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	protected String getStr() throws XSPFException {
+		Element elem = getElement();
+		return UTIL.getElementValue(elem, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
+	}
+
+	protected void setStr(String value) throws XSPFException {
+		Element elem = getElement();
+		UTIL.setElementValue(elem, value, XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
+	}
+	
 	protected void setStr(String name, String value) throws XSPFException {
 		Element elem = getElement();
-		UTIL.setChildElementText(elem, name, value);
+		UTIL.setChildElementValue(elem, name, value, XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
 	}
 
 	protected String getStr(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getChildElementText(elem, name);
+		return UTIL.getChildElementValue(elem, name, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
 	}
 
 	protected URI getUri(String name) throws XSPFException {
@@ -124,37 +135,28 @@ public abstract class XSPFBase {
 		Element elem = getElement();
 		UTIL.setElementValue(elem, value, (v) -> uriToStr(v));
 	}
-	
-	protected String getStr() throws XSPFException {
-		Element elem = getElement();
-		return UTIL.getElementValue(elem, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
-	}
 
-	protected void setStr(String value) throws XSPFException {
-		Element elem = getElement();
-		UTIL.setElementValue(elem, value, XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
-	}
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected <T extends XSPFBase> T createOne(String name, Function<Element, T> mapper) {
-		Element elem = getElement().getOwnerDocument().createElement(name); // TODO use util, w.r.t NS
+		Node context = getElement();
+		Element elem = UTIL.createNewElement(context, name);
 		return mapper.apply(elem);
 	}
-
 
 	protected <T extends XSPFBase> T getOne(String name, Function<Element, T> mapper) throws XSPFException {
 		Element elem = getElement();
 		Element child = UTIL.getChildElem(elem, name);
 		return mapper.apply(child);
 	}
-	
+
 	protected <T extends XSPFBase> void setOne(String name, T value) throws XSPFException {
 		Element elem = getElement();
 		Element newElem = value.getElement();
-		UTIL.replaceChildElem(elem, name, newElem);
+		UTIL.replaceChildElement(elem, name, newElem);
 	}
-	
-	protected <T extends XSPFBase> List<T> getAll(String name, Function<Element, T> mapper) {
+
+	protected <T extends XSPFBase> List<T> getAll(String name, Function<Element, T> mapper) throws XSPFException {
 		Element elem = getElement();
 		return UTIL.listChildrenElems(elem, name).stream() //
 				.map(mapper) //
@@ -166,7 +168,7 @@ public abstract class XSPFBase {
 		List<Element> elements = items.stream() //
 				.map((i) -> i.getElement()) //
 				.collect(Collectors.toList());
-				
-		UTIL.replaceAllChildren(elem, name, elements);
+
+		UTIL.replaceChildElements(elem, name, elements);
 	}
 }

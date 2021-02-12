@@ -21,13 +21,13 @@ class XSPFPlaylistTest {
 
 	@Test
 	void testSome() throws XSPFException {
-		File fileToRead = TestingXSPFFiles.fileToReadAssumed("some.xspf");
+		File fileToRead = TestingFiles.fileToReadAssumed("playlist", "some.xspf");
 		XSPFFile file = XSPFFile.load(fileToRead);
 		XSPFPlaylist playlist = file.getPlaylist();
 		
 		verifyPlaylist(playlist);
 
-		File fileToWrite = TestingXSPFFiles.fileToWriteAssumed("some.xspf");
+		File fileToWrite = TestingFiles.fileToWriteAssumed("some.xspf");
 		file.save(fileToWrite);
 
 		XSPFFile reloadedFile = XSPFFile.load(fileToWrite);
@@ -54,13 +54,13 @@ class XSPFPlaylistTest {
 
 	public void testPlaylistFile(String name) {
 		try {
-			File fileToRead = TestingXSPFFiles.fileToReadAssumed(name);
+			File fileToRead = TestingFiles.fileToReadAssumed("playlist", name);
 			XSPFFile file = XSPFFile.load(fileToRead);
 			XSPFPlaylist playlist = file.getPlaylist();
 			
 			verifyPlaylist(playlist);
 	
-			File fileToWrite = TestingXSPFFiles.fileToWriteAssumed(name);
+			File fileToWrite = TestingFiles.fileToWriteAssumed(name);
 			file.save(fileToWrite);
 	
 			XSPFFile reloadedFile = XSPFFile.load(fileToWrite);

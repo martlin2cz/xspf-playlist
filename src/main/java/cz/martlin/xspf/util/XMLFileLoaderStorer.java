@@ -16,6 +16,8 @@ public class XMLFileLoaderStorer {
 	public static Document loadDocument(File file) throws XSPFException {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setNamespaceAware(true);
+			
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(file);
 			return document;
@@ -27,6 +29,8 @@ public class XMLFileLoaderStorer {
 	public static Document createEmptyDocument() throws XSPFException {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setNamespaceAware(true);
+			
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.newDocument();
 			return document;

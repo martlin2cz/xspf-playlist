@@ -14,7 +14,7 @@ class FullXSPFPlaylistTest {
 
 	@Test
 	void testLoad() throws XSPFException {
-		File fileToRead = TestingXSPFFiles.fileToReadAssumed("full.xspf");
+		File fileToRead = TestingFiles.fileToReadAssumed("playlist", "full.xspf");
 		XSPFFile file = XSPFFile.load(fileToRead);
 		XSPFPlaylist playlist = file.getPlaylist();
 

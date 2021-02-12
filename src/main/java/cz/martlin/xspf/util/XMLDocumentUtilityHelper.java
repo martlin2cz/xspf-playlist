@@ -18,84 +18,176 @@ public class XMLDocumentUtilityHelper {
 		this.nsName = nsName;
 		this.nsURL = nsURL;
 	}
+
+//  FIXME: idk ...	
+//	public void setNSattribute(Document document) throws XSPFException {
 	
-
-	public void setNSattribute(Document document) throws XSPFException {
-		String attrName;
-		if (nsName != null) {
-			attrName = "xmlns:" + nsName;
-		} else {
-			attrName = "xmlns";
-		}
-
-		String atrrValue = nsURL;
-
-		Element root = getRootElem(document);
-		root.setAttribute(attrName, atrrValue);
-	}
+//		String attrName;
+//		if (nsName != null) {
+//			attrName = "xmlns:" + nsName;
+//		} else {
+//			attrName = "xmlns";
+//		}
+//
+//		String atrrValue = nsURL;
+//
+//		Element root = getRootElem(document);
+//		root.setAttribute(attrName, atrrValue);
+	//  root.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, attrName, atrrValue); 
+//	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
-	// create/remove/get child
+	// create/remove/get child (public)
 
-	
-	//TODO elemName, verify
-	//TODO getOrCreateRootElem ?
-	public Element getRootElem(Document document) throws XSPFException {
-		Element root = document.getDocumentElement();
-		if (root == null) {
-			throw new XSPFException("No root element");
-		}
-		return root;
+	public Element createNew(Node context, String elemName) {
+		Document document = documentOfNode(context);
+		return createNewElement(document, elemName);
 	}
 
-	//TODO separate the Element and Document's child
-	public Element createChild(Node owner, String elemName) {
-		Document document;
-		if (owner.getNodeType() == Node.DOCUMENT_NODE) {
-			document = (Document) owner;
-		} else {
-			document = owner.getOwnerDocument();
-		}
-
-		Element child = document.createElement(/* NS(nsURL, */ fullName(elemName));
-		owner.appendChild(child);
-		return child;
+	public Element createChild(Element owner, String elemName) {
+		return createChildElement(owner, elemName);
 	}
 
-	public void removeChildren(Element owner, String elemName) throws XSPFException {
-		List<Element> children = listChildren(owner, elemName);
-		for (Element child : children) {
-			owner.removeChild(child);
-		}
+	public Element getChild(Element owner, String elemName) throws XSPFException {
+		return getChildElement(owner, elemName, true);
 	}
 
-	public void removeChild(Element owner, String elemName) throws XSPFException {
-		Element child = getChild(owner, elemName, true);
-		owner.removeChild(child);
-	}
-
-	public Element getOrCreateChild(Node owner, String elemName) throws XSPFException {
-		Element child = getChild(owner, elemName, false);
+	public Element getOrCreateChild(Element owner, String elemName) throws XSPFException {
+		Element child = getChildElement(owner, elemName, false);
 		if (child == null) {
-			child = createChild(owner, elemName);
+			child = createChildElement(owner, elemName);
 		}
 		return child;
 	}
+	
+	public List<Element> getChildren(Element owner, String elemName) throws XSPFException {
+		return getChildrenElements(owner, elemName);
+	}
 
-	public Element replaceChild(Element owner, String elemName) throws XSPFException {
-		if (hasChild(owner, elemName)) {
-			removeChild(owner, elemName);
+	public boolean hasChildren(Element owner, String elemName) throws XSPFException {
+		return !getChildrenElements(owner, elemName).isEmpty();
+	}
+
+	public Element getRoot(Document document, String elemName) throws XSPFException {
+		return getChildElement(document, elemName, true);
+	}
+
+	public Element getOrCreateRoot(Document document, String elemName) throws XSPFException {
+		Element child = getChildElement(document, elemName, false);
+		
+		if (child == null) {
+			if (hasRoot(document)) {
+				throw new XSPFException("Document has different root than " + elemName + "");
+			} else {
+				child = createChildElement(document, elemName);
+			}
 		}
-
-		return createChild(owner, elemName);
+		
+		return child;
+	}
+	
+	public boolean hasRoot(Document document) throws XSPFException {
+		return !getChildrenElements(document, null).isEmpty();
 	}
 
-	public boolean hasChild(Node owner, String elemName) {
-		List<Element> children = listChildren(owner, elemName);
-		return !children.isEmpty();
+	public void addChild(Element owner, Element child) {
+		addChildElement(owner, child);
 	}
 
-	public Element getChild(Node owner, String elemName, boolean failOnMissing) throws XSPFException {
+	public void removeChild(Element owner, Element child) {
+		removeChildElement(owner, child);
+	}
+
+//	//TODO elemName, verify
+//	//TODO getOrCreateRootElem ?
+//	public Element getRootElem(Document document) throws XSPFException {
+//		Element root = document.getDocumentElement();
+//		if (root == null) {
+//			throw new XSPFException("No root element");
+//		}
+//		return root;
+//	}
+//
+//	//TODO separate the Element and Document's child
+//	public Element createChild(Node owner, String elemName) {
+//		Document document;
+//		if (owner.getNodeType() == Node.DOCUMENT_NODE) {
+//			document = (Document) owner;
+//		} else {
+//			document = owner.getOwnerDocument();
+//		}
+//
+//		Element child = document.createElement(/* NS(nsURL, */ fullName(elemName));
+//		owner.appendChild(child);
+//		return child;
+//	}
+
+//	public void removeChildren(Element owner, String elemName) throws XSPFException {
+//		List<Element> children = listChildren(owner, elemName);
+//		for (Element child : children) {
+//			owner.removeChild(child);
+//		}
+//	}
+//
+//	public void removeChild(Element owner, String elemName) throws XSPFException {
+//		Element child = getChild(owner, elemName, true);
+//		owner.removeChild(child);
+//	}
+
+//	public Element getOrCreateChild(Node owner, String elemName) throws XSPFException {
+//		Element child = getChild(owner, elemName, false);
+//		if (child == null) {
+//			child = createChild(owner, elemName);
+//		}
+//		return child;
+//	}
+
+//	public Element replaceChild(Element owner, String elemName) throws XSPFException {
+//		if (hasChild(owner, elemName)) {
+//			removeChild(owner, elemName);
+//		}
+//
+//		return createChild(owner, elemName);
+//	}
+
+//	public boolean hasChild(Node owner, String elemName) {
+//		List<Element> children = listChildren(owner, elemName);
+//		return !children.isEmpty();
+//	}
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	// create/remove/get child (internal)
+	
+	private Document documentOfNode(Node node) {
+		if (node.getNodeType() == Node.DOCUMENT_NODE) {
+			return (Document) node;
+		}
+		
+		// TODO if doc already, use the doc
+		// TODO if attr, test
+		return node.getOwnerDocument();
+	}
+
+	private Element createNewElement(Document document, String elemName) {
+		return document.createElement(fullName(elemName));
+	}
+
+	private Element createChildElement(Node owner, String elemName) {
+		Document document = documentOfNode(owner);
+		Element elem = createNewElement(document, elemName);
+		addChildElement(owner, elem);
+		return elem;
+	}
+
+	private void addChildElement(Node owner, Element elem) {
+		owner.appendChild(elem);
+	}
+
+	private void removeChildElement(Node owner, Element elem) {
+		owner.removeChild(elem);
+	}
+
+	private Element getChildElement(Node owner, String elemName, boolean failOnMissing) throws XSPFException {
 		List<Element> children = listChildren(owner, elemName);
 		if (children.size() < 1) {
 			if (failOnMissing) {
@@ -112,16 +204,22 @@ public class XMLDocumentUtilityHelper {
 		Element childElem = (Element) child;
 		return childElem;
 	}
+	
+	private List<Element> getChildrenElements(Node owner, String elemName) throws XSPFException {
+		return listChildren(owner, elemName);
+	}
+		
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// list children
 
-	public List<Element> listChildren(Node container, String elemName) {
+	private List<Element> listChildren(Node container, String elemName) {
 		NodeList children = container.getChildNodes();
 		return listElems(children, elemName);
 	}
 
-	public List<Element> listElems(NodeList children, String elemName) {
+	private List<Element> listElems(NodeList children, String elemName) {
+		//TODO if elemName is null, do not filter agains the elemName.
 		return IntStream.range(0, children.getLength()) //
 				.mapToObj(i -> children.item(i)) //
 				.filter(n -> n.getNodeType() == Node.ELEMENT_NODE) //
@@ -189,9 +287,8 @@ public class XMLDocumentUtilityHelper {
 
 		String valueToText(T value) throws Exception;
 	}
-	
-	/////////////////////////////////////////////////////////////////////////////////////
 
+	/////////////////////////////////////////////////////////////////////////////////////
 
 	private String fullName(String elemName) {
 		if (nsName != null) {

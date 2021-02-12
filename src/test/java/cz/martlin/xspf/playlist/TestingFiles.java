@@ -10,21 +10,21 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public class TestingXSPFFiles {
+public class TestingFiles {
 	
-	public static File fileToReadAssumed(String name) {
+	public static File fileToReadAssumed(String pkg, String name) {
 		try {
-			return fileToRead(name);
+			return fileToRead(pkg, name);
 		} catch (Exception e) {
 			assumeTrue(false, e.toString());
 			return null;
 		}
 	}
 	
-	public static File fileToRead(String name) throws Exception {
-		String path = "cz/martlin/xspf/playlist/" + name;
-		URL url = TestingXSPFFiles.class.getClassLoader().getResource(path);
-		Objects.requireNonNull(url, "The resource " + name + " does not exist");
+	public static File fileToRead(String pkg, String name) throws Exception {
+		String path = "cz/martlin/xspf/" + pkg + "/" + name;
+		URL url = TestingFiles.class.getClassLoader().getResource(path);
+		Objects.requireNonNull(url, "The resource " + path + " does not exist");
 		
 		File file;
 		try {
@@ -34,7 +34,7 @@ public class TestingXSPFFiles {
 		}
 		
 		if (!file.exists()) {
-			throw new FileNotFoundException("The file " + name  + " does not exist");
+			throw new FileNotFoundException("The file " + path  + " does not exist");
 		}
 		
 		System.out.println("File to read ready: " + file);

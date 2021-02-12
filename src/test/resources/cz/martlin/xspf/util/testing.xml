@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test:foo xmlns:test="what:/ev.er">
+	<!-- just the comment -->
+	
+	<test:bar test:baz="42" />
+
+	<test:aux>AUX 1</test:aux>
+	<test:aux>AUX 2</test:aux>
+
+	<test:qux>
+		<test:quux />
+		<test:quux />
+	</test:qux>
+
+</test:foo>

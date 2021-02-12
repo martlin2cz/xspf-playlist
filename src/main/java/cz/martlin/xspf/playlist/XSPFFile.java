@@ -5,6 +5,7 @@ import java.io.File;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import cz.martlin.xspf.util.XMLDocumentUtilityHelper;
 import cz.martlin.xspf.util.XMLFileLoaderStorer;
 import cz.martlin.xspf.util.XSPFException;
 
@@ -51,15 +52,15 @@ public class XSPFFile {
 
 	
 	private static void prepare(Document document) throws XSPFException {
-		XSPFBase.UTIL.init(document);
+		//FIXME: XSPFBase.UTIL.init(document);
 
 		Element root = XSPFBase.UTIL.getOrCreateRootElem(document, "playlist");
-		XSPFBase.UTIL.setElementAttr(root, "version", XSPF_STANDART_VERSION);
+		XSPFBase.UTIL.setElementAttr(root, "version", XSPF_STANDART_VERSION, XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
 	}
 
 	private static void verify(Document document) throws XSPFException {
 		Element root = XSPFBase.UTIL.getRootElem(document, "playlist");
-		String version = XSPFBase.UTIL.getElementAttr(root, "version");
+		String version = XSPFBase.UTIL.getElementAttr(root, "version", XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
 		if (!version.equals(XSPF_STANDART_VERSION)) {
 			throw new XSPFException("The supported version of XSPF is " + XSPF_STANDART_VERSION);
 		}
