@@ -11,15 +11,12 @@ import java.util.stream.Collectors;
 
 import org.w3c.dom.Element;
 
-import cz.martlin.xspf.util.XSPFDocumentUtility;
-import cz.martlin.xspf.util.XSPFDocumentUtility.TextToValueMapper;
-import cz.martlin.xspf.util.XSPFDocumentUtility.ValueToTextMapper;
+import cz.martlin.xspf.util.XMLDocumentUtility;
+import cz.martlin.xspf.util.XMLDocumentUtilityHelper;
 import cz.martlin.xspf.util.XSPFException;
 
 public abstract class XSPFBase {
-	protected static final XSPFDocumentUtility UTIL = new XSPFDocumentUtility(null, "http://xspf.org/ns/0/");
-	private static final TextToValueMapper<String> TEXT_TO_STRING = (s) -> s;
-	private static final ValueToTextMapper<String> STRING_TO_TEXT = (s) -> s;
+	protected static final XMLDocumentUtility UTIL = new XMLDocumentUtility(null, "http://xspf.org/ns/0/");
 
 	public XSPFBase() {
 		// TODO Auto-generated constructor stub
@@ -70,52 +67,52 @@ public abstract class XSPFBase {
 
 	protected void setStr(String name, String value) throws XSPFException {
 		Element elem = getElement();
-		UTIL.setElementText(elem, name, value);
+		UTIL.setChildElementText(elem, name, value);
 	}
 
 	protected String getStr(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getElementText(elem, name);
+		return UTIL.getChildElementText(elem, name);
 	}
 
 	protected URI getUri(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getElementValue(elem, name, (t) -> strToUri(t));
+		return UTIL.getChildElementValue(elem, name, (t) -> strToUri(t));
 	}
 
 	protected void setUri(String name, URI value) throws XSPFException {
 		Element elem = getElement();
-		UTIL.setElementValue(elem, name, value, (v) -> uriToStr(v));
+		UTIL.setChildElementValue(elem, name, value, (v) -> uriToStr(v));
 	}
 
 	protected LocalDateTime getDate(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getElementValue(elem, name, (t) -> textToDate(t));
+		return UTIL.getChildElementValue(elem, name, (t) -> textToDate(t));
 	}
 
 	protected void setDate(String name, LocalDateTime value) throws XSPFException {
 		Element elem = getElement();
-		UTIL.setElementValue(elem, name, value, (v) -> dateToText(v));
+		UTIL.setChildElementValue(elem, name, value, (v) -> dateToText(v));
 	}
 
 	protected Duration getDuration(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getElementValue(elem, name, (t) -> milisStrToDuration(t));
+		return UTIL.getChildElementValue(elem, name, (t) -> milisStrToDuration(t));
 	}
 
 	protected void setDuration(String name, Duration value) throws XSPFException {
 		Element elem = getElement();
-		UTIL.setElementValue(elem, name, value, (v) -> durationToMilisStr(v));
+		UTIL.setChildElementValue(elem, name, value, (v) -> durationToMilisStr(v));
 	}
 
 	protected int getInt(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getElementValue(elem, name, (t) -> strToInt(t));
+		return UTIL.getChildElementValue(elem, name, (t) -> strToInt(t));
 	}
 
 	protected void setInt(String name, int value) throws XSPFException {
 		Element elem = getElement();
-		UTIL.setElementValue(elem, name, value, (v) -> intToStr(v));
+		UTIL.setChildElementValue(elem, name, value, (v) -> intToStr(v));
 	}
 
 	protected URI getUri() throws XSPFException {
@@ -130,12 +127,12 @@ public abstract class XSPFBase {
 	
 	protected String getStr() throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getElementValue(elem, TEXT_TO_STRING);
+		return UTIL.getElementValue(elem, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
 	}
 
 	protected void setStr(String value) throws XSPFException {
 		Element elem = getElement();
-		UTIL.setElementValue(elem, value, STRING_TO_TEXT);
+		UTIL.setElementValue(elem, value, XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////
 

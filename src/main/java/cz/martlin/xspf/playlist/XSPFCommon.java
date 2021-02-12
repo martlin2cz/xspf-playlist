@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.w3c.dom.Element;
 
-import cz.martlin.xspf.util.XSPFDocumentUtility;
+import cz.martlin.xspf.util.XMLDocumentUtility;
 import cz.martlin.xspf.util.XSPFException;
 
 public abstract class XSPFCommon extends XSPFBase {

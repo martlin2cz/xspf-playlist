@@ -5,11 +5,11 @@ import java.util.Objects;
 
 import org.w3c.dom.Element;
 
-import cz.martlin.xspf.util.XSPFDocumentUtility;
+import cz.martlin.xspf.util.XMLDocumentUtility;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFTrack extends XSPFCommon {
-	protected static final XSPFDocumentUtility util = XSPFPlaylist.UTIL;
+	protected static final XMLDocumentUtility util = XSPFPlaylist.UTIL;
 
 	private final Element track;
 
