@@ -1,8 +1,9 @@
 package cz.martlin.xspf.util;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -39,13 +40,13 @@ public class XMLDocumentUtility {
 	}
 
 	public <T> void setElementValue(Element elem, T value, ValueToTextMapper<T> mapper) throws XSPFException {
-		
+
 		String text = helper.valueToText(value, mapper);
 		helper.setElementValue(elem, text);
 	}
 
 	public <T> T getElementValue(Element elem, TextToValueMapper<T> mapper) throws XSPFException {
-		
+
 		String text = helper.getElementValue(elem);
 		return helper.textToValue(text, mapper);
 	}
@@ -70,12 +71,21 @@ public class XMLDocumentUtility {
 		return helper.getChildren(container, elemName);
 	}
 
+	public List<Element> listChildrenElemsClones(Node owner, String elemName) throws XSPFException {
+		return helper.getChildren(owner, elemName).stream().map(e -> helper.clone(e)).collect(Collectors.toList());
+	}
+
 	public Element getChildElem(Node owner, String elemName) throws XSPFException {
 		return helper.getChild(owner, elemName);
 	}
 
 	public Element getOrCreateChildElem(Node owner, String elemName) throws XSPFException {
 		return helper.getOrCreateChild(owner, elemName);
+	}
+
+	public Element getChildElemClone(Node owner, String elemName) throws XSPFException {
+		Element elem = helper.getChild(owner, elemName);
+		return helper.clone(elem);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -99,6 +109,19 @@ public class XMLDocumentUtility {
 	public void replaceChildElements(Node owner, String elemName, List<Element> replacements) throws XSPFException {
 		List<Element> elems = helper.getChildren(owner, elemName);
 		replaceChildElements(owner, elems, replacements);
+	}
+
+	public void replaceChildElementByClone(Node owner, String elemName, Element replacement) throws XSPFException {
+		Element elem = helper.getChild(owner, elemName);
+		Element clone = helper.clone(replacement);
+		replaceChildElement(owner, elem, clone);
+	}
+
+	public void replaceChildElementsByClone(Node owner, String elemName, List<Element> replacements)
+			throws XSPFException {
+		List<Element> elems = helper.getChildren(owner, elemName);
+		List<Element> clones = replacements.stream().map((e) -> helper.clone(e)).collect(Collectors.toList());
+		replaceChildElements(owner, elems, clones);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////

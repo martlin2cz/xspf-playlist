@@ -1,4 +1,4 @@
-package cz.martlin.xspf.playlist;
+package cz.martlin.xspf.playlist.elements;
 
 import java.io.File;
 
@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import cz.martlin.xspf.playlist.base.XSPFNode;
 import cz.martlin.xspf.util.XMLDocumentUtilityHelper;
 import cz.martlin.xspf.util.XMLFileLoaderStorer;
 import cz.martlin.xspf.util.XSPFException;

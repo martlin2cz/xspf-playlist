@@ -7,6 +7,8 @@ import java.io.File;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import cz.martlin.xspf.playlist.elements.XSPFFile;
+import cz.martlin.xspf.playlist.elements.XSPFPlaylist;
 import cz.martlin.xspf.util.XSPFException;
 
 public class TestLoadSaveReload {

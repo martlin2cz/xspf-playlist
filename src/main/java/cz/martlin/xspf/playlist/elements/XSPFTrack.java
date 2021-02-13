@@ -1,4 +1,4 @@
-package cz.martlin.xspf.playlist;
+package cz.martlin.xspf.playlist.elements;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -6,24 +6,14 @@ import java.util.Objects;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import cz.martlin.xspf.playlist.base.XSPFCommon;
 import cz.martlin.xspf.util.XMLDocumentUtility;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFTrack extends XSPFCommon {
-	protected static final XMLDocumentUtility util = XSPFPlaylist.UTIL;
-
-	private final Element track;
 
 	public XSPFTrack(Element track) {
-		super();
-		Objects.requireNonNull(track, "The track element must be provided");
-		this.track = track;
-	}
-
-	
-	@Override
-	protected Element getElement() {
-		return track;
+		super(track);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////

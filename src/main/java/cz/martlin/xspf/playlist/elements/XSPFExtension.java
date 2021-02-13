@@ -1,25 +1,20 @@
-package cz.martlin.xspf.playlist;
+package cz.martlin.xspf.playlist.elements;
 
 import java.net.URI;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import cz.martlin.xspf.playlist.base.XSPFElement;
+
 public class XSPFExtension extends XSPFElement {
-	private final Element extension;
 	private final URI application;
 	
-	public XSPFExtension(Element element, URI application) {
-		super();
-		this.extension = element;
+	public XSPFExtension(Element extension, URI application) {
+		super(extension);
 		this.application = application;
 	}
-	
-	@Override
-	protected Element getElement() {
-		return extension;
-	}
-	
+
 	public URI getApplication() {
 		return application;
 	}

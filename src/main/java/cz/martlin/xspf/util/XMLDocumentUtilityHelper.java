@@ -214,6 +214,7 @@ public class XMLDocumentUtilityHelper {
 	/////////////////////////////////////////////////////////////////////////////////////
 	// list children
 
+	//TODO return Stream<Element> instead
 	private List<Element> listChildren(Node container, String elemName) {
 		NodeList children = container.getChildNodes();
 		return listElems(children, elemName);
@@ -297,6 +298,10 @@ public class XMLDocumentUtilityHelper {
 		} else {
 			return elemName;
 		}
+	}
+
+	public Element clone(Element elem) {
+		return (Element) elem.cloneNode(true);
 	}
 
 }

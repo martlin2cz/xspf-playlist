@@ -1,16 +1,20 @@
-package cz.martlin.xspf.playlist;
+package cz.martlin.xspf.playlist.base;
 
 import java.net.URI;
 import java.util.List;
 
 import org.w3c.dom.Element;
 
+import cz.martlin.xspf.playlist.collections.XSPFLink;
+import cz.martlin.xspf.playlist.collections.XSPFLinks;
+import cz.martlin.xspf.playlist.collections.XSPFMetas;
+import cz.martlin.xspf.playlist.elements.XSPFExtension;
 import cz.martlin.xspf.util.XSPFException;
 
 public abstract class XSPFCommon extends XSPFElement {
 
-	public XSPFCommon() {
-		super();
+	public XSPFCommon(Element element) {
+		super(element);
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -71,32 +75,35 @@ public abstract class XSPFCommon extends XSPFElement {
 		setUri("image", image);
 	}
 
-	public List<XSPFLink> getLinks() throws XSPFException {
-		return getAll("link", (e) -> new XSPFLink(e));
+	public XSPFLinks getLinks() throws XSPFException {
+		return (XSPFLinks) getAll("link", XSPFLinks::new);
 	}
 	
-	public XSPFLink createLink() throws XSPFException {
-		return createOne("link", (e) -> new XSPFLink(e));
+	public XSPFLinks links() throws XSPFException {
+		return (XSPFLinks) all("link", XSPFLinks::new);
 	}
 
-	public void setLinks(List<XSPFLink> links) throws XSPFException {
+	public void setLinks(XSPFLinks links) throws XSPFException {
 		setAll("link", links);
 	}
 
-	public List<XSPFMeta> getMetas() throws XSPFException {
-		return getAll("meta", (e) -> new XSPFMeta(e));
+	public XSPFMetas getMetas() throws XSPFException {
+		return (XSPFMetas) getAll("meta", XSPFMetas::new);
 	}
 	
-	public XSPFMeta createMeta() throws XSPFException {
-		return createOne("meta", (e) -> new XSPFMeta(e));
+	public XSPFMetas metas() throws XSPFException {
+		return (XSPFMetas) all("meta", XSPFMetas::new);
 	}
 	
-	public void setMetas(List<XSPFMeta> metas) throws XSPFException {
+	public void setMetas(XSPFMetas metas) throws XSPFException {
 		setAll("meta", metas);
 	}
 
-	public XSPFExtension getExtension(URI application) throws XSPFException {
+	//TODO getExtension, setExtension
+	
+	public XSPFExtension extension(URI application) throws XSPFException {
 		Element elem = getElement();
+		//TODO getOrCreateElem with application attr set to specified value
 		Element extensionElem = UTIL.getOrCreateChildElem(elem, "extension");
 		return new XSPFExtension(extensionElem, application);
 	}

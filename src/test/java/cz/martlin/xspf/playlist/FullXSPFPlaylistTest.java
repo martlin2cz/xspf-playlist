@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
+import cz.martlin.xspf.playlist.elements.XSPFFile;
+import cz.martlin.xspf.playlist.elements.XSPFPlaylist;
 import cz.martlin.xspf.util.XSPFException;
 
 class FullXSPFPlaylistTest {

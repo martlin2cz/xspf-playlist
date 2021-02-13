@@ -1,4 +1,4 @@
-package cz.martlin.xspf.playlist;
+package cz.martlin.xspf.playlist.elements;
 
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -7,22 +7,14 @@ import java.util.Objects;
 
 import org.w3c.dom.Element;
 
+import cz.martlin.xspf.playlist.base.XSPFCommon;
+import cz.martlin.xspf.playlist.collections.XSPFTracks;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFPlaylist extends XSPFCommon {
 
-	private final Element playlist;
-
-	public XSPFPlaylist(Element element) {
-		super();
-
-		Objects.requireNonNull(element, "The element must be provided");
-		this.playlist = element;
-	}
-	
-	@Override
-	protected Element getElement() {
-		return playlist;
+	public XSPFPlaylist(Element playlist) {
+		super(playlist);
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -47,19 +39,24 @@ public class XSPFPlaylist extends XSPFCommon {
 		return getOne("attribution", (e) -> new XSPFAttribution(e));
 	}
 	
+	public XSPFAttribution attribution() throws XSPFException {
+		return one("attribution", (e) -> new XSPFAttribution(e));
+	}
+	
 	public void setAttribution(XSPFAttribution attribution) throws XSPFException {
 		setOne("attribution", attribution);
 	}
 
-	public List<XSPFTrack> getTracks() throws XSPFException {
-		return getAll("trackList", (e) -> new XSPFTrack(e));
+	public XSPFTracks getTracks() throws XSPFException {
+		return  (XSPFTracks) getAll("trackList", XSPFTracks::new);
 	}
 
-	public XSPFTrack newTrack() {
-		return createOne("track", (e) -> new XSPFTrack(e));
+	public XSPFTracks tracks() throws XSPFException {
+		return  (XSPFTracks) all("trackList", XSPFTracks::new);
 	}
-
-	public void setTracks(List<XSPFTrack> tracks) throws XSPFException {
+	
+	
+	public void setTracks(XSPFTracks tracks) throws XSPFException {
 		setAll("trackList", tracks);
 	}
 

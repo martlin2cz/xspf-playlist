@@ -1,10 +1,11 @@
-package cz.martlin.xspf.playlist;
+package cz.martlin.xspf.playlist.base;
 
 import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
+import java.util.Objects;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,12 +14,18 @@ import cz.martlin.xspf.util.XMLDocumentUtilityHelper;
 import cz.martlin.xspf.util.XSPFException;
 
 public abstract class XSPFElement extends XSPFNode {
-	public XSPFElement() {
+	private final Element element;
+
+	public XSPFElement(Element element) {
 		super();
+		Objects.requireNonNull(element, "The element has to be specified");
+		this.element = element;
 	}
 
-	protected abstract Element getElement();
-	
+	protected Element getElement() {
+		return element;
+	}
+
 	@Override
 	public Node getNode() {
 		return getElement();

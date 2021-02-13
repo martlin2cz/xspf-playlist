@@ -9,6 +9,8 @@ import java.io.File;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
+import cz.martlin.xspf.playlist.elements.XSPFFile;
+import cz.martlin.xspf.playlist.elements.XSPFPlaylist;
 import cz.martlin.xspf.util.XSPFException;
 
 /**

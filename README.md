@@ -8,7 +8,7 @@ Usage:
 	XSPFFile file = XSPFFile.load(f);
 	//            = XSPFFile.create();
 	
-	XSPFPlaylist playlist = file.getPlaylist();
+	XSPFPlaylist playlist = file.playlist();
 
 	// do whatever you desire
 	
