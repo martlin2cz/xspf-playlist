@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import java.io.File;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -79,14 +80,14 @@ class XMLDocumentUtilityHelperTest {
 	@Test
 	void testGetChildren() throws XSPFException {
 		Element foo = document.getDocumentElement();
-		List<Element> auxs = helper.getChildren(foo, "aux");
+		List<Element> auxs = helper.getChildren(foo, "aux").collect(Collectors.toList());
 		
 		Element aux1 = (Element) foo.getChildNodes().item(5);
 		Element aux2 = (Element) foo.getChildNodes().item(7);
 		
 		assertIterableEquals(List.of(aux1, aux2), auxs);
 		
-		List<Element> lorems = helper.getChildren(foo, "lorem");
+		List<Element> lorems = helper.getChildren(foo, "lorem").collect(Collectors.toList());
 		assertIterableEquals(List.of(), lorems);
 	}
 

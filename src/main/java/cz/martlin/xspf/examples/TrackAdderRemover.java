@@ -82,7 +82,7 @@ public class TrackAdderRemover {
 
 	private static void performRemoveAction(XSPFTracks tracks, String specifier, String value) throws XSPFException {
 
-		for (XSPFTrack track : tracks.list()) {
+		for (XSPFTrack track : tracks.iterate()) {
 			if (matches(track, specifier, value)) {
 				tracks.remove(track);
 			}

@@ -2,6 +2,7 @@ package cz.martlin.xspf.playlist.base;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.w3c.dom.Element;
 
@@ -38,20 +39,25 @@ public abstract class XSPFCollection<T extends XSPFElement> extends XSPFElement 
 		UTIL.removeChildElement(container, elem);
 	}
 
-	public List<T> list() throws XSPFException {
+	public Iterable<T> iterate() throws XSPFException {
+		return list().collect(Collectors.toUnmodifiableList());
+	}
+	
+	public Stream<T> list() throws XSPFException {
 		Element container = getElement();
 		String elemName = elemName();
-		return UTIL.listChildrenElems(container, elemName).stream().map(e -> create(e)).collect(Collectors.toList());
+		return UTIL.listChildrenElems(container, elemName) //
+				.map(e -> create(e));
 	}
 	
 	public int size() throws XSPFException {
-		return list().size();
+		return (int) list().count();
 	}
 
 	@Override
 	public String toString() {
 		try {
-			return "XSPFCollection [list()=" + list() + "]";
+			return "XSPFCollection [" + iterate() + "]";
 		} catch (XSPFException e) {
 			return "XSPFCollection [" + e.toString() + "]";
 		}

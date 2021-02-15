@@ -3,6 +3,7 @@ package cz.martlin.xspf.playlist.base;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -50,16 +51,15 @@ public abstract class XSPFNode {
 
 	protected <T extends XSPFElement> List<T> getAll(String name, Function<Element, T> mapper) throws XSPFException {
 		Node owner = getNode();
-		return UTIL.listChildrenElems(owner, name).stream() //
+		return UTIL.listChildrenElems(owner, name) //
 				.map(mapper) //
 				.collect(Collectors.toList());
 	}
 
 	protected <T extends XSPFElement> void setAll(String name, List<T> items) throws XSPFException {
 		Node owner = getNode();
-		List<Element> elements = items.stream() //
-				.map((i) -> i.getElement()) //
-				.collect(Collectors.toList());
+		Stream<Element> elements = items.stream() //
+				.map((i) -> i.getElement()); //
 	
 		UTIL.replaceChildElements(owner, name, elements);
 	}

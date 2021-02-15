@@ -3,6 +3,7 @@ package cz.martlin.xspf.util;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -67,12 +68,13 @@ public class XMLDocumentUtility {
 	/////////////////////////////////////////////////////////////////////////////////////
 	// list/get/get or create child(ren)
 
-	public List<Element> listChildrenElems(Node container, String elemName) throws XSPFException {
+	public Stream<Element> listChildrenElems(Node container, String elemName) throws XSPFException {
 		return helper.getChildren(container, elemName);
 	}
 
-	public List<Element> listChildrenElemsClones(Node owner, String elemName) throws XSPFException {
-		return helper.getChildren(owner, elemName).stream().map(e -> helper.clone(e)).collect(Collectors.toList());
+	public Stream<Element> listChildrenElemsClones(Node owner, String elemName) throws XSPFException {
+		return helper.getChildren(owner, elemName)//
+				.map(e -> helper.clone(e));
 	}
 
 	public Element getChildElem(Node owner, String elemName) throws XSPFException {
@@ -100,7 +102,7 @@ public class XMLDocumentUtility {
 	}
 
 	public void removeChildElements(Node owner, String elemName) throws XSPFException {
-		List<Element> elems = helper.getChildren(owner, elemName);
+		Stream<Element> elems = helper.getChildren(owner, elemName);
 		removeChildElements(owner, elems);
 	}
 
@@ -109,8 +111,8 @@ public class XMLDocumentUtility {
 		replaceChildElement(owner, elem, replacement);
 	}
 
-	public void replaceChildElements(Node owner, String elemName, List<Element> replacements) throws XSPFException {
-		List<Element> elems = helper.getChildren(owner, elemName);
+	public void replaceChildElements(Node owner, String elemName, Stream<Element> replacements) throws XSPFException {
+		Stream<Element> elems = helper.getChildren(owner, elemName);
 		replaceChildElements(owner, elems, replacements);
 	}
 
@@ -120,10 +122,10 @@ public class XMLDocumentUtility {
 		replaceChildElement(owner, elem, clone);
 	}
 
-	public void replaceChildElementsByClone(Node owner, String elemName, List<Element> replacements)
+	public void replaceChildElementsByClone(Node owner, String elemName, Stream<Element> replacements)
 			throws XSPFException {
-		List<Element> elems = helper.getChildren(owner, elemName);
-		List<Element> clones = replacements.stream().map((e) -> helper.clone(e)).collect(Collectors.toList());
+		Stream<Element> elems = helper.getChildren(owner, elemName);
+		Stream<Element> clones = replacements.map((e) -> helper.clone(e));
 		replaceChildElements(owner, elems, clones);
 	}
 
@@ -138,20 +140,20 @@ public class XMLDocumentUtility {
 		helper.addChild(owner, elem);
 	}
 
-	public void addChildElements(Node owner, List<Element> elems) {
-		for (Element elem : elems) {
-			helper.addChild(owner, elem);
-		}
+	public void addChildElements(Node owner, Stream<Element> elems) {
+		elems.forEach((e) -> {
+			helper.addChild(owner, e);
+		});
 	}
 
 	public void removeChildElement(Node owner, Element elem) {
 		helper.removeChild(owner, elem);
 	}
 
-	public void removeChildElements(Node owner, List<Element> elems) {
-		for (Element elem : elems) {
-			helper.removeChild(owner, elem);
-		}
+	public void removeChildElements(Node owner, Stream<Element> elems) {
+		elems.forEach((e) -> {
+			helper.removeChild(owner, e);
+		});
 	}
 
 	public void replaceChildElement(Node owner, Element original, Element replacement) throws XSPFException {
@@ -159,14 +161,14 @@ public class XMLDocumentUtility {
 		helper.addChild(owner, replacement);
 	}
 
-	public void replaceChildElements(Node owner, List<Element> originals, List<Element> replacements)
+	public void replaceChildElements(Node owner, Stream<Element> originals, Stream<Element> replacements)
 			throws XSPFException {
-		for (Element elem : originals) {
-			helper.removeChild(owner, elem);
-		}
-		for (Element elem : replacements) {
-			helper.addChild(owner, elem);
-		}
+		originals.forEach((e) -> {
+			helper.removeChild(owner, e);
+		});
+		replacements.forEach((e) -> {
+			helper.addChild(owner, e);
+		});
 	}
 
 }

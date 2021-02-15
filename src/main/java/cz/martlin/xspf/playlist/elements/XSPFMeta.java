@@ -19,11 +19,11 @@ public class XSPFMeta extends XSPFElement {
 ///////////////////////////////////////////////////////////////////////////
 
 	public URI getRel() throws XSPFException {
-		return getUri("rel");
+		return getUriAttr("rel");
 	}
 
 	public void setRel(URI rel) throws XSPFException {
-		setUri("rel", rel);
+		setUriAttr("rel", rel);
 	}
 
 	public String getContent() throws XSPFException {

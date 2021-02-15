@@ -8,6 +8,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -110,6 +111,16 @@ public abstract class XSPFElement extends XSPFNode {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, (v) -> uriToStr(v));
 	}
+	
+	protected URI getUriAttr(String name) throws XSPFException {
+		Element elem = getElement();
+		return UTIL.getElementAttr(elem, name, (t) -> strToUri(t));
+	}
+
+	protected void setUriAttr(String name, URI value) throws XSPFException {
+		Element elem = getElement();
+		UTIL.setElementAttr(elem, name, value, (v) -> uriToStr(v));
+	}
 
 	protected LocalDateTime getDate(String name) throws XSPFException {
 		Element elem = getElement();
@@ -177,7 +188,9 @@ public abstract class XSPFElement extends XSPFNode {
 		String name = collection.elemName();
 
 		// TODO FIXME niceie!
-		List<Element> newElems = collection.list().stream().map(x -> x.getElement()).collect(Collectors.toList());
+		Stream<Element> newElems = collection.list()//
+				.map(x -> x.getElement());
+				//.collect(Collectors.toList());
 		UTIL.replaceChildElementsByClone(container, name, newElems);
 	}
 
@@ -209,10 +222,10 @@ public abstract class XSPFElement extends XSPFNode {
 		String childrenName = collection.elemName();
 
 		// TODO FIXME niceie!
-		List<Element> newElems = collection.list().stream()
-				.map(x -> x.getElement())
-				.map(e -> UTIL.getElemClone(e))
-				.collect(Collectors.toList());
+		Stream<Element> newElems = collection.list() //
+				.map(x -> x.getElement()) //
+				.map(e -> UTIL.getElemClone(e)); //
+//				.collect(Collectors.toList()); //
 		UTIL.replaceChildElementsByClone(container, childrenName, newElems);
 	}
 

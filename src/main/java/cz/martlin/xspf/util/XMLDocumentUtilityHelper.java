@@ -3,6 +3,7 @@ package cz.martlin.xspf.util;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,12 +61,13 @@ public class XMLDocumentUtilityHelper {
 		return child;
 	}
 	
-	public List<Element> getChildren(Node owner, String elemName) throws XSPFException {
+	public Stream<Element> getChildren(Node owner, String elemName) throws XSPFException {
 		return getChildrenElements(owner, elemName);
 	}
 
 	public boolean hasChildren(Node owner, String elemName) throws XSPFException {
-		return !getChildrenElements(owner, elemName).isEmpty();
+		return getChildrenElements(owner, elemName) //
+				.findAny().isPresent();
 	}
 
 	@Deprecated
@@ -189,24 +191,26 @@ public class XMLDocumentUtilityHelper {
 	}
 
 	private Element getChildElement(Node owner, String elemName, boolean failOnMissing) throws XSPFException {
-		List<Element> children = listChildren(owner, elemName);
-		if (children.size() < 1) {
+		Stream<Element> children = listChildren(owner, elemName);
+		List<Element> list = children.collect(Collectors.toList());
+		
+		if (list.size() < 1) {
 			if (failOnMissing) {
 				throw new XSPFException("No such element " + elemName);
 			} else {
 				return null;
 			}
 		}
-		if (children.size() > 1) {
+		if (list.size() > 1) {
 			throw new XSPFException("More than one " + elemName + " elements");
 		}
 
-		Node child = children.get(0);
+		Node child = list.get(0);
 		Element childElem = (Element) child;
 		return childElem;
 	}
 	
-	private List<Element> getChildrenElements(Node owner, String elemName) throws XSPFException {
+	private Stream<Element> getChildrenElements(Node owner, String elemName) throws XSPFException {
 		return listChildren(owner, elemName);
 	}
 		
@@ -214,20 +218,18 @@ public class XMLDocumentUtilityHelper {
 	/////////////////////////////////////////////////////////////////////////////////////
 	// list children
 
-	//TODO return Stream<Element> instead
-	private List<Element> listChildren(Node container, String elemName) {
+	private Stream<Element> listChildren(Node container, String elemName) {
 		NodeList children = container.getChildNodes();
 		return listElems(children, elemName);
 	}
 
-	private List<Element> listElems(NodeList children, String elemName) {
+	private Stream<Element> listElems(NodeList children, String elemName) {
 		//TODO if elemName is null, do not filter agains the elemName.
 		return IntStream.range(0, children.getLength()) //
 				.mapToObj(i -> children.item(i)) //
 				.filter(n -> n.getNodeType() == Node.ELEMENT_NODE) //
 				.map(n -> (Element) n) //
-				.filter(e -> e.getTagName().equals(fullName(elemName))) //
-				.collect(Collectors.toList());
+				.filter(e -> e.getTagName().equals(fullName(elemName)));
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
