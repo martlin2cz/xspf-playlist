@@ -138,37 +138,5 @@ public abstract class XSPFBase {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected <T extends XSPFBase> T createOne(String name, Function<Element, T> mapper) {
-		Node context = getElement();
-		Element elem = UTIL.createNewElement(context, name);
-		return mapper.apply(elem);
-	}
 
-	protected <T extends XSPFBase> T getOne(String name, Function<Element, T> mapper) throws XSPFException {
-		Element elem = getElement();
-		Element child = UTIL.getChildElem(elem, name);
-		return mapper.apply(child);
-	}
-
-	protected <T extends XSPFBase> void setOne(String name, T value) throws XSPFException {
-		Element elem = getElement();
-		Element newElem = value.getElement();
-		UTIL.replaceChildElement(elem, name, newElem);
-	}
-
-	protected <T extends XSPFBase> List<T> getAll(String name, Function<Element, T> mapper) throws XSPFException {
-		Element elem = getElement();
-		return UTIL.listChildrenElems(elem, name).stream() //
-				.map(mapper) //
-				.collect(Collectors.toList());
-	}
-
-	protected <T extends XSPFBase> void setAll(String name, List<T> items) throws XSPFException {
-		Element elem = getElement();
-		List<Element> elements = items.stream() //
-				.map((i) -> i.getElement()) //
-				.collect(Collectors.toList());
-
-		UTIL.replaceChildElements(elem, name, elements);
-	}
 }
