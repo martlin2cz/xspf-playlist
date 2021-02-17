@@ -5,6 +5,7 @@ import java.net.URI;
 import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFCollection;
+import cz.martlin.xspf.playlist.elements.XSPFLink;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFLinks extends XSPFCollection<XSPFLink> {
@@ -29,7 +30,7 @@ public class XSPFLinks extends XSPFCollection<XSPFLink> {
 		return createNew();
 	}
 
-	public XSPFLink createLink(URI rel, URI content) throws XSPFException {
+	public XSPFLink createLink(URI rel, URI content)throws XSPFException {
 		XSPFLink link = createNew();
 		link.setRel(rel);
 		link.setContent(content);

@@ -28,7 +28,7 @@ class PrinterTest {
 			"full.xspf", //
 //			"minimal.xspf" //
 	})
-	void test(String name) throws XSPFException {
+	void test(String name)throws XSPFException {
 		File fileToRead = TestingFiles.fileToReadAssumed("playlist", name);
 		XSPFFile file = XSPFFile.load(fileToRead);
 		

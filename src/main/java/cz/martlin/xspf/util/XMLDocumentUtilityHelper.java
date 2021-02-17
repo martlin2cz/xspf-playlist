@@ -20,22 +20,22 @@ public class XMLDocumentUtilityHelper {
 		this.nsURL = nsURL;
 	}
 
-//  FIXME: idk ...	
-//	public void setNSattribute(Document document) throws XSPFException {
-	
-//		String attrName;
-//		if (nsName != null) {
-//			attrName = "xmlns:" + nsName;
-//		} else {
-//			attrName = "xmlns";
-//		}
-//
-//		String atrrValue = nsURL;
-//
-//		Element root = getRootElem(document);
-//		root.setAttribute(attrName, atrrValue);
-	//  root.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, attrName, atrrValue); 
-//	}
+	public void specifyNSattribute(Element elem)throws XSPFException {
+		String attrName = namespaceAttrName();
+		String atrrValue = nsURL;
+
+		setAttrValue(elem, attrName, atrrValue); 
+	}
+
+	private String namespaceAttrName() {
+		String attrName;
+		if (nsName != null) {
+			attrName = "xmlns:" + nsName;
+		} else {
+			attrName = "xmlns";
+		}
+		return attrName;
+	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// create/remove/get child (public)
@@ -73,11 +73,11 @@ public class XMLDocumentUtilityHelper {
 		return child;
 	}
 	
-	public Stream<Element> getChildren(Node owner, String elemName) throws XSPFException {
+	public Stream<Element> getChildren(Node owner, String elemName)throws XSPFException {
 		return getChildrenElements(owner, elemName);
 	}
 
-	public boolean hasChildren(Node owner, String elemName) throws XSPFException {
+	public boolean hasChildren(Node owner, String elemName)throws XSPFException {
 		return getChildrenElements(owner, elemName) //
 				.findAny().isPresent();
 	}
@@ -147,7 +147,7 @@ public class XMLDocumentUtilityHelper {
 		return childElem;
 	}
 	
-	private Stream<Element> getChildrenElements(Node owner, String elemName) throws XSPFException {
+	private Stream<Element> getChildrenElements(Node owner, String elemName)throws XSPFException {
 		return listChildren(owner, elemName);
 	}
 		
@@ -163,8 +163,16 @@ public class XMLDocumentUtilityHelper {
 				.mapToObj(i -> children.item(i)) //
 				.filter(n -> n.getNodeType() == Node.ELEMENT_NODE) //
 				.map(n -> (Element) n) //
-				.filter(e -> e.getTagName().equals(fullName(elemName))) //
+				.filter(e -> isElemOfName(e, elemName)) //
 				.collect(Collectors.toList()).stream(); // sorryjako
+	}
+
+	private boolean isElemOfName(Element e, String elemName) {
+		if (elemName == null) {
+			return true;
+		} else {
+			return e.getTagName().equals(fullName(elemName));
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -178,7 +186,7 @@ public class XMLDocumentUtilityHelper {
 		return content;
 	}
 	
-	public String getElementValueOrNull(Element elem) throws XSPFException {
+	public String getElementValueOrNull(Element elem)throws XSPFException {
 		return elem.getTextContent();
 	}
 
@@ -194,7 +202,7 @@ public class XMLDocumentUtilityHelper {
 		return content;
 	}
 	
-	public String getAttrValueOrNull(Element elem, String attrName) throws XSPFException {
+	public String getAttrValueOrNull(Element elem, String attrName)throws XSPFException {
 		return elem.getAttribute(/* NS(nsURL, */ fullName(attrName));
 	}
 

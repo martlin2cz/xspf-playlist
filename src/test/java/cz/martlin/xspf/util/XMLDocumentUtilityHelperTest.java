@@ -50,7 +50,7 @@ class XMLDocumentUtilityHelperTest {
 	}
 
 	@Test
-	void testGetChild() throws XSPFException {
+	void testGetChild()throws XSPFException {
 		Element foo = helper.getChild(document, "foo");
 		Element bar = helper.getChild(foo, "bar");
 		
@@ -62,7 +62,7 @@ class XMLDocumentUtilityHelperTest {
 	}
 
 	@Test
-	void testGetOrCreateChild() throws XSPFException {
+	void testGetOrCreateChild()throws XSPFException {
 		Element foo = helper.getOrCreateChild(document, "foo");
 		Element bar = helper.getOrCreateChild(foo, "bar");
 		
@@ -78,7 +78,7 @@ class XMLDocumentUtilityHelperTest {
 	}
 
 	@Test
-	void testGetChildren() throws XSPFException {
+	void testGetChildren()throws XSPFException {
 		Element foo = document.getDocumentElement();
 		List<Element> auxs = helper.getChildren(foo, "aux").collect(Collectors.toList());
 		
@@ -92,7 +92,7 @@ class XMLDocumentUtilityHelperTest {
 	}
 
 	@Test
-	void testGetRoot() throws XSPFException {
+	void testGetRoot()throws XSPFException {
 		Element foo = helper.getRoot(document, "foo");
 		assertEquals("test:foo", foo.getTagName());
 		
@@ -111,7 +111,7 @@ class XMLDocumentUtilityHelperTest {
 
 
 	@Test
-	void testGetElementValue() throws XSPFException {
+	void testGetElementValue()throws XSPFException {
 		Element foo = document.getDocumentElement();
 		Element aux1 = (Element) foo.getChildNodes().item(5);
 		
@@ -120,7 +120,7 @@ class XMLDocumentUtilityHelperTest {
 	}
 
 	@Test
-	void testSetElementValue() throws XSPFException {
+	void testSetElementValue()throws XSPFException {
 		Element foo = document.getDocumentElement();
 		Element aux1 = (Element) foo.getChildNodes().item(5);
 		
@@ -129,7 +129,7 @@ class XMLDocumentUtilityHelperTest {
 	}
 
 	@Test
-	void testGetAttrValue() throws XSPFException {
+	void testGetAttrValue()throws XSPFException {
 		Element foo = document.getDocumentElement();
 		Element bar = (Element) foo.getChildNodes().item(3);
 		

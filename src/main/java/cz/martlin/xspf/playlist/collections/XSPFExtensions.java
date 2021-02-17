@@ -26,7 +26,7 @@ public class XSPFExtensions extends XSPFCollection<XSPFExtension> {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	public XSPFExtension createExtension(URI application) throws XSPFException {
+	public XSPFExtension createExtension(URI application)throws XSPFException {
 		XSPFExtension extension = createNew();
 		extension.setApplication(application);
 		return extension;

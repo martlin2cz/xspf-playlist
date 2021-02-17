@@ -1,6 +1,5 @@
 package cz.martlin.xspf.playlist.base;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,7 +23,7 @@ public abstract class XSPFCollection<T extends XSPFElement> extends XSPFElement 
 	protected abstract T create(Element child);
 
 	protected abstract String elemName();
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////
 
 	public void add(T element) {
@@ -39,31 +38,39 @@ public abstract class XSPFCollection<T extends XSPFElement> extends XSPFElement 
 		UTIL.removeChildElement(container, elem);
 	}
 
-	public Iterable<T> iterate() throws XSPFException {
+	public Iterable<T> iterate()throws XSPFException {
 		return list().collect(Collectors.toUnmodifiableList());
 	}
-	
-	public Stream<T> list() throws XSPFException {
+
+	public Stream<T> list()throws XSPFException {
 		Element container = getElement();
 		String elemName = elemName();
 		return UTIL.listChildrenElems(container, elemName) //
 				.map(e -> create(e));
 	}
-	
-	public int size() throws XSPFException {
+
+	public int size()throws XSPFException {
 		return (int) list().count();
 	}
 
+	// TODO isEmpty, hasSome
+
+///////////////////////////////////////////////////////////////////////////
+
 	@Override
 	public String toString() {
+		StringBuilder builder = new StringBuilder("XSPFCollection[");
 		try {
-			return "XSPFCollection [" + iterate() + "]";
+			for (T item : iterate()) {
+				builder.append(item);
+				builder.append(", ");
+			}
 		} catch (XSPFException e) {
-			return "XSPFCollection [" + e.toString() + "]";
+			builder.append(e);
 		}
+		builder.append("]");
+		return builder.toString();
 	}
-	
-	//TODO isEmpty, hasSome
 
 	/////////////////////////////////////////////////////////////////////////////////////
 

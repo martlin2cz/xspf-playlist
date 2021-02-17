@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import cz.martlin.xspf.playlist.elements.XSPFFile;
 import cz.martlin.xspf.playlist.elements.XSPFPlaylist;
+import cz.martlin.xspf.util.Printer;
 import cz.martlin.xspf.util.XSPFException;
 
 public class TestLoadSaveReload {
@@ -16,13 +17,17 @@ public class TestLoadSaveReload {
 	@ParameterizedTest
 	@ValueSource(strings = { //
 			"full.xspf", //
-			"minimal.xspf" //
+			"minimal.xspf", //
+			"50-npc-tracks.xspf", //
+			"lorem-ipsum.xspf" //
 	})
-	public void testIt(String fileName) throws XSPFException {
+	public void testIt(String fileName)throws XSPFException {
 		System.out.println("== Testing " + fileName + " ==");
 
 		File fileToRead = TestingFiles.fileToReadAssumed("playlist", fileName);
 		XSPFFile file = XSPFFile.load(fileToRead);
+		Printer.print(0, fileName, file);
+		
 		XSPFPlaylist playlist = file.getPlaylist();
 
 		File fileToWrite = TestingFiles.fileToWriteAssumed(fileName);

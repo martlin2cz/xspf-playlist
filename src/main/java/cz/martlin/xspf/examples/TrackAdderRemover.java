@@ -11,7 +11,7 @@ import cz.martlin.xspf.util.XSPFException;
 
 public class TrackAdderRemover {
 
-	public static void main(String[] args) throws XSPFException {
+	public static void main(String[] args)throws XSPFException {
 		if (args.length < 4) {
 			System.err.println("Usage: TrackAdderRemover <PLAYIST_FILE> <add|remove> <title|location|both> <VALUE>");
 			System.exit(1);
@@ -48,14 +48,14 @@ public class TrackAdderRemover {
 		xspf.save(file);
 	}
 
-	private static void performAddAction(XSPFTracks tracks, String specifier, String value) throws XSPFException {
+	private static void performAddAction(XSPFTracks tracks, String specifier, String value)throws XSPFException {
 		XSPFTrack track = tracks.createNew();
 		initTrack(specifier, value, track);
 
 		tracks.add(track);
 	}
 
-	private static void initTrack(String specifier, String value, XSPFTrack track) throws XSPFException {
+	private static void initTrack(String specifier, String value, XSPFTrack track)throws XSPFException {
 		switch (specifier) {
 		case "title": {
 			String title = value;
@@ -80,7 +80,7 @@ public class TrackAdderRemover {
 		}
 	}
 
-	private static void performRemoveAction(XSPFTracks tracks, String specifier, String value) throws XSPFException {
+	private static void performRemoveAction(XSPFTracks tracks, String specifier, String value)throws XSPFException {
 
 		for (XSPFTrack track : tracks.iterate()) {
 			if (matches(track, specifier, value)) {
@@ -89,7 +89,7 @@ public class TrackAdderRemover {
 		}
 	}
 
-	private static boolean matches(XSPFTrack track, String specifier, String value) throws XSPFException {
+	private static boolean matches(XSPFTrack track, String specifier, String value)throws XSPFException {
 		switch (specifier) {
 		case "title": {
 			String title = value;

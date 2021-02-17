@@ -70,7 +70,7 @@ class TrackAdderRemoverTest {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////	
 
-	private void assertTracksLocations(String... expectedLocations) throws XSPFException {
+	private void assertTracksLocations(String... expectedLocations)throws XSPFException {
 		XSPFFile xspf = XSPFFile.load(testingFile);
 		XSPFPlaylist playlist = xspf.playlist();
 		XSPFTracks tracks = playlist.getTracks();
@@ -83,7 +83,7 @@ class TrackAdderRemoverTest {
 
 	}
 
-	private void assertTracksTitles(String... expectedTitles) throws XSPFException {
+	private void assertTracksTitles(String... expectedTitles)throws XSPFException {
 		XSPFFile xspf = XSPFFile.load(testingFile);
 		XSPFPlaylist playlist = xspf.playlist();
 		XSPFTracks tracks = playlist.getTracks();
@@ -95,7 +95,7 @@ class TrackAdderRemoverTest {
 		}
 	}
 
-	private boolean hasLocation(XSPFTracks tracks, String expectedLocation) throws XSPFException {
+	private boolean hasLocation(XSPFTracks tracks, String expectedLocation)throws XSPFException {
 		URI expectedLocationUri = URI.create(expectedLocation);
 
 		for (XSPFTrack track : tracks.iterate()) {
@@ -106,7 +106,7 @@ class TrackAdderRemoverTest {
 		return false;
 	}
 
-	private boolean hasTitle(XSPFTracks tracks, String expectedTitle) throws XSPFException {
+	private boolean hasTitle(XSPFTracks tracks, String expectedTitle)throws XSPFException {
 		for (XSPFTrack track : tracks.iterate()) {
 			try {
 				if (expectedTitle.equals(track.getTitle())) {

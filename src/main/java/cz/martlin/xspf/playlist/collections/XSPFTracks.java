@@ -27,20 +27,20 @@ public class XSPFTracks extends XSPFCollection<XSPFTrack> {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	public XSPFTrack createTrack(URI location) throws XSPFException {
+	public XSPFTrack createTrack(URI location)throws XSPFException {
 		XSPFTrack track = createNew();
 		track.setLocation(location);
 		return track;
 	}
 
-	public XSPFTrack createTrack(URI location, String title) throws XSPFException {
+	public XSPFTrack createTrack(URI location, String title)throws XSPFException {
 		XSPFTrack track = createNew();
 		track.setLocation(location);
 		track.setTitle(title);
 		return track;
 	}
 
-	public XSPFTrack createTrack(URI location, String title, int trackNum, Duration duration) throws XSPFException {
+	public XSPFTrack createTrack(URI location, String title, int trackNum, Duration duration)throws XSPFException {
 		XSPFTrack track = createNew();
 		track.setLocation(location);
 		track.setTitle(title);
@@ -50,7 +50,7 @@ public class XSPFTracks extends XSPFCollection<XSPFTrack> {
 	}
 
 	public XSPFTrack createTrack(URI location, String creator, String album, String title, int trackNum,
-			Duration duration) throws XSPFException {
+			Duration duration)throws XSPFException {
 		
 		XSPFTrack track = createNew();
 		track.setLocation(location);

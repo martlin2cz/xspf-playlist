@@ -82,82 +82,82 @@ public abstract class XSPFElement extends XSPFNode {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected String getStr() throws XSPFException {
+	protected String getStr()throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getElementValueOrNull(elem, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
 	}
 
-	protected String getStr(String name) throws XSPFException {
+	protected String getStr(String name)throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getChildElementValueOrNull(elem, name, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
 	}
 
-	protected void setStr(String value) throws XSPFException {
+	protected void setStr(String value)throws XSPFException {
 		Element elem = getElement();
 		UTIL.setElementValue(elem, value, XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
 	}
 
-	protected void setStr(String name, String value) throws XSPFException {
+	protected void setStr(String name, String value)throws XSPFException {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
 	}
 
-	protected URI getUri(String name) throws XSPFException {
+	protected URI getUri(String name)throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getChildElementValueOrNull(elem, name, (t) -> strToUri(t));
 	}
 
-	protected void setUri(String name, URI value) throws XSPFException {
+	protected void setUri(String name, URI value)throws XSPFException {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, (v) -> uriToStr(v));
 	}
 	
-	protected URI getUriAttr(String name) throws XSPFException {
+	protected URI getUriAttr(String name)throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getElementAttrOrNull(elem, name, (t) -> strToUri(t));
 	}
 
-	protected void setUriAttr(String name, URI value) throws XSPFException {
+	protected void setUriAttr(String name, URI value)throws XSPFException {
 		Element elem = getElement();
 		UTIL.setElementAttr(elem, name, value, (v) -> uriToStr(v));
 	}
 
-	protected LocalDateTime getDate(String name) throws XSPFException {
+	protected LocalDateTime getDate(String name)throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getChildElementValueOrNull(elem, name, (t) -> textToDate(t));
 	}
 
-	protected void setDate(String name, LocalDateTime value) throws XSPFException {
+	protected void setDate(String name, LocalDateTime value)throws XSPFException {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, (v) -> dateToText(v));
 	}
 
-	protected Duration getDuration(String name) throws XSPFException {
+	protected Duration getDuration(String name)throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getChildElementValueOrNull(elem, name, (t) -> milisStrToDuration(t));
 	}
 
-	protected void setDuration(String name, Duration value) throws XSPFException {
+	protected void setDuration(String name, Duration value)throws XSPFException {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, (v) -> durationToMilisStr(v));
 	}
 
-	protected int getInt(String name) throws XSPFException {
+	protected Integer getInt(String name)throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getChildElementValueOrNull(elem, name, (t) -> strToInt(t));
 	}
 
-	protected void setInt(String name, int value) throws XSPFException {
+	protected void setInt(String name, int value)throws XSPFException {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, (v) -> intToStr(v));
 	}
 
-	protected URI getUri() throws XSPFException {
+	protected URI getUri()throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getElementValueOrNull(elem, (t) -> strToUri(t));
 	}
 
-	protected void setUri(URI value) throws XSPFException {
+	protected void setUri(URI value)throws XSPFException {
 		Element elem = getElement();
 		UTIL.setElementValue(elem, value, (v) -> uriToStr(v));
 	}
@@ -216,7 +216,7 @@ public abstract class XSPFElement extends XSPFNode {
 	}
 
 	protected <E extends XSPFElement, C extends XSPFCollection<E>> void setCollection(String name,
-			XSPFCollection<E> collection) throws XSPFException {
+			XSPFCollection<E> collection)throws XSPFException {
 
 		//TODO get(OrCreate?)(Tracks)list elem, work iwth that
 

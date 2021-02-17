@@ -30,7 +30,7 @@ public class XSPFMetas extends XSPFCollection<XSPFMeta> {
 		return createNew();
 	}
 	
-	public XSPFMeta createMeta(URI rel, String content) throws XSPFException {
+	public XSPFMeta createMeta(URI rel, String content)throws XSPFException {
 		XSPFMeta meta = createNew();
 		meta.setRel(rel);
 		meta.setContent(content);

@@ -14,13 +14,14 @@ import org.junit.jupiter.api.Test;
 import cz.martlin.xspf.playlist.base.XSPFCollection;
 import cz.martlin.xspf.playlist.base.XSPFElement;
 import cz.martlin.xspf.playlist.collections.XSPFExtensions;
-import cz.martlin.xspf.playlist.collections.XSPFLink;
 import cz.martlin.xspf.playlist.collections.XSPFLinks;
 import cz.martlin.xspf.playlist.collections.XSPFMetas;
 import cz.martlin.xspf.playlist.collections.XSPFTracks;
 import cz.martlin.xspf.playlist.elements.XSPFAttribution;
+import cz.martlin.xspf.playlist.elements.XSPFAttribution.XSPFAttributionItem;
 import cz.martlin.xspf.playlist.elements.XSPFExtension;
 import cz.martlin.xspf.playlist.elements.XSPFFile;
+import cz.martlin.xspf.playlist.elements.XSPFLink;
 import cz.martlin.xspf.playlist.elements.XSPFMeta;
 import cz.martlin.xspf.playlist.elements.XSPFPlaylist;
 import cz.martlin.xspf.playlist.elements.XSPFTrack;
@@ -32,7 +33,7 @@ class FullXSPFPlaylistTest {
 	
 	
 	@Test
-	void testLoad() throws XSPFException {
+	void testLoad()throws XSPFException {
 		File fileToRead = TestingFiles.fileToReadAssumed("playlist", "full.xspf");
 		XSPFFile file = XSPFFile.load(fileToRead);
 		XSPFPlaylist playlist = file.getPlaylist();
@@ -40,7 +41,7 @@ class FullXSPFPlaylistTest {
 		verify(playlist);
 	}
 
-	private void verify(XSPFPlaylist playlist) throws XSPFException {
+	private void verify(XSPFPlaylist playlist)throws XSPFException {
 		verifyPlaylistBasicProperties(playlist);
 		verifyPlaylistAttribution(playlist.getAttribution());
 		verifyPlaylistExtensions(playlist.getExtensions());
@@ -49,7 +50,7 @@ class FullXSPFPlaylistTest {
 		verifyPlaylistTracks(playlist.getTracks());
 	}
 
-	private void verifyPlaylistBasicProperties(XSPFPlaylist playlist) throws XSPFException {
+	private void verifyPlaylistBasicProperties(XSPFPlaylist playlist)throws XSPFException {
 		assertEquals("Sample playlist", //
 				playlist.getTitle());
 
@@ -79,19 +80,24 @@ class FullXSPFPlaylistTest {
 				playlist.getLicense());
 	}
 
-	private void verifyPlaylistAttribution(XSPFAttribution attribution) {
-		// TODO test attribution
-
+	private void verifyPlaylistAttribution(XSPFAttribution attribution)throws XSPFException {
+		List<XSPFAttributionItem> items = attribution.list();
+		assertEquals(2, items.size());
+		
+		assertEquals("location", items.get(0).element);
+		assertEquals("https://jmop-xspf/sample-attribution-location.txt", items.get(0).value);
+		assertEquals("identifier", items.get(1).element);
+		assertEquals("https://jmop-xspf/sample-attribution-identifier.txt", items.get(1).value);
 	}
 
-	private void verifyPlaylistExtensions(XSPFExtensions extensions) throws XSPFException {
+	private void verifyPlaylistExtensions(XSPFExtensions extensions)throws XSPFException {
 		XSPFExtension extension = checkSizeAndGetThatOne(extensions);
 
 		assertEquals(URI.create("https://github.com/martlin2cz/jmop/"), //
 				extension.getApplication());
 	}
 
-	private void verifyPlaylistLinks(XSPFLinks links) throws XSPFException {
+	private void verifyPlaylistLinks(XSPFLinks links)throws XSPFException {
 		XSPFLink link = checkSizeAndGetThatOne(links);
 
 		assertEquals(URI.create("https://jmop-xspf/sample-link"), //
@@ -101,7 +107,7 @@ class FullXSPFPlaylistTest {
 				link.getContent());
 	}
 
-	private void verifyPlaylistMetas(XSPFMetas metas) throws XSPFException {
+	private void verifyPlaylistMetas(XSPFMetas metas)throws XSPFException {
 		XSPFMeta meta = checkSizeAndGetThatOne(metas);
 
 		assertEquals(URI.create("https://jmop-xspf/sample-meta"), //
@@ -111,7 +117,7 @@ class FullXSPFPlaylistTest {
 				meta.getContent());
 	}
 
-	private void verifyPlaylistTracks(XSPFTracks tracks) throws XSPFException {
+	private void verifyPlaylistTracks(XSPFTracks tracks)throws XSPFException {
 		XSPFTrack track = checkSizeAndGetThatOne(tracks);
 
 		verifyTrackBasicProperties(track);
@@ -122,7 +128,7 @@ class FullXSPFPlaylistTest {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private void verifyTrackBasicProperties(XSPFTrack track) throws XSPFException {
+	private void verifyTrackBasicProperties(XSPFTrack track)throws XSPFException {
 
 		assertEquals("Sample album vol. 2", //
 				track.getAlbum());
@@ -155,14 +161,14 @@ class FullXSPFPlaylistTest {
 				track.getTrackNum());
 	}
 
-	private void verifyTrackExtensions(XSPFExtensions extensions) throws XSPFException {
+	private void verifyTrackExtensions(XSPFExtensions extensions)throws XSPFException {
 		XSPFExtension extension = checkSizeAndGetThatOne(extensions);
 
 		assertEquals(URI.create("https://github.com/martlin2cz/jmop/"), //
 				extension.getApplication());
 	}
 
-	private void verifyTrackLinks(XSPFLinks links) throws XSPFException {
+	private void verifyTrackLinks(XSPFLinks links)throws XSPFException {
 		XSPFLink link = checkSizeAndGetThatOne(links);
 
 		assertEquals(URI.create("https://jmop-xspf/sample-link"), //
@@ -172,7 +178,7 @@ class FullXSPFPlaylistTest {
 				link.getContent());
 	}
 
-	private void verifyTrackMetas(XSPFMetas metas) throws XSPFException {
+	private void verifyTrackMetas(XSPFMetas metas)throws XSPFException {
 		XSPFMeta meta = checkSizeAndGetThatOne(metas);
 
 		assertEquals(URI.create("https://jmop-xspf/sample-meta"), //
@@ -183,7 +189,7 @@ class FullXSPFPlaylistTest {
 	}
 
 	@Test
-	void testCreate() throws XSPFException {
+	void testCreate()throws XSPFException {
 		XSPFFile file = XSPFFile.create();
 		XSPFPlaylist playlist = file.getPlaylist();
 
@@ -192,7 +198,7 @@ class FullXSPFPlaylistTest {
 		verify(playlist);
 	}
 
-	private void fill(XSPFPlaylist playlist) throws XSPFException {
+	private void fill(XSPFPlaylist playlist)throws XSPFException {
 		fillPlaylistBasicProperties(playlist);
 
 		playlist.setAttribution(createPlaylistAttribution(playlist));
@@ -202,7 +208,7 @@ class FullXSPFPlaylistTest {
 		playlist.setTracks(createPlaylistTracks(playlist));
 	}
 
-	private void fillPlaylistBasicProperties(XSPFPlaylist playlist) throws XSPFException {
+	private void fillPlaylistBasicProperties(XSPFPlaylist playlist)throws XSPFException {
 		playlist.setTitle("Sample playlist");
 
 		playlist.setCreator("m@rtlin");
@@ -223,13 +229,16 @@ class FullXSPFPlaylistTest {
 		playlist.setLicense(URI.create("https://jmop-xspf/sample-licence.txt"));
 	}
 
-	private XSPFAttribution createPlaylistAttribution(XSPFPlaylist playlist) throws XSPFException {
+	private XSPFAttribution createPlaylistAttribution(XSPFPlaylist playlist)throws XSPFException {
 		XSPFAttribution attribution = playlist.attribution();
-		// TODO init attribution
+		
+		attribution.add("location", "https://jmop-xspf/sample-attribution-location.txt");
+		attribution.add("identifier", "https://jmop-xspf/sample-attribution-identifier.txt");
+		
 		return attribution;
 	}
 
-	private XSPFExtensions createPlaylistExtensions(XSPFPlaylist playlist) throws XSPFException {
+	private XSPFExtensions createPlaylistExtensions(XSPFPlaylist playlist)throws XSPFException {
 		XSPFExtensions extensions = playlist.extensions();
 
 		XSPFExtension extension = extensions.createExtension(URI.create("https://github.com/martlin2cz/jmop/"));
@@ -239,7 +248,7 @@ class FullXSPFPlaylistTest {
 		return extensions;
 	}
 
-	private XSPFLinks createPlaylistLinks(XSPFPlaylist playlist) throws XSPFException {
+	private XSPFLinks createPlaylistLinks(XSPFPlaylist playlist)throws XSPFException {
 		XSPFLinks links = playlist.links();
 
 		XSPFLink link = links.createLink( //
@@ -250,7 +259,7 @@ class FullXSPFPlaylistTest {
 		return links;
 	}
 
-	private XSPFMetas createPlaylistMetas(XSPFPlaylist playlist) throws XSPFException {
+	private XSPFMetas createPlaylistMetas(XSPFPlaylist playlist)throws XSPFException {
 		XSPFMetas metas = playlist.metas();
 
 		XSPFMeta meta = metas.createMeta( //
@@ -261,7 +270,7 @@ class FullXSPFPlaylistTest {
 		return metas;
 	}
 
-	private XSPFTracks createPlaylistTracks(XSPFPlaylist playlist) throws XSPFException {
+	private XSPFTracks createPlaylistTracks(XSPFPlaylist playlist)throws XSPFException {
 		XSPFTracks tracks = playlist.tracks();
 
 		XSPFTrack track = tracks.createNew();
@@ -275,7 +284,7 @@ class FullXSPFPlaylistTest {
 		return tracks;
 	}
 
-	private void fillTrackBasicProperties(XSPFTrack track) throws XSPFException {
+	private void fillTrackBasicProperties(XSPFTrack track)throws XSPFException {
 
 		track.setAlbum("Sample album vol. 2");
 
@@ -298,7 +307,7 @@ class FullXSPFPlaylistTest {
 		track.setTrackNum(1);
 	}
 
-	private XSPFExtensions createTrackExtensions(XSPFTrack track) throws XSPFException {
+	private XSPFExtensions createTrackExtensions(XSPFTrack track)throws XSPFException {
 		XSPFExtensions extensions = track.extensions();
 
 		XSPFExtension extension = extensions.createExtension(URI.create("https://github.com/martlin2cz/jmop/"));
@@ -308,7 +317,7 @@ class FullXSPFPlaylistTest {
 		return extensions;
 	}
 
-	private XSPFLinks createTrackLinks(XSPFTrack track) throws XSPFException {
+	private XSPFLinks createTrackLinks(XSPFTrack track)throws XSPFException {
 		XSPFLinks links = track.links();
 
 		XSPFLink link = links.createLink( //
@@ -319,7 +328,7 @@ class FullXSPFPlaylistTest {
 		return links;
 	}
 
-	private XSPFMetas createTrackMetas(XSPFTrack track) throws XSPFException {
+	private XSPFMetas createTrackMetas(XSPFTrack track)throws XSPFException {
 		XSPFMetas metas = track.metas();
 
 		XSPFMeta meta = metas.createMeta( //
@@ -331,7 +340,7 @@ class FullXSPFPlaylistTest {
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static <E extends XSPFElement> E checkSizeAndGetThatOne(XSPFCollection<E> collection) throws XSPFException {
+	private static <E extends XSPFElement> E checkSizeAndGetThatOne(XSPFCollection<E> collection)throws XSPFException {
 		List<E> list = collection.list().collect(Collectors.toList());
 		assertEquals(1, list.size(), "There may be exactly one element of that kind");
 

@@ -5,13 +5,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 import cz.martlin.xspf.playlist.collections.XSPFExtensions;
-import cz.martlin.xspf.playlist.collections.XSPFLink;
 import cz.martlin.xspf.playlist.collections.XSPFLinks;
 import cz.martlin.xspf.playlist.collections.XSPFMetas;
 import cz.martlin.xspf.playlist.collections.XSPFTracks;
 import cz.martlin.xspf.playlist.elements.XSPFAttribution;
 import cz.martlin.xspf.playlist.elements.XSPFExtension;
 import cz.martlin.xspf.playlist.elements.XSPFFile;
+import cz.martlin.xspf.playlist.elements.XSPFLink;
 import cz.martlin.xspf.playlist.elements.XSPFMeta;
 import cz.martlin.xspf.playlist.elements.XSPFPlaylist;
 import cz.martlin.xspf.playlist.elements.XSPFTrack;
@@ -20,13 +20,13 @@ public class Printer {
 
 	private static final String PADDING_STEP = "  ";
 
-	public static void print(int padding, String label, XSPFFile file) throws XSPFException {
+	public static void print(int padding, String label, XSPFFile file)throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 		print(p, "playlist", file.getPlaylist());
 	}
 
-	public static void print(int padding, String label, XSPFPlaylist playlist) throws XSPFException {
+	public static void print(int padding, String label, XSPFPlaylist playlist)throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -46,7 +46,7 @@ public class Printer {
 		print(p, "tracks", playlist.getTracks());
 	}
 
-	private static void print(int padding, String label, XSPFTracks tracks) throws XSPFException {
+	private static void print(int padding, String label, XSPFTracks tracks)throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -56,7 +56,7 @@ public class Printer {
 		}
 	}
 
-	private static void print(int padding, String label, XSPFTrack track) throws XSPFException {
+	private static void print(int padding, String label, XSPFTrack track)throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -75,7 +75,7 @@ public class Printer {
 		print(p, "trackNum", track.getTrackNum());
 	}
 
-	private static void print(int padding, String label, XSPFMetas metas) throws XSPFException {
+	private static void print(int padding, String label, XSPFMetas metas)throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -85,7 +85,7 @@ public class Printer {
 		}
 	}
 
-	private static void print(int padding, String label, XSPFMeta meta) throws XSPFException {
+	private static void print(int padding, String label, XSPFMeta meta)throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -93,7 +93,7 @@ public class Printer {
 		print(p, "rel", meta.getRel());
 	}
 
-	private static void print(int padding, String label, XSPFExtensions extensions) throws XSPFException {
+	private static void print(int padding, String label, XSPFExtensions extensions)throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -103,7 +103,7 @@ public class Printer {
 		}
 	}
 
-	private static void print(int padding, String label, XSPFExtension extension) throws XSPFException {
+	private static void print(int padding, String label, XSPFExtension extension)throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -111,7 +111,7 @@ public class Printer {
 		// TODO extension node?
 	}
 
-	private static void print(int padding, String label, XSPFLinks links) throws XSPFException {
+	private static void print(int padding, String label, XSPFLinks links)throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -121,7 +121,7 @@ public class Printer {
 		}
 	}
 
-	private static void print(int padding, String label, XSPFLink link) throws XSPFException {
+	private static void print(int padding, String label, XSPFLink link)throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -151,7 +151,7 @@ public class Printer {
 		printLabeled(padding, label, uri);
 	}
 
-	private static void print(int padding, String label, int trackNum) {
+	private static void print(int padding, String label, Integer trackNum) {
 		printLabeled(padding, label, trackNum);
 	}
 

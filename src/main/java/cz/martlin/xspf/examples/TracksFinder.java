@@ -13,7 +13,7 @@ import cz.martlin.xspf.util.XSPFException;
 
 public class TracksFinder {
 	
-	public static void main(String[] args) throws XSPFException {
+	public static void main(String[] args)throws XSPFException {
 		if (args.length < 2) {
 			System.err.println("Usage: TracksFinder <PLAYIST_FILE> <NEEDLE>");
 			System.exit(1);
@@ -27,7 +27,7 @@ public class TracksFinder {
 		findAndPrintTracks(file, needle);
 	}
 
-	public static void findAndPrintTracks(File file, String needle) throws XSPFException {
+	public static void findAndPrintTracks(File file, String needle)throws XSPFException {
 		XSPFFile xspf = XSPFFile.load(file);
 
 		XSPFPlaylist playlist = xspf.playlist();

@@ -1,8 +1,5 @@
 package cz.martlin.xspf.util;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.w3c.dom.Element;
@@ -19,10 +16,9 @@ public class XMLDocumentUtility {
 		this.helper = new XMLDocumentUtilityHelper(nsName, nsURL);
 	}
 
-	//TODO namespace 
-//	public void init(Document document) throws XSPFException {
-//		helper.setNSattribute(document);
-//	}
+	public void register(Element elem) throws XSPFException {
+		helper.specifyNSattribute(elem);
+	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// get/set element content text/value
@@ -58,7 +54,8 @@ public class XMLDocumentUtility {
 		}
 	}
 
-	public <T> T getElementAttrOrNull(Element owner, String attrName, TextToValueMapper<T> mapper) throws XSPFException {
+	public <T> T getElementAttrOrNull(Element owner, String attrName, TextToValueMapper<T> mapper)
+			throws XSPFException {
 
 		String text = helper.getAttrValueOrNull(owner, attrName);
 		return helper.textToValue(text, mapper);
@@ -75,6 +72,10 @@ public class XMLDocumentUtility {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// list/get/get or create child(ren)
+
+	public Stream<Element> listChildrenElems(Node container) throws XSPFException {
+		return helper.getChildren(container, null);
+	}
 
 	public Stream<Element> listChildrenElems(Node container, String elemName) throws XSPFException {
 		return helper.getChildren(container, elemName);

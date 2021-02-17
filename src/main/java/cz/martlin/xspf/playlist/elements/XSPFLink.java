@@ -8,10 +8,10 @@ import org.w3c.dom.Element;
 import cz.martlin.xspf.playlist.base.XSPFElement;
 import cz.martlin.xspf.util.XSPFException;
 
-public class XSPFMeta extends XSPFElement {
+public class XSPFLink extends XSPFElement {
 
-	public XSPFMeta(Element meta) {
-		super(meta);
+	public XSPFLink(Element link) {
+		super(link);
 	}
 
 ///////////////////////////////////////////////////////////////////////////
@@ -24,19 +24,19 @@ public class XSPFMeta extends XSPFElement {
 		setUriAttr("rel", rel);
 	}
 
-	public String getContent() throws XSPFException {
-		return getStr();
+	public URI getContent() throws XSPFException {
+		return getUri();
 	}
 
-	public void setContent(String content) throws XSPFException {
-		setStr(content);
+	public void setContent(URI rel) throws XSPFException {
+		setUri(rel);
 	}
 
 ///////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder("XSPFMeta [");
+		StringBuilder builder = new StringBuilder("XSPFLink [");
 		try {
 			builder.append("rel=");
 			builder.append(getRel());
@@ -66,7 +66,7 @@ public class XSPFMeta extends XSPFElement {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		XSPFMeta other = (XSPFMeta) obj;
+		XSPFLink other = (XSPFLink) obj;
 		try {
 			return Objects.equals(getContent(), other.getContent()) && Objects.equals(getRel(), other.getRel());
 		} catch (XSPFException e) {
