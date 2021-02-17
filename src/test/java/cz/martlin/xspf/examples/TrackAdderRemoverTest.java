@@ -99,13 +99,9 @@ class TrackAdderRemoverTest {
 		URI expectedLocationUri = URI.create(expectedLocation);
 
 		for (XSPFTrack track : tracks.iterate()) {
-			try {
-				if (track.getLocation().equals(expectedLocationUri)) {
+				if (expectedLocationUri.equals(track.getLocation())) {
 					return true;
 				}
-			} catch (XSPFException e) {
-				continue;
-			}
 		}
 		return false;
 	}
@@ -113,7 +109,7 @@ class TrackAdderRemoverTest {
 	private boolean hasTitle(XSPFTracks tracks, String expectedTitle) throws XSPFException {
 		for (XSPFTrack track : tracks.iterate()) {
 			try {
-				if (track.getTitle().equals(expectedTitle)) {
+				if (expectedTitle.equals(track.getTitle())) {
 					return true;
 				}
 			} catch (XSPFException e) {

@@ -3,63 +3,63 @@
 	<title>Sample playlist</title>
 	<creator>m@rtlin</creator>
 	<annotation>Sample playlist with some testing track.</annotation>
-	<info>https://github.com/martlin2cz/jmop/xspf-playlist/sample-info.htm
+	<info>https://jmop-xspf/sample-info.htm
 	</info>
-	<location>https://github.com/martlin2cz/jmop/xspf-playlist/scr/test/resources/cz/martlin/xspf/playlist/full.xspf
+	<location>https://jmop-xspf/scr/test/resources/cz/martlin/xspf/playlist/full.xspf
 	</location>
 	<identifier>sample.playist</identifier>
-	<image>https://github.com/martlin2cz/jmop/xspf-playlist/sample-image.png
+	<image>https://jmop-xspf/sample-image.png
 	</image>
 	<date>2020-02-11T23:24:32-01:00</date>
-	<license>https://github.com/martlin2cz/jmop/xspf-playlist/sample-licence.txt
+	<license>https://jmop-xspf/sample-licence.txt
 	</license>
 
 	<attribution>
-		<location>https://github.com/martlin2cz/jmop/xspf-playlist/sample-attribution-location.txt
+		<location>https://jmop-xspf/sample-attribution-location.txt
 		</location>
-		<identifier>https://github.com/martlin2cz/jmop/xspf-playlist/sample-attribution-identifier.txt
+		<identifier>https://jmop-xspf/sample-attribution-identifier.txt
 		</identifier>
 	</attribution>
 
 	<link
-		rel="https://github.com/martlin2cz/jmop/xspf-playlist/sample-link">https://github.com/martlin2cz/jmop/xspf-playlist/sample-resource
+		rel="https://jmop-xspf/sample-link">https://jmop-xspf/sample-resource
 	</link>
 
 	<meta
-		rel="https://github.com/martlin2cz/jmop/xspf-playlist/sample-meta">Further meta value</meta>
+		rel="https://jmop-xspf/sample-meta">Further meta value</meta>
 
 	<extension application="https://github.com/martlin2cz/jmop/"
-		xmlns:jmop="https://github.com/martlin2cz/jmop/xspf-playlist/">
+		xmlns:jmop="https://jmop-xspf/">
 		<jmop:something />
 	</extension>
 
 	<trackList>
 		<track>
-			<location>https://github.com/martlin2cz/jmop/xspf-playlist/sample-track.html
+			<location>https://jmop-xspf/sample-track.html
 			</location>
-			<identifier>https://github.com/martlin2cz/jmop/xspf-playlist/sample-track.txt
+			<identifier>https://jmop-xspf/sample-track.txt
 			</identifier>
 			<title>Sample track</title>
 			<creator>The sample creator</creator>
 			<annotation>This is the sample track.</annotation>
-			<info>https://github.com/martlin2cz/jmop/xspf-playlist/sample-info.txt
+			<info>https://jmop-xspf/sample-info.txt
 			</info>
-			<image>https://github.com/martlin2cz/jmop/xspf-playlist/sample-image.png
+			<image>https://jmop-xspf/sample-image.png
 			</image>
 			<album>Sample album vol. 2</album>
 			<trackNum>1</trackNum>
 			<duration>360000</duration>
 
 			<link
-				rel="https://github.com/martlin2cz/jmop/xspf-playlist/sample-link">https://github.com/martlin2cz/jmop/xspf-playlist/sample-resource
+				rel="https://jmop-xspf/sample-link">https://jmop-xspf/sample-resource
 			</link>
 
 			<meta
-				rel="https://github.com/martlin2cz/jmop/xspf-playlist/sample-meta">Further meta value</meta>
+				rel="https://jmop-xspf/sample-meta">Further meta value</meta>
 
 			<extension
 				application="https://github.com/martlin2cz/jmop/"
-				xmlns:jmop="https://github.com/martlin2cz/jmop/xspf-playlist/">
+				xmlns:jmop="https://jmop-xspf/">
 				<jmop:something />
 			</extension>
 

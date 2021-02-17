@@ -84,7 +84,12 @@ public abstract class XSPFElement extends XSPFNode {
 
 	protected String getStr() throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getElementValue(elem, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
+		return UTIL.getElementValueOrNull(elem, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
+	}
+
+	protected String getStr(String name) throws XSPFException {
+		Element elem = getElement();
+		return UTIL.getChildElementValueOrNull(elem, name, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
 	}
 
 	protected void setStr(String value) throws XSPFException {
@@ -97,14 +102,9 @@ public abstract class XSPFElement extends XSPFNode {
 		UTIL.setChildElementValue(elem, name, value, XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
 	}
 
-	protected String getStr(String name) throws XSPFException {
-		Element elem = getElement();
-		return UTIL.getChildElementValue(elem, name, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
-	}
-
 	protected URI getUri(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getChildElementValue(elem, name, (t) -> strToUri(t));
+		return UTIL.getChildElementValueOrNull(elem, name, (t) -> strToUri(t));
 	}
 
 	protected void setUri(String name, URI value) throws XSPFException {
@@ -114,7 +114,7 @@ public abstract class XSPFElement extends XSPFNode {
 	
 	protected URI getUriAttr(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getElementAttr(elem, name, (t) -> strToUri(t));
+		return UTIL.getElementAttrOrNull(elem, name, (t) -> strToUri(t));
 	}
 
 	protected void setUriAttr(String name, URI value) throws XSPFException {
@@ -124,7 +124,7 @@ public abstract class XSPFElement extends XSPFNode {
 
 	protected LocalDateTime getDate(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getChildElementValue(elem, name, (t) -> textToDate(t));
+		return UTIL.getChildElementValueOrNull(elem, name, (t) -> textToDate(t));
 	}
 
 	protected void setDate(String name, LocalDateTime value) throws XSPFException {
@@ -134,7 +134,7 @@ public abstract class XSPFElement extends XSPFNode {
 
 	protected Duration getDuration(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getChildElementValue(elem, name, (t) -> milisStrToDuration(t));
+		return UTIL.getChildElementValueOrNull(elem, name, (t) -> milisStrToDuration(t));
 	}
 
 	protected void setDuration(String name, Duration value) throws XSPFException {
@@ -144,7 +144,7 @@ public abstract class XSPFElement extends XSPFNode {
 
 	protected int getInt(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getChildElementValue(elem, name, (t) -> strToInt(t));
+		return UTIL.getChildElementValueOrNull(elem, name, (t) -> strToInt(t));
 	}
 
 	protected void setInt(String name, int value) throws XSPFException {
@@ -154,7 +154,7 @@ public abstract class XSPFElement extends XSPFNode {
 
 	protected URI getUri() throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getElementValue(elem, (t) -> strToUri(t));
+		return UTIL.getElementValueOrNull(elem, (t) -> strToUri(t));
 	}
 
 	protected void setUri(URI value) throws XSPFException {
@@ -193,7 +193,7 @@ public abstract class XSPFElement extends XSPFNode {
 				//.collect(Collectors.toList());
 		UTIL.replaceChildElementsByClone(container, name, newElems);
 	}
-
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected <E extends XSPFElement> XSPFCollection<E> getCollection(String name, XSPFCollectionFactory<E> factory)
@@ -201,6 +201,9 @@ public abstract class XSPFElement extends XSPFNode {
 
 		Element owner = getElement();
 		Element coontainerClone = UTIL.getChildElemClone(owner, name);
+		if (coontainerClone == null) {
+			return null;
+		}
 		return factory.create(coontainerClone);
 	}
 

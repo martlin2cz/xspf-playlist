@@ -93,28 +93,16 @@ public class TrackAdderRemover {
 		switch (specifier) {
 		case "title": {
 			String title = value;
-			try {
-				return track.getTitle().equals(title);
-			} catch (XSPFException e) {
-				return false;
-			}
+			return title.equals(track.getTitle());
 		}
 		case "location": {
 			URI location = URI.create(value);
-			try {
-				return track.getLocation().equals(location);
-			} catch (XSPFException e) {
-				return false;
-			}
+			return location.equals(track.getLocation());
 		}
 		case "both": {
 			String title = value;
 			URI location = URI.create(value);
-			try {
-				return track.getTitle().equals(title) && track.getLocation().equals(location);
-			} catch (XSPFException e) {
-				return false;
-			}
+			return title.equals(track.getTitle()) && location.equals(track.getLocation());
 		}
 		default:
 			throw new IllegalArgumentException(

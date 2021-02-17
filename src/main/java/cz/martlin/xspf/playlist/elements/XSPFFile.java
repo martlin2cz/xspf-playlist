@@ -77,8 +77,11 @@ public class XSPFFile extends XSPFNode {
 	}
 
 	private static void verify(Document document) throws XSPFException {
-		Element root = UTIL.getChildElem(document, "playlist");
-		String version = XSPFNode.UTIL.getElementAttr(root, "version", XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
+		Element root = UTIL.getChildElemOrNull(document, "playlist");
+		if (root == null) {
+			throw new XSPFException("No root element.");
+		}
+		String version = XSPFNode.UTIL.getElementAttrOrNull(root, "version", XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
 		if (!version.equals(XSPF_STANDART_VERSION)) {
 			throw new XSPFException("The supported version of XSPF is " + XSPF_STANDART_VERSION);
 		}

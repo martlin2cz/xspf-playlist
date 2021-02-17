@@ -19,6 +19,7 @@ public class XMLDocumentUtility {
 		this.helper = new XMLDocumentUtilityHelper(nsName, nsURL);
 	}
 
+	//TODO namespace 
 //	public void init(Document document) throws XSPFException {
 //		helper.setNSattribute(document);
 //	}
@@ -26,11 +27,14 @@ public class XMLDocumentUtility {
 	/////////////////////////////////////////////////////////////////////////////////////
 	// get/set element content text/value
 
-	public <T> T getChildElementValue(Element owner, String elemName, TextToValueMapper<T> mapper)
+	public <T> T getChildElementValueOrNull(Element owner, String elemName, TextToValueMapper<T> mapper)
 			throws XSPFException {
 
-		Element elem = helper.getChild(owner, elemName);
-		return getElementValue(elem, mapper);
+		Element elem = helper.getChildOrNull(owner, elemName);
+		if (elem == null) {
+			return null;
+		}
+		return getElementValueOrNull(elem, mapper);
 	}
 
 	public <T> void setChildElementValue(Element owner, String elemName, T value, ValueToTextMapper<T> mapper)
@@ -40,21 +44,23 @@ public class XMLDocumentUtility {
 		setElementValue(elem, value, mapper);
 	}
 
-	public <T> void setElementValue(Element elem, T value, ValueToTextMapper<T> mapper) throws XSPFException {
+	public <T> T getElementValueOrNull(Element elem, TextToValueMapper<T> mapper) throws XSPFException {
 
-		String text = helper.valueToText(value, mapper);
-		helper.setElementValue(elem, text);
-	}
-
-	public <T> T getElementValue(Element elem, TextToValueMapper<T> mapper) throws XSPFException {
-
-		String text = helper.getElementValue(elem);
+		String text = helper.getElementValueOrNull(elem);
 		return helper.textToValue(text, mapper);
 	}
 
-	public <T> T getElementAttr(Element owner, String attrName, TextToValueMapper<T> mapper) throws XSPFException {
+	public <T> void setElementValue(Element elem, T value, ValueToTextMapper<T> mapper) throws XSPFException {
 
-		String text = helper.getAttrValue(owner, attrName);
+		String text = helper.valueToText(value, mapper);
+		if (text != null) {
+			helper.setElementValue(elem, text);
+		}
+	}
+
+	public <T> T getElementAttrOrNull(Element owner, String attrName, TextToValueMapper<T> mapper) throws XSPFException {
+
+		String text = helper.getAttrValueOrNull(owner, attrName);
 		return helper.textToValue(text, mapper);
 	}
 
@@ -62,7 +68,9 @@ public class XMLDocumentUtility {
 			throws XSPFException {
 
 		String text = helper.valueToText(value, mapper);
-		helper.setAttrValue(owner, attrName, text);
+		if (text != null) {
+			helper.setAttrValue(owner, attrName, text);
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -77,8 +85,8 @@ public class XMLDocumentUtility {
 				.map(e -> helper.clone(e));
 	}
 
-	public Element getChildElem(Node owner, String elemName) throws XSPFException {
-		return helper.getChild(owner, elemName);
+	public Element getChildElemOrNull(Node owner, String elemName) throws XSPFException {
+		return helper.getChildOrNull(owner, elemName);
 	}
 
 	public Element getOrCreateChildElem(Node owner, String elemName) throws XSPFException {
@@ -86,7 +94,10 @@ public class XMLDocumentUtility {
 	}
 
 	public Element getChildElemClone(Node owner, String elemName) throws XSPFException {
-		Element elem = helper.getChild(owner, elemName);
+		Element elem = helper.getChildOrNull(owner, elemName);
+		if (elem == null) {
+			return null;
+		}
 		return helper.clone(elem);
 	}
 
@@ -97,7 +108,10 @@ public class XMLDocumentUtility {
 	// add/remove/replace by element name
 
 	public void removeChildElement(Node owner, String elemName) throws XSPFException {
-		Element elem = helper.getChild(owner, elemName);
+		Element elem = helper.getChildOrNull(owner, elemName);
+		if (elem == null) {
+			return;
+		}
 		removeChildElement(owner, elem);
 	}
 
@@ -107,8 +121,12 @@ public class XMLDocumentUtility {
 	}
 
 	public void replaceChildElement(Node owner, String elemName, Element replacement) throws XSPFException {
-		Element elem = helper.getChild(owner, elemName);
-		replaceChildElement(owner, elem, replacement);
+		Element elem = helper.getChildOrNull(owner, elemName);
+		if (elem == null) {
+			addChildElement(owner, replacement);
+		} else {
+			replaceChildElement(owner, elem, replacement);
+		}
 	}
 
 	public void replaceChildElements(Node owner, String elemName, Stream<Element> replacements) throws XSPFException {
@@ -117,9 +135,13 @@ public class XMLDocumentUtility {
 	}
 
 	public void replaceChildElementByClone(Node owner, String elemName, Element replacement) throws XSPFException {
-		Element elem = helper.getChild(owner, elemName);
+		Element elem = helper.getChildOrNull(owner, elemName);
 		Element clone = helper.clone(replacement);
-		replaceChildElement(owner, elem, clone);
+		if (elem == null) {
+			addChildElement(owner, clone);
+		} else {
+			replaceChildElement(owner, elem, clone);
+		}
 	}
 
 	public void replaceChildElementsByClone(Node owner, String elemName, Stream<Element> replacements)

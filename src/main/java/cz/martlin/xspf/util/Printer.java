@@ -103,7 +103,7 @@ public class Printer {
 		}
 	}
 
-	private static void print(int padding, String label, XSPFExtension extension) {
+	private static void print(int padding, String label, XSPFExtension extension) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 

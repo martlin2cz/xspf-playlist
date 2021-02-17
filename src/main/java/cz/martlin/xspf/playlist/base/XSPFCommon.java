@@ -106,18 +106,10 @@ public abstract class XSPFCommon extends XSPFElement {
 		return (XSPFExtensions) collection(XSPFExtensions::new);
 	}
 	
-	public void setMetas(XSPFExtensions extensions) throws XSPFException {
+	public void setExtensions(XSPFExtensions extensions) throws XSPFException {
 		setCollection(extensions);
 	}
 
-	@Deprecated
-	public XSPFExtension extension(URI application) throws XSPFException {
-		Element elem = getElement();
-		//TODO getOrCreateElem with application attr set to specified value
-		Element extensionElem = UTIL.getOrCreateChildElem(elem, "extension");
-		return new XSPFExtension(extensionElem, application);
-	}
-	
 //	public XSPFExtension setExtension(String application) throws XSPFException {
 //		Element elem = getElement();
 //		return util.getOrCreateChildElem(elem, "extension");

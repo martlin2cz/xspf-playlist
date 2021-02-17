@@ -5,20 +5,21 @@ import java.net.URI;
 import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFElement;
+import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFExtension extends XSPFElement {
-	private final URI application;
 	
-	public XSPFExtension(Element extension, URI application) {
+	public XSPFExtension(Element extension) {
 		super(extension);
-		this.application = application;
 	}
 
-	public URI getApplication() {
-		return application;
+	public URI getApplication() throws XSPFException {
+		return getUriAttr("application");
 	}
-	
-	//TODO application
+
+	public void setApplication(URI application) throws XSPFException {
+		setUriAttr("application", application);
+	}
 	
 	
 }

@@ -49,6 +49,18 @@ public class XMLDocumentUtilityHelper {
 		return createChildElement(owner, elemName);
 	}
 
+	public Element getChildOrNull(Node owner, String elemName) throws XSPFException {
+		return getChildElement(owner, elemName, false);
+	}
+	
+	/**
+	 * Replaced by {@link #getChildOrNull(Node, String)}.
+	 * @param owner
+	 * @param elemName
+	 * @return
+	 * @throws XSPFException
+	 */
+	@Deprecated
 	public Element getChild(Node owner, String elemName) throws XSPFException {
 		return getChildElement(owner, elemName, true);
 	}
@@ -75,24 +87,6 @@ public class XMLDocumentUtilityHelper {
 		return getChildElement(document, elemName, true);
 	}
 
-//	public Element getOrCreateRoot(Document document, String elemName) throws XSPFException {
-//		Element child = getChildElement(document, elemName, false);
-//		
-//		if (child == null) {
-//			if (hasRoot(document)) {
-//				throw new XSPFException("Document has different root than " + elemName + "");
-//			} else {
-//				child = createChildElement(document, elemName);
-//			}
-//		}
-//		
-//		return child;
-//	}
-	
-//	public boolean hasRoot(Document document) throws XSPFException {
-//		return !getChildrenElements(document, null).isEmpty();
-//	}
-
 	public void addChild(Node owner, Element child) {
 		addChildElement(owner, child);
 	}
@@ -100,63 +94,6 @@ public class XMLDocumentUtilityHelper {
 	public void removeChild(Node owner, Element child) {
 		removeChildElement(owner, child);
 	}
-
-//	//TODO elemName, verify
-//	//TODO getOrCreateRootElem ?
-//	public Element getRootElem(Document document) throws XSPFException {
-//		Element root = document.getDocumentElement();
-//		if (root == null) {
-//			throw new XSPFException("No root element");
-//		}
-//		return root;
-//	}
-//
-//	//TODO separate the Element and Document's child
-//	public Element createChild(Node owner, String elemName) {
-//		Document document;
-//		if (owner.getNodeType() == Node.DOCUMENT_NODE) {
-//			document = (Document) owner;
-//		} else {
-//			document = owner.getOwnerDocument();
-//		}
-//
-//		Element child = document.createElement(/* NS(nsURL, */ fullName(elemName));
-//		owner.appendChild(child);
-//		return child;
-//	}
-
-//	public void removeChildren(Element owner, String elemName) throws XSPFException {
-//		List<Element> children = listChildren(owner, elemName);
-//		for (Element child : children) {
-//			owner.removeChild(child);
-//		}
-//	}
-//
-//	public void removeChild(Element owner, String elemName) throws XSPFException {
-//		Element child = getChild(owner, elemName, true);
-//		owner.removeChild(child);
-//	}
-
-//	public Element getOrCreateChild(Node owner, String elemName) throws XSPFException {
-//		Element child = getChild(owner, elemName, false);
-//		if (child == null) {
-//			child = createChild(owner, elemName);
-//		}
-//		return child;
-//	}
-
-//	public Element replaceChild(Element owner, String elemName) throws XSPFException {
-//		if (hasChild(owner, elemName)) {
-//			removeChild(owner, elemName);
-//		}
-//
-//		return createChild(owner, elemName);
-//	}
-
-//	public boolean hasChild(Node owner, String elemName) {
-//		List<Element> children = listChildren(owner, elemName);
-//		return !children.isEmpty();
-//	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// create/remove/get child (internal)
@@ -219,17 +156,15 @@ public class XMLDocumentUtilityHelper {
 	// list children
 
 	private Stream<Element> listChildren(Node container, String elemName) {
-		NodeList children = container.getChildNodes();
-		return listElems(children, elemName);
-	}
-
-	private Stream<Element> listElems(NodeList children, String elemName) {
 		//TODO if elemName is null, do not filter agains the elemName.
+		NodeList children = container.getChildNodes();
+
 		return IntStream.range(0, children.getLength()) //
 				.mapToObj(i -> children.item(i)) //
 				.filter(n -> n.getNodeType() == Node.ELEMENT_NODE) //
 				.map(n -> (Element) n) //
-				.filter(e -> e.getTagName().equals(fullName(elemName)));
+				.filter(e -> e.getTagName().equals(fullName(elemName))) //
+				.collect(Collectors.toList()).stream(); // sorryjako
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -241,6 +176,10 @@ public class XMLDocumentUtilityHelper {
 			throw new XSPFException("The element " + elem.getTagName() + " has no content");
 		}
 		return content;
+	}
+	
+	public String getElementValueOrNull(Element elem) throws XSPFException {
+		return elem.getTextContent();
 	}
 
 	public void setElementValue(Element elem, String value) {
@@ -254,6 +193,10 @@ public class XMLDocumentUtilityHelper {
 		}
 		return content;
 	}
+	
+	public String getAttrValueOrNull(Element elem, String attrName) throws XSPFException {
+		return elem.getAttribute(/* NS(nsURL, */ fullName(attrName));
+	}
 
 	public void setAttrValue(Element elem, String attrName, String value) {
 		elem.setAttribute(/* NS(nsURL, */ fullName(attrName), value);
@@ -264,6 +207,10 @@ public class XMLDocumentUtilityHelper {
 
 	public <T> T textToValue(String text, TextToValueMapper<T> mapper) throws XSPFException {
 		try {
+			if (text == null) {
+				return null;
+			}
+			
 			return mapper.textToValue(text.trim());
 		} catch (Exception e) {
 			throw new XSPFException("Cannot convert " + text + " value", e);
@@ -272,6 +219,10 @@ public class XMLDocumentUtilityHelper {
 
 	public <T> String valueToText(T value, ValueToTextMapper<T> mapper) throws XSPFException {
 		try {
+			if (value == null) {
+				return null;
+			}
+			
 			return mapper.valueToText(value);
 		} catch (Exception e) {
 			throw new XSPFException("Cannot convert " + value + " value", e);
