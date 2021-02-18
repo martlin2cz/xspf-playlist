@@ -4,11 +4,14 @@ import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import cz.martlin.xspf.playlist.base.XSPFCollection;
+import cz.martlin.xspf.playlist.base.XSPFElement;
 import cz.martlin.xspf.playlist.collections.XSPFExtensions;
 import cz.martlin.xspf.playlist.collections.XSPFLinks;
 import cz.martlin.xspf.playlist.collections.XSPFMetas;
 import cz.martlin.xspf.playlist.collections.XSPFTracks;
 import cz.martlin.xspf.playlist.elements.XSPFAttribution;
+import cz.martlin.xspf.playlist.elements.XSPFAttribution.XSPFAttributionItem;
 import cz.martlin.xspf.playlist.elements.XSPFExtension;
 import cz.martlin.xspf.playlist.elements.XSPFFile;
 import cz.martlin.xspf.playlist.elements.XSPFLink;
@@ -16,17 +19,42 @@ import cz.martlin.xspf.playlist.elements.XSPFMeta;
 import cz.martlin.xspf.playlist.elements.XSPFPlaylist;
 import cz.martlin.xspf.playlist.elements.XSPFTrack;
 
+/**
+ * Helper class for printing all the {@link XSPFElement}s or
+ * {@link XSPFCollection}s.
+ * 
+ * @author martin
+ *
+ */
 public class Printer {
-
+	/**
+	 * The padding spacing. Two spaces, to be specific.
+	 */
 	private static final String PADDING_STEP = "  ";
 
-	public static void print(int padding, String label, XSPFFile file)throws XSPFException {
+	/**
+	 * Prints the given file with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param file
+	 * @throws XSPFException
+	 */
+	public static void print(int padding, String label, XSPFFile file) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 		print(p, "playlist", file.getPlaylist());
 	}
 
-	public static void print(int padding, String label, XSPFPlaylist playlist)throws XSPFException {
+	/**
+	 * Prints the given plůaylist with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param playlist
+	 * @throws XSPFException
+	 */
+	public static void print(int padding, String label, XSPFPlaylist playlist) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -46,7 +74,15 @@ public class Printer {
 		print(p, "tracks", playlist.getTracks());
 	}
 
-	private static void print(int padding, String label, XSPFTracks tracks)throws XSPFException {
+	/**
+	 * Prints the given tracks with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param tracks
+	 * @throws XSPFException
+	 */
+	private static void print(int padding, String label, XSPFTracks tracks) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -56,7 +92,15 @@ public class Printer {
 		}
 	}
 
-	private static void print(int padding, String label, XSPFTrack track)throws XSPFException {
+	/**
+	 * Prints the given track with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param track
+	 * @throws XSPFException
+	 */
+	private static void print(int padding, String label, XSPFTrack track) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -75,7 +119,15 @@ public class Printer {
 		print(p, "trackNum", track.getTrackNum());
 	}
 
-	private static void print(int padding, String label, XSPFMetas metas)throws XSPFException {
+	/**
+	 * Prints the given metas with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param metas
+	 * @throws XSPFException
+	 */
+	private static void print(int padding, String label, XSPFMetas metas) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -85,7 +137,15 @@ public class Printer {
 		}
 	}
 
-	private static void print(int padding, String label, XSPFMeta meta)throws XSPFException {
+	/**
+	 * Prints the given meta with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param meta
+	 * @throws XSPFException
+	 */
+	private static void print(int padding, String label, XSPFMeta meta) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -93,7 +153,15 @@ public class Printer {
 		print(p, "rel", meta.getRel());
 	}
 
-	private static void print(int padding, String label, XSPFExtensions extensions)throws XSPFException {
+	/**
+	 * Prints the given extensions with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param extensions
+	 * @throws XSPFException
+	 */
+	private static void print(int padding, String label, XSPFExtensions extensions) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -103,7 +171,15 @@ public class Printer {
 		}
 	}
 
-	private static void print(int padding, String label, XSPFExtension extension)throws XSPFException {
+	/**
+	 * Prints the given extension with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param extension
+	 * @throws XSPFException
+	 */
+	private static void print(int padding, String label, XSPFExtension extension) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -111,7 +187,15 @@ public class Printer {
 		// TODO extension node?
 	}
 
-	private static void print(int padding, String label, XSPFLinks links)throws XSPFException {
+	/**
+	 * Prints the given links with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param links
+	 * @throws XSPFException
+	 */
+	private static void print(int padding, String label, XSPFLinks links) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -121,7 +205,15 @@ public class Printer {
 		}
 	}
 
-	private static void print(int padding, String label, XSPFLink link)throws XSPFException {
+	/**
+	 * Prints the given link with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param link
+	 * @throws XSPFException
+	 */
+	private static void print(int padding, String label, XSPFLink link) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -129,51 +221,117 @@ public class Printer {
 		print(p, "rel", link.getRel());
 	}
 
-	private static void print(int padding, String label, XSPFAttribution attribution) {
+	/**
+	 * Prints the given attribution with given label and padding.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param attribution
+	 * @throws XSPFException
+	 */
+	private static void print(int padding, String label, XSPFAttribution attribution) throws XSPFException {
+		if (attribution == null) {
+			printLabeled(padding, label, null);
+			return;
+		}
+
 		printLabel(padding, label);
 		int p = padding + 1;
-		
-		//TODO attribution ?
 
+		for (XSPFAttributionItem item : attribution.list()) {
+			print(p, item.element, item.value);
+		}
+		printBlankLine();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prints padded and labeled given text.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param text
+	 */
 	private static void print(int padding, String label, String text) {
 		printLabeled(padding, label, text);
 	}
 
+	/**
+	 * Prints padded and labeled given date.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param date
+	 */
 	private static void print(int padding, String label, LocalDateTime date) {
 		printLabeled(padding, label, date);
 	}
 
+	/**
+	 * Prints padded and labeled given uri.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param uri
+	 */
 	private static void print(int padding, String label, URI uri) {
 		printLabeled(padding, label, uri);
 	}
 
+	/**
+	 * Prints padded and labeled given trackNum.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param trackNum
+	 */
 	private static void print(int padding, String label, Integer trackNum) {
 		printLabeled(padding, label, trackNum);
 	}
 
+	/**
+	 * Prints padded and labeled given duration.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param duration
+	 */
 	private static void print(int padding, String label, Duration duration) {
 		printLabeled(padding, label, duration);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prints just the padded label.
+	 * 
+	 * @param padding
+	 * @param label
+	 */
 	private static void printLabel(int padding, String label) {
 		String pad = PADDING_STEP.repeat(padding);
 
 		System.out.println(pad + " - " + label + ":");
 	}
 
+	/**
+	 * Prints the padded label and its value.
+	 * 
+	 * @param padding
+	 * @param label
+	 * @param value
+	 */
 	private static void printLabeled(int padding, String label, Object value) {
 		String pad = PADDING_STEP.repeat(padding);
 		String valueStr = String.valueOf(value);
-		
+
 		System.out.println(pad + " - " + label + ": " + valueStr);
 	}
 
+	/**
+	 * Just prints the blank line.
+	 */
 	private static void printBlankLine() {
 		System.out.println();
 	}

@@ -9,10 +9,23 @@ import cz.martlin.xspf.playlist.elements.XSPFLink;
 import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
+/**
+ * An collection of the {@link XSPFLink}s.
+ * 
+ * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.11
+ * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.14.1.1.1.11
+ * @author martin
+ *
+ */
 public class XSPFLinks extends XSPFCollection<XSPFLink> {
 
-	public XSPFLinks(Element links) {
-		super(links);
+	/**
+	 * Creates instance.
+	 * 
+	 * @param container either the playlist or track element
+	 */
+	public XSPFLinks(Element container) {
+		super(container);
 	}
 
 	@Override
@@ -27,11 +40,25 @@ public class XSPFLinks extends XSPFCollection<XSPFLink> {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	public XSPFLink createLink() {
+	/**
+	 * Creates new (empty) link.
+	 * 
+	 * @return
+	 * @throws XSPFException 
+	 */
+	public XSPFLink createLink() throws XSPFException {
 		return createNew();
 	}
 
-	public XSPFLink createLink(URI rel, URI content)throws XSPFException {
+	/**
+	 * Creates link with given rel and content.
+	 * 
+	 * @param rel
+	 * @param content
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFLink createLink(URI rel, URI content) throws XSPFException {
 		XSPFLink link = createNew();
 		link.setRel(rel);
 		link.setContent(content);

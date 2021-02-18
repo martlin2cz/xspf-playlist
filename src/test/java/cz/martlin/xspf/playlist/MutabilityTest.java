@@ -20,10 +20,20 @@ import cz.martlin.xspf.playlist.elements.XSPFMeta;
 import cz.martlin.xspf.playlist.elements.XSPFPlaylist;
 import cz.martlin.xspf.playlist.elements.XSPFTrack;
 import cz.martlin.xspf.util.Printer;
+import cz.martlin.xspf.util.TestingFiles;
 import cz.martlin.xspf.util.XSPFException;
 
+/**
+ * Tests advanced modifications of the playlist and its components.
+ * @author martin
+ *
+ */
 public class MutabilityTest {
 
+	/**
+	 * Basically obtains the playlist from the file, updates its title and sets back to the file.
+	 * @throws XSPFException
+	 */
 	@Test
 	void testBasicPlaylist() throws XSPFException {
 		File fileToRead = TestingFiles.fileToReadAssumed("playlist", "full.xspf");
@@ -54,6 +64,10 @@ public class MutabilityTest {
 		Printer.print(0, "With modified title", file);
 	}
 
+	/**
+	 * By both ways verifies the modification of one playlist meta.
+	 * @throws XSPFException
+	 */
 	@Test
 	void testModifyMeta() throws XSPFException {
 		File fileToRead = TestingFiles.fileToReadAssumed("playlist", "full.xspf");
@@ -89,6 +103,10 @@ public class MutabilityTest {
 		Printer.print(0, "With modified metas", file);
 	}
 
+	/**
+	 * Tries to add and remove links.
+	 * @throws XSPFException
+	 */
 	@Test
 	void testModifyLinks() throws XSPFException {
 		File fileToRead = TestingFiles.fileToReadAssumed("playlist", "full.xspf");
@@ -116,6 +134,10 @@ public class MutabilityTest {
 		Printer.print(0, "With modified links", file);
 	}
 
+	/**
+	 * Manipulates the extensions by view.
+	 * @throws XSPFException
+	 */
 	@Test
 	void testExtensionsMutable() throws XSPFException {
 		File fileToRead = TestingFiles.fileToReadAssumed("playlist", "full.xspf");
@@ -126,7 +148,7 @@ public class MutabilityTest {
 		XSPFExtension extension = extensions.list().findFirst().get();
 		assertIterableEquals(Arrays.asList(extension), extensions.iterate());
 		assertEquals(1, playlist.extensions().list().count());
-
+		
 		extensions.remove(extension);
 		assertIterableEquals(Arrays.asList(), extensions.iterate());
 		assertEquals(0, playlist.extensions().list().count());
@@ -139,6 +161,10 @@ public class MutabilityTest {
 		Printer.print(0, "With modified extensions by extensions()", file);
 	}
 
+	/**
+	 * Manipulates the extensions by copy (get+set).
+	 * @throws XSPFException
+	 */
 	@Test
 	void testExtensionsGetSet() throws XSPFException {
 		File fileToRead = TestingFiles.fileToReadAssumed("playlist", "full.xspf");
@@ -165,6 +191,10 @@ public class MutabilityTest {
 		Printer.print(0, "With modified extensions by get...set", file);
 	}
 
+	/**
+	 * Creates brand new list of tracks and sets to the playlist.
+	 * @throws XSPFException
+	 */
 	@Test
 	void testBuildTracks() throws XSPFException {
 		File fileToRead = TestingFiles.fileToReadAssumed("playlist", "full.xspf");

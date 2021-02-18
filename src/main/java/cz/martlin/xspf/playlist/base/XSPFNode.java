@@ -25,7 +25,7 @@ public abstract class XSPFNode {
 /////////////////////////////////////////////////////////////////////////////////////
 	
 
-	protected <T extends XSPFElement> T createOne(String name, Function<Element, T> mapper) {
+	protected <T extends XSPFElement> T createOne(String name, Function<Element, T> mapper) throws XSPFException {
 		Node context = getNode();
 		Element elem = UTIL.createNewElement(context, name);
 		return mapper.apply(elem);

@@ -10,8 +10,20 @@ import cz.martlin.xspf.playlist.elements.XSPFTrack;
 import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
+/**
+ * An collection of the {@link XSPFTrack}s.
+ * 
+ * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.14
+ * @author martin
+ *
+ */
 public class XSPFTracks extends XSPFCollection<XSPFTrack> {
 
+	/**
+	 * Creates instance.
+	 * 
+	 * @param trackList an trackList element.
+	 */
 	public XSPFTracks(Element trackList) {
 		super(trackList);
 	}
@@ -28,20 +40,55 @@ public class XSPFTracks extends XSPFCollection<XSPFTrack> {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	public XSPFTrack createTrack(URI location)throws XSPFException {
+	/**
+	 * Creates (empty) track.
+	 * 
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFTrack createTrack() throws XSPFException {
+		return createNew();
+	}
+
+	/**
+	 * Creates track with given location.
+	 * 
+	 * @param location
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFTrack createTrack(URI location) throws XSPFException {
 		XSPFTrack track = createNew();
 		track.setLocation(location);
 		return track;
 	}
 
-	public XSPFTrack createTrack(URI location, String title)throws XSPFException {
+	/**
+	 * Creates track with given location and title.
+	 * 
+	 * @param location
+	 * @param title
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFTrack createTrack(URI location, String title) throws XSPFException {
 		XSPFTrack track = createNew();
 		track.setLocation(location);
 		track.setTitle(title);
 		return track;
 	}
 
-	public XSPFTrack createTrack(URI location, String title, int trackNum, Duration duration)throws XSPFException {
+	/**
+	 * Creates track with given location, title trackNum and duration.
+	 * 
+	 * @param location
+	 * @param title
+	 * @param trackNum
+	 * @param duration
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFTrack createTrack(URI location, String title, int trackNum, Duration duration) throws XSPFException {
 		XSPFTrack track = createNew();
 		track.setLocation(location);
 		track.setTitle(title);
@@ -50,9 +97,22 @@ public class XSPFTracks extends XSPFCollection<XSPFTrack> {
 		return track;
 	}
 
+	/**
+	 * Creates track with given location, creator, album, title, trackNum and
+	 * duration.
+	 * 
+	 * @param location
+	 * @param creator
+	 * @param album
+	 * @param title
+	 * @param trackNum
+	 * @param duration
+	 * @return
+	 * @throws XSPFException
+	 */
 	public XSPFTrack createTrack(URI location, String creator, String album, String title, int trackNum,
-			Duration duration)throws XSPFException {
-		
+			Duration duration) throws XSPFException {
+
 		XSPFTrack track = createNew();
 		track.setLocation(location);
 		track.setCreator(creator);

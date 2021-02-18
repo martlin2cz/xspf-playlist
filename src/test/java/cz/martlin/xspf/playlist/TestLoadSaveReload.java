@@ -10,10 +10,26 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import cz.martlin.xspf.playlist.elements.XSPFFile;
 import cz.martlin.xspf.util.Printer;
+import cz.martlin.xspf.util.TestingFiles;
 import cz.martlin.xspf.util.XSPFException;
 
+/**
+ * An, kind of, simple, brute-force test. Tries to load existing testing file
+ * and then save it back. Nextly, it loads it back and compares with the
+ * original one.
+ * 
+ * @author martin
+ *
+ */
 public class TestLoadSaveReload {
 
+	/**
+	 * Loads the testing file and saves elsewhere. Loads again and compares. Theese
+	 * files must be same.
+	 * 
+	 * @param fileName
+	 * @throws XSPFException
+	 */
 	@ParameterizedTest
 	@ValueSource(strings = { //
 			"full.xspf", //
@@ -37,6 +53,12 @@ public class TestLoadSaveReload {
 		assertEquals(file, reloadedFile);
 	}
 
+	/**
+	 * Tries to load and print the file. Expects to fail for some reason.
+	 * 
+	 * @param fileName
+	 * @throws XSPFException
+	 */
 	@ParameterizedTest
 	@ValueSource(strings = { //
 			"empty.xspf", //

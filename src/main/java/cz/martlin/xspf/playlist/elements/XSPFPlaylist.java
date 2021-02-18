@@ -11,79 +11,144 @@ import cz.martlin.xspf.playlist.collections.XSPFTracks;
 import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
+/**
+ * The playlist element.
+ * 
+ * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1
+ * @author martin
+ *
+ */
 public class XSPFPlaylist extends XSPFCommon {
 
+	/**
+	 * Creates instance.
+	 * 
+	 * @param playlist the playlist element
+	 */
 	public XSPFPlaylist(Element playlist) {
 		super(playlist);
 	}
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	public LocalDateTime getDate()throws XSPFException {
+	/**
+	 * Returns the playlist date.
+	 * 
+	 * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.8
+	 * @return
+	 * @throws XSPFException
+	 */
+	public LocalDateTime getDate() throws XSPFException {
 		return getDate(Names.DATE);
 	}
 
-	public void setDate(LocalDateTime date)throws XSPFException {
+	/**
+	 * Sets the playlist date.
+	 * 
+	 * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.8
+	 * @param date
+	 * @throws XSPFException
+	 */
+	public void setDate(LocalDateTime date) throws XSPFException {
 		setDate(Names.DATE, date);
 	}
 
-	public URI getLicense()throws XSPFException {
+	/**
+	 * Returns the playlist license.
+	 * 
+	 * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.9
+	 * @return
+	 * @throws XSPFException
+	 */
+	public URI getLicense() throws XSPFException {
 		return getUri(Names.LICENSE);
 	}
 
-	public void setLicense(URI license)throws XSPFException {
+	/**
+	 * Sets the playlist license.
+	 * 
+	 * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.9
+	 * @param license
+	 * @throws XSPFException
+	 */
+	public void setLicense(URI license) throws XSPFException {
 		setUri(Names.LICENSE, license);
 	}
 
+	/**
+	 * Gets (copy of) the playlist attribution.
+	 * 
+	 * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.10
+	 * @return
+	 * @throws XSPFException
+	 */
 	public XSPFAttribution getAttribution() throws XSPFException {
 		return getOne(Names.ATTRIBUTION, (e) -> new XSPFAttribution(e));
 	}
 
-	public XSPFAttribution attribution()throws XSPFException {
+	/**
+	 * Gets the (view of) the playlist attribution.
+	 * 
+	 * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.10
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFAttribution attribution() throws XSPFException {
 		return one(Names.ATTRIBUTION, (e) -> new XSPFAttribution(e));
 	}
 
-	public void setAttribution(XSPFAttribution attribution)throws XSPFException {
+	/**
+	 * Sets the (copy of) playlist attribution.
+	 * 
+	 * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.10
+	 * @param attribution
+	 * @throws XSPFException
+	 */
+	public void setAttribution(XSPFAttribution attribution) throws XSPFException {
 		setOne(Names.ATTRIBUTION, attribution);
 	}
 
-	public XSPFTracks getTracks()throws XSPFException {
+	/**
+	 * Returns the (copy of) the tracks.
+	 * 
+	 * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.14
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFTracks getTracks() throws XSPFException {
 		return (XSPFTracks) getCollection(Names.TRACK_LIST, XSPFTracks::new);
 	}
 
-	public XSPFTracks tracks()throws XSPFException {
+	/**
+	 * Returns the (view of) the tracks.
+	 * 
+	 * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.14
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFTracks tracks() throws XSPFException {
 		return (XSPFTracks) collection(Names.TRACK_LIST, XSPFTracks::new);
 	}
 
-	public void setTracks(XSPFTracks tracks)throws XSPFException {
+	/**
+	 * Set the (copy of) the tracks.
+	 * 
+	 * @see https://xspf.org/xspf-v1.html#rfc.section.4.1.1.2.14
+	 * @param tracks
+	 * @throws XSPFException
+	 */
+	public void setTracks(XSPFTracks tracks) throws XSPFException {
 		setCollection(Names.TRACK_LIST, tracks);
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////
-
 ///////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder("XSPPlaylist [");
-		try {
-			builder.append("title=");
-			builder.append(getTitle());
-			builder.append(", tracks=");
-			builder.append(getTracks());
-		} catch (XSPFException e) {
-			builder.append(e);
-		}
-		builder.append("]");
-		return builder.toString();
-	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		try {
-			result = prime * result +Objects.hash(attribution(), getDate(), getLicense(), tracks());
+			result = prime * result + Objects.hash(attribution(), getDate(), getLicense(), tracks());
 		} catch (XSPFException eIgnored) {
 		}
 		return result;
@@ -104,6 +169,21 @@ public class XSPFPlaylist extends XSPFCommon {
 		} catch (XSPFException e) {
 			return false;
 		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder("XSPPlaylist [");
+		try {
+			builder.append("title=");
+			builder.append(getTitle());
+			builder.append(", tracks=");
+			builder.append(getTracks());
+		} catch (XSPFException e) {
+			builder.append(e);
+		}
+		builder.append("]");
+		return builder.toString();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////

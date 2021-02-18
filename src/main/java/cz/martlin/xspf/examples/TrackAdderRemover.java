@@ -9,36 +9,97 @@ import cz.martlin.xspf.playlist.elements.XSPFPlaylist;
 import cz.martlin.xspf.playlist.elements.XSPFTrack;
 import cz.martlin.xspf.util.XSPFException;
 
+/**
+ * Simple program allowing to add or remove track(s) to/from the playlist file.
+ * 
+ * @author martin
+ *
+ */
 public class TrackAdderRemover {
 
-	public static void main(String[] args)throws XSPFException {
+	/**
+	 * The action to be done.
+	 * 
+	 * @author martin
+	 *
+	 */
+	public enum Action {
+		/**
+		 * Add new track.
+		 */
+		ADD,
+
+		/**
+		 * Remove existing track.
+		 */
+		REMOVE;
+	}
+
+	/**
+	 * Specifier what the provided "value" means.
+	 * 
+	 * @author martin
+	 *
+	 */
+	public enum Specifier {
+		/**
+		 * The track title.
+		 */
+		TITLE,
+		/**
+		 * The track location.
+		 */
+		LOCATION,
+		/**
+		 * Both the track title and location.
+		 */
+		BOTH;
+	}
+
+	/**
+	 * The main.
+	 * 
+	 * @param args
+	 * @throws XSPFException
+	 */
+	public static void main(String[] args) throws XSPFException {
 		if (args.length < 4) {
 			System.err.println("Usage: TrackAdderRemover <PLAYIST_FILE> <add|remove> <title|location|both> <VALUE>");
 			System.exit(1);
 		}
 
 		String filePath = args[0];
-		String addRemoveStr = args[1];
-		String titleLocationStr = args[2];
+		String actionStr = args[1];
+		String specifierStr = args[2];
 		String value = args[3];
 
 		File file = new File(filePath);
+		Action action = Action.valueOf(actionStr.toLowerCase());
+		Specifier specifier = Specifier.valueOf(specifierStr.toLowerCase());
 
-		performAddRemoveAction(file, addRemoveStr, titleLocationStr, value);
+		performAction(file, action, specifier, value);
 	}
 
-	public static void performAddRemoveAction(File file, String action, String specifier, String value)
-			throws XSPFException {
+	/**
+	 * Performs the given action with given playlist file and given value.
+	 * 
+	 * @param file      the playlist file
+	 * @param action    the add/remove action specifier
+	 * @param specifier the specifier of the value parameter
+	 * @param value     the title/location value
+	 * @throws XSPFException
+	 */
+	public static void performAction(File file, Action action, Specifier specifier, String value) throws XSPFException {
 		XSPFFile xspf = XSPFFile.load(file);
 
 		XSPFPlaylist playlist = xspf.playlist();
 		XSPFTracks tracks = playlist.tracks();
 
 		switch (action) {
-		case "add":
+		case ADD:
 			performAddAction(tracks, specifier, value);
 			break;
-		case "remove":
+		case REMOVE:
 			performRemoveAction(tracks, specifier, value);
 			break;
 		default:
@@ -48,26 +109,42 @@ public class TrackAdderRemover {
 		xspf.save(file);
 	}
 
-	private static void performAddAction(XSPFTracks tracks, String specifier, String value)throws XSPFException {
+	/**
+	 * Adds track of given specified value to the given tracks.
+	 * 
+	 * @param tracks
+	 * @param specifier
+	 * @param value
+	 * @throws XSPFException
+	 */
+	private static void performAddAction(XSPFTracks tracks, Specifier specifier, String value) throws XSPFException {
 		XSPFTrack track = tracks.createNew();
 		initTrack(specifier, value, track);
 
 		tracks.add(track);
 	}
 
-	private static void initTrack(String specifier, String value, XSPFTrack track)throws XSPFException {
+	/**
+	 * Populates the given value of the given specifier to the given track.
+	 * 
+	 * @param specifier
+	 * @param value
+	 * @param track
+	 * @throws XSPFException
+	 */
+	private static void initTrack(Specifier specifier, String value, XSPFTrack track) throws XSPFException {
 		switch (specifier) {
-		case "title": {
+		case TITLE: {
 			String title = value;
 			track.setTitle(title);
 			break;
 		}
-		case "location": {
+		case LOCATION: {
 			URI location = URI.create(value);
 			track.setLocation(location);
 			break;
 		}
-		case "both": {
+		case BOTH: {
 			String title = value;
 			track.setTitle(title);
 			URI location = URI.create(value);
@@ -80,7 +157,15 @@ public class TrackAdderRemover {
 		}
 	}
 
-	private static void performRemoveAction(XSPFTracks tracks, String specifier, String value)throws XSPFException {
+	/**
+	 * Removes all the tracks of the given value.
+	 * 
+	 * @param tracks
+	 * @param specifier
+	 * @param value
+	 * @throws XSPFException
+	 */
+	private static void performRemoveAction(XSPFTracks tracks, Specifier specifier, String value) throws XSPFException {
 
 		for (XSPFTrack track : tracks.iterate()) {
 			if (matches(track, specifier, value)) {
@@ -89,17 +174,26 @@ public class TrackAdderRemover {
 		}
 	}
 
-	private static boolean matches(XSPFTrack track, String specifier, String value)throws XSPFException {
+	/**
+	 * Returns true if given track has given value.
+	 * 
+	 * @param track
+	 * @param specifier
+	 * @param value
+	 * @return
+	 * @throws XSPFException
+	 */
+	private static boolean matches(XSPFTrack track, Specifier specifier, String value) throws XSPFException {
 		switch (specifier) {
-		case "title": {
+		case TITLE: {
 			String title = value;
 			return title.equals(track.getTitle());
 		}
-		case "location": {
+		case LOCATION: {
 			URI location = URI.create(value);
 			return location.equals(track.getLocation());
 		}
-		case "both": {
+		case BOTH: {
 			String title = value;
 			URI location = URI.create(value);
 			return title.equals(track.getTitle()) && location.equals(track.getLocation());

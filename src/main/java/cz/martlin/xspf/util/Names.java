@@ -1,5 +1,10 @@
 package cz.martlin.xspf.util;
 
+/**
+ * Just the list of all the elements and attribute names.
+ * @author martin
+ *
+ */
 public class Names {
 
 	public static final String PLAYLIST = "playlist";
