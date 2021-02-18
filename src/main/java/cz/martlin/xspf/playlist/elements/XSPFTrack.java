@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFCommon;
+import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFTrack extends XSPFCommon {
@@ -17,27 +18,27 @@ public class XSPFTrack extends XSPFCommon {
 
 
 	public Duration getDuration()throws XSPFException {
-		return getDuration("duration");
+		return getDuration(Names.DURATION);
 	}
 
 	public void setDuration(Duration duration)throws XSPFException {
-		setDuration("duration", duration);
+		setDuration(Names.DURATION, duration);
 	}
 
 	public String getAlbum()throws XSPFException {
-		return getStr("album");
+		return getStr(Names.ALBUM);
 	}
 
 	public void setAlbum(String album)throws XSPFException {
-		setStr("album", album);
+		setStr(Names.ALBUM, album);
 	}
 
 	public Integer getTrackNum()throws XSPFException {
-		return getInt("trackNum");
+		return getInt(Names.TRACK_NUM);
 	}
 
 	public void setTrackNum(int trackNum)throws XSPFException {
-		setInt("trackNum", trackNum);
+		setInt(Names.TRACK_NUM, trackNum);
 	}
 
 ///////////////////////////////////////////////////////////////////////////

@@ -6,6 +6,7 @@ import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFCollection;
 import cz.martlin.xspf.playlist.elements.XSPFLink;
+import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFLinks extends XSPFCollection<XSPFLink> {
@@ -16,7 +17,7 @@ public class XSPFLinks extends XSPFCollection<XSPFLink> {
 
 	@Override
 	protected String elemName() {
-		return "link";
+		return Names.LINK;
 	}
 
 	@Override

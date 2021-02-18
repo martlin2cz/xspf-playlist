@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <playlist xmlns="http://xspf.org/ns/0/" xmlns:jmop="https://github.com/martlin2cz/jmop/schemas/xspf-extension.xsd" version="1">
     <title>Discovery</title>
-    <extension aplication="https://github.com/martlin2cz/jmop">
-        <jmop:playlist created="today" currentTrack="1." numberOfPlays="tons"/>
-    </extension>
+
     <trackList>
         <track>
             <title>One More Time</title>
             <identifier>OMT</identifier>
             <annotation>One More Time (featuring Romanthony)</annotation>
-            <duration>5:20</duration>
+            <duration>5:20</duration><!-- The duration has to be in milis -->
         </track>
         <track>
             <title>Aerodynamic</title>
+            <title>Aerodynamics</title> <!-- There must be only one title element -->
             <identifier>AD</identifier>
             <annotation>Aerodynamic</annotation>
-            <duration>3:27</duration>
+            <duration>207000</duration>
         </track>
         <track>
+        	<location>Daft Punk - Veridis Quo</location> <!--  The location has to be URI -->
             <title>Veridis Quo</title>
             <identifier>VQ</identifier>
             <annotation>Veridis Quo</annotation>
-            <duration>5:44</duration>
+            <duration>344000</duration>
         </track>
     </trackList>
 </playlist>

@@ -8,6 +8,7 @@ import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFCommon;
 import cz.martlin.xspf.playlist.collections.XSPFTracks;
+import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFPlaylist extends XSPFCommon {
@@ -15,52 +16,47 @@ public class XSPFPlaylist extends XSPFCommon {
 	public XSPFPlaylist(Element playlist) {
 		super(playlist);
 	}
-
-	LocalDateTime date;
-	URI licence;
-	XSPFAttribution attribution;
-	XSPFTracks tracks;
 	
 	/////////////////////////////////////////////////////////////////////////////////////
 
 	public LocalDateTime getDate()throws XSPFException {
-		return getDate("date");
+		return getDate(Names.DATE);
 	}
 
 	public void setDate(LocalDateTime date)throws XSPFException {
-		setDate("date", date);
+		setDate(Names.DATE, date);
 	}
 
 	public URI getLicense()throws XSPFException {
-		return getUri("license");
+		return getUri(Names.LICENSE);
 	}
 
 	public void setLicense(URI license)throws XSPFException {
-		setUri("license", license);
+		setUri(Names.LICENSE, license);
 	}
 
 	public XSPFAttribution getAttribution() throws XSPFException {
-		return getOne("attribution", (e) -> new XSPFAttribution(e));
+		return getOne(Names.ATTRIBUTION, (e) -> new XSPFAttribution(e));
 	}
 
 	public XSPFAttribution attribution()throws XSPFException {
-		return one("attribution", (e) -> new XSPFAttribution(e));
+		return one(Names.ATTRIBUTION, (e) -> new XSPFAttribution(e));
 	}
 
 	public void setAttribution(XSPFAttribution attribution)throws XSPFException {
-		setOne("attribution", attribution);
+		setOne(Names.ATTRIBUTION, attribution);
 	}
 
 	public XSPFTracks getTracks()throws XSPFException {
-		return (XSPFTracks) getCollection("trackList", XSPFTracks::new);
+		return (XSPFTracks) getCollection(Names.TRACK_LIST, XSPFTracks::new);
 	}
 
 	public XSPFTracks tracks()throws XSPFException {
-		return (XSPFTracks) collection("trackList", XSPFTracks::new);
+		return (XSPFTracks) collection(Names.TRACK_LIST, XSPFTracks::new);
 	}
 
 	public void setTracks(XSPFTracks tracks)throws XSPFException {
-		setCollection("trackList", tracks);
+		setCollection(Names.TRACK_LIST, tracks);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////

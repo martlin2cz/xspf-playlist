@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFElement;
+import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFMeta extends XSPFElement {
@@ -17,11 +18,11 @@ public class XSPFMeta extends XSPFElement {
 ///////////////////////////////////////////////////////////////////////////
 
 	public URI getRel() throws XSPFException {
-		return getUriAttr("rel");
+		return getUriAttr(Names.REL);
 	}
 
 	public void setRel(URI rel) throws XSPFException {
-		setUriAttr("rel", rel);
+		setUriAttr(Names.REL, rel);
 	}
 
 	public String getContent() throws XSPFException {

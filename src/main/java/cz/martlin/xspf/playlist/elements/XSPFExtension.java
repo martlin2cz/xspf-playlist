@@ -6,27 +6,40 @@ import java.util.Objects;
 import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFElement;
+import cz.martlin.xspf.util.Names;
+import cz.martlin.xspf.util.XMLDocumentUtility;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFExtension extends XSPFElement {
-	
+
 	public XSPFExtension(Element extension) {
 		super(extension);
 	}
 /////////////////////////////////////////////////////////////////////////////////////
 
-
-	public URI getApplication()throws XSPFException {
-		return getUriAttr("application");
+	public URI getApplication() throws XSPFException {
+		return getUriAttr(Names.APPLICATION);
 	}
 
-	public void setApplication(URI application)throws XSPFException {
-		setUriAttr("application", application);
+	public void setApplication(URI application) throws XSPFException {
+		setUriAttr(Names.APPLICATION, application);
 	}
 
-	//TODO get element
-	//TODO register with namespace
-	
+/////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Element getElement() {
+		return super.getElement();
+	}
+
+	public XMLDocumentUtility getUtility(String nsPrefix, String nsURI) throws XSPFException {
+		XMLDocumentUtility util = new XMLDocumentUtility(nsPrefix, nsURI);
+		Element elem = getElement();
+
+		util.register(elem);
+		return util;
+	}
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -41,7 +54,7 @@ public class XSPFExtension extends XSPFElement {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		try {
@@ -50,7 +63,6 @@ public class XSPFExtension extends XSPFElement {
 			return 0;
 		}
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -67,6 +79,5 @@ public class XSPFExtension extends XSPFElement {
 			return false;
 		}
 	}
-	
-	
+
 }

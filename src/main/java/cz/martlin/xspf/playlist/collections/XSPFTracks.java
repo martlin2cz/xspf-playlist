@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFCollection;
 import cz.martlin.xspf.playlist.elements.XSPFTrack;
+import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFTracks extends XSPFCollection<XSPFTrack> {
@@ -17,7 +18,7 @@ public class XSPFTracks extends XSPFCollection<XSPFTrack> {
 
 	@Override
 	protected String elemName() {
-		return "track";
+		return Names.TRACK;
 	}
 
 	@Override

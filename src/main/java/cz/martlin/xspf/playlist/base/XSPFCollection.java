@@ -1,5 +1,6 @@
 package cz.martlin.xspf.playlist.base;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,7 +57,7 @@ public abstract class XSPFCollection<T extends XSPFElement> extends XSPFElement 
 	// TODO isEmpty, hasSome
 
 ///////////////////////////////////////////////////////////////////////////
-
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder("XSPFCollection[");
@@ -70,6 +71,31 @@ public abstract class XSPFCollection<T extends XSPFElement> extends XSPFElement 
 		}
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		try {
+			return Objects.hash(list().toArray());
+		} catch (XSPFException e) {
+			return 0;
+		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		XSPFCollection<?> other = (XSPFCollection<?>) obj;
+		try {
+			return Objects.deepEquals(list().toArray(), other.list().toArray());
+		} catch (XSPFException e) {
+			return false;
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////

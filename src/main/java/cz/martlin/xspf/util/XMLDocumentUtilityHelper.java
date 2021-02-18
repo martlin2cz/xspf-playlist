@@ -24,7 +24,8 @@ public class XMLDocumentUtilityHelper {
 		String attrName = namespaceAttrName();
 		String atrrValue = nsURL;
 
-		setAttrValue(elem, attrName, atrrValue); 
+		// we cannot add attribute via the method as it adds namespace to it.
+		elem.setAttribute(attrName, atrrValue);
 	}
 
 	private String namespaceAttrName() {

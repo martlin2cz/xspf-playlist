@@ -8,6 +8,7 @@ import org.w3c.dom.Element;
 import cz.martlin.xspf.playlist.collections.XSPFExtensions;
 import cz.martlin.xspf.playlist.collections.XSPFLinks;
 import cz.martlin.xspf.playlist.collections.XSPFMetas;
+import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
 public abstract class XSPFCommon extends XSPFElement {
@@ -19,59 +20,59 @@ public abstract class XSPFCommon extends XSPFElement {
 	///////////////////////////////////////////////////////////////////////////
 
 	public URI getLocation() throws XSPFException {
-		return getUri("location");
+		return getUri(Names.LOCATION);
 	}
 
 	public void setLocation(URI location) throws XSPFException {
-		setUri("location", location);
+		setUri(Names.LOCATION, location);
 	}
 
 	public URI getIdentifier() throws XSPFException {
-		return getUri("identifier");
+		return getUri(Names.IDENTIFIER);
 	}
 
 	public void setIdentifier(URI identifier) throws XSPFException {
-		setUri("identifier", identifier);
+		setUri(Names.IDENTIFIER, identifier);
 	}
 
 	public String getTitle() throws XSPFException {
-		return getStr("title");
+		return getStr(Names.TITLE);
 	}
 
 	public void setTitle(String title) throws XSPFException {
-		setStr("title", title);
+		setStr(Names.TITLE, title);
 	}
 
 	public String getCreator() throws XSPFException {
-		return getStr("creator");
+		return getStr(Names.CREATOR);
 	}
 
 	public void setCreator(String creator) throws XSPFException {
-		setStr("creator", creator);
+		setStr(Names.CREATOR, creator);
 	}
 
 	public String getAnnotation() throws XSPFException {
-		return getStr("annotation");
+		return getStr(Names.ANNOTATION);
 	}
 
 	public void setAnnotation(String annotation) throws XSPFException {
-		setStr("annotation", annotation);
+		setStr(Names.ANNOTATION, annotation);
 	}
 
 	public URI getInfo() throws XSPFException {
-		return getUri("info");
+		return getUri(Names.INFO);
 	}
 
 	public void setInfo(URI info) throws XSPFException {
-		setUri("info", info);
+		setUri(Names.INFO, info);
 	}
 
 	public URI getImage() throws XSPFException {
-		return getUri("image");
+		return getUri(Names.IMAGE);
 	}
 
 	public void setImage(URI image) throws XSPFException {
-		setUri("image", image);
+		setUri(Names.IMAGE, image);
 	}
 
 	public XSPFLinks getLinks() throws XSPFException {

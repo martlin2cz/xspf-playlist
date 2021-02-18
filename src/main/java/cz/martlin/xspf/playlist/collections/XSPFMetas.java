@@ -6,6 +6,7 @@ import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFCollection;
 import cz.martlin.xspf.playlist.elements.XSPFMeta;
+import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
 public class XSPFMetas extends XSPFCollection<XSPFMeta> {
@@ -16,7 +17,7 @@ public class XSPFMetas extends XSPFCollection<XSPFMeta> {
 
 	@Override
 	protected String elemName() {
-		return "meta";
+		return Names.META;
 	}
 	
 	@Override

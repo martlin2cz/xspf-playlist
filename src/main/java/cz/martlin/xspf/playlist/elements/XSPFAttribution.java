@@ -50,7 +50,7 @@ public class XSPFAttribution extends XSPFElement {
 
 		UTIL.setElementValue(child, value, ValueToTextMapper.STRING_TO_TEXT);
 	}
-	
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -89,7 +89,7 @@ public class XSPFAttribution extends XSPFElement {
 			return false;
 		}
 	}
-	
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 	public static class XSPFAttributionItem {
@@ -101,6 +101,33 @@ public class XSPFAttribution extends XSPFElement {
 			this.element = element;
 			this.value = value;
 		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(element, value);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			XSPFAttributionItem other = (XSPFAttributionItem) obj;
+			return Objects.equals(element, other.element) && Objects.equals(value, other.value);
+		}
+
+		@Override
+		public String toString() {
+			StringBuilder builder = new StringBuilder();
+			builder.append(element);
+			builder.append("=");
+			builder.append(value);
+			return builder.toString();
+		}
+
 	}
 
 }
