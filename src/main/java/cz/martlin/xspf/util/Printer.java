@@ -60,7 +60,7 @@ public class Printer {
 
 		print(p, "annotation", playlist.getAnnotation());
 		print(p, "creator", playlist.getCreator());
-		print(p, "label", playlist.getTitle());
+		print(p, "title", playlist.getTitle());
 		print(p, "attribution", playlist.getAttribution());
 		print(p, "date", playlist.getDate());
 		print(p, "extensions", playlist.getExtensions());

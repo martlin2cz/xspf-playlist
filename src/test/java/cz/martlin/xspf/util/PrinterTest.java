@@ -13,7 +13,7 @@ import cz.martlin.xspf.playlist.elements.XSPFFile;
  * @author martin
  *
  */
-class PrinterTest {
+public class PrinterTest {
 
 	/**
 	 * Loads and prints the testing file.
@@ -27,7 +27,7 @@ class PrinterTest {
 			"minimal.xspf", //
 			"lorem-ipsum.xspf", //
 			"50-npc-tracks.xspf", })
-	void test(String name) throws XSPFException {
+	public void test(String name) throws XSPFException {
 		File fileToRead = TestingFiles.fileToReadAssumed("playlist", name);
 		XSPFFile file = XSPFFile.load(fileToRead);
 

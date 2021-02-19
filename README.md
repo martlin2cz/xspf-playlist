@@ -146,6 +146,10 @@ It's More Fun To Compute
  - Some more sample use cases can be found in the JUnit tests.
  - The code is documented and quite well structured.
 
+### Changelog
+#### Version 1.0
+First oficial version. The basic features may be working correctly.
+
 
 
 	

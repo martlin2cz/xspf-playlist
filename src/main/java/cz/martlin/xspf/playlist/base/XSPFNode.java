@@ -33,13 +33,16 @@ public abstract class XSPFNode {
 
 	protected <T extends XSPFElement> T getOne(String name, Function<Element, T> mapper) throws XSPFException {
 		Node owner = getNode();
-		Element child = UTIL.getChildElemOrNull(owner, name);
+		Element child = UTIL.getChildElemCloneOrNull(owner, name);
+		if (child == null) {
+			return null;
+		}
 		return mapper.apply(child);
 	}
 
 	protected <T extends XSPFElement> T one(String name, Function<Element, T> mapper) throws XSPFException {
 		Node owner = getNode();
-		Element child = UTIL.getChildElemOrNull(owner, name);
+		Element child = UTIL.getOrCreateChildElem(owner, name);
 		return mapper.apply(child);
 	}
 	

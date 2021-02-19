@@ -201,13 +201,13 @@ public class XMLDocumentUtility {
 	}
 
 	/**
-	 * Returns the copy of the child element of the given name of the given owner. Fails if none or more.
+	 * Returns the copy of the child element of the given name of the given owner. Returns null if none, fails if more.
 	 * @param owner
 	 * @param elemName
 	 * @return
 	 * @throws XSPFException
 	 */
-	public Element getChildElemClone(Node owner, String elemName) throws XSPFException {
+	public Element getChildElemCloneOrNull(Node owner, String elemName) throws XSPFException {
 		Element elem = helper.getChildOrNull(owner, elemName);
 		if (elem == null) {
 			return null;

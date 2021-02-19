@@ -410,7 +410,7 @@ public abstract class XSPFElement extends XSPFNode {
 			throws XSPFException {
 
 		Element owner = getElement();
-		Element coontainerClone = UTIL.getChildElemClone(owner, name);
+		Element coontainerClone = UTIL.getChildElemCloneOrNull(owner, name);
 		if (coontainerClone == null) {
 			return null;
 		}
