@@ -6,6 +6,7 @@ import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFCollection;
 import cz.martlin.xspf.playlist.elements.XSPFMeta;
+import cz.martlin.xspf.util.ExceptionWrapper;
 import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
@@ -64,4 +65,21 @@ public class XSPFMetas extends XSPFCollection<XSPFMeta> {
 		meta.setContent(content);
 		return meta;
 	}
+	
+/////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns meta having the given rel. Null if no such.
+	 * @param rel
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFMeta meta(URI rel) throws XSPFException {
+		return list() //
+				.filter(ExceptionWrapper.wrapPredicate( //
+						m -> rel.equals(m.getRel()))) //
+				.findAny().orElse(null);
+	}
+	
+	
 }

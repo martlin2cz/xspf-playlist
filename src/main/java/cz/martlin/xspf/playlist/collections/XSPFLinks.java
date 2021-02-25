@@ -6,6 +6,7 @@ import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFCollection;
 import cz.martlin.xspf.playlist.elements.XSPFLink;
+import cz.martlin.xspf.util.ExceptionWrapper;
 import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
@@ -44,7 +45,7 @@ public class XSPFLinks extends XSPFCollection<XSPFLink> {
 	 * Creates new (empty) link.
 	 * 
 	 * @return
-	 * @throws XSPFException 
+	 * @throws XSPFException
 	 */
 	public XSPFLink createLink() throws XSPFException {
 		return createNew();
@@ -63,6 +64,21 @@ public class XSPFLinks extends XSPFCollection<XSPFLink> {
 		link.setRel(rel);
 		link.setContent(content);
 		return link;
+	}
+/////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns link having the given rel. Null if no such.
+	 * 
+	 * @param rel
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFLink link(URI rel) throws XSPFException {
+		return list() //
+				.filter(ExceptionWrapper.wrapPredicate( //
+						l -> rel.equals(l.getRel()))) //
+				.findAny().orElse(null);
 	}
 
 }
