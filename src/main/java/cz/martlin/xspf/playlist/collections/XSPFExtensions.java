@@ -65,17 +65,17 @@ public class XSPFExtensions extends XSPFCollection<XSPFExtension> {
 	}
 
 	/**
-	 * Finds the extension for the given application.
+	 * Finds the extension for the given application. Null if no such.
 	 * 
 	 * @param application
 	 * @return
 	 * @throws XSPFException
 	 */
-	public XSPFExtension find(URI application) throws XSPFException {
+	public XSPFExtension extension(URI application) throws XSPFException {
 		return list() //
 				.filter(ExceptionWrapper.wrapPredicate( //
 						e -> application.equals(e.getApplication()))) //
-				.findAny().get(); //
+				.findAny().orElse(null); //
 	}
 
 }
