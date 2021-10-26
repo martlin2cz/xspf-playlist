@@ -9,8 +9,15 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Just an separated helper class for the XML document IO, thus loading
@@ -72,6 +79,8 @@ public class XMLFileLoaderStorer {
 	 */
 	public static void saveDocument(Document document, File file) throws XSPFException {
 		try {
+			trimBlanks(document);
+			
 			TransformerFactory tFactory = TransformerFactory.newInstance();
 			Transformer transformer = tFactory.newTransformer();
 
@@ -83,5 +92,29 @@ public class XMLFileLoaderStorer {
 		} catch (Exception e) {
 			throw new XSPFException("Cannot save file", e);
 		}
+	}
+
+	/**
+	 * Removes all the blank lines from the document
+	 * 
+	 * @param document
+	 */
+	private static void trimBlanks(Document document) {
+		try {
+			// https://stackoverflow.com/questions/12669686/how-to-remove-extra-empty-lines-from-xml-file
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			String path = "//text()[normalize-space(.)='']";
+			NodeList blanks = (NodeList) xpath.evaluate(path, document, XPathConstants.NODESET);
+			
+			for (int i = 0; i < blanks.getLength(); i++) {
+				Node blank = blanks.item(i);
+				Node parent = blank.getParentNode();
+				parent.removeChild(blank);
+			}
+		} catch (XPathExpressionException | DOMException e) {
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Could not list text nodes");
+		}
+		
+				
 	}
 }
