@@ -440,8 +440,7 @@ public class XMLDocumentUtilityHelper {
 	// text <-> value
 
 	/**
-	 * Converts the given text to value of particular type by the given mapper. If
-	 * the text is null, null is returned immediatelly.
+	 * Converts the given text to value of particular type by the given mapper.
 	 * 
 	 * @param <T>
 	 * @param text
@@ -449,21 +448,16 @@ public class XMLDocumentUtilityHelper {
 	 * @return
 	 * @throws XSPFException
 	 */
-	public <T> T textToValue(String text, NonNullTextToValueMapper<T> mapper) throws XSPFException {
+	public <T> T textToValue(String text, NullableTextToValueMapper<T> mapper) throws XSPFException {
 		try {
-			if (text == null) {
-				return null;
-			}
-
-			return mapper.textToValue(text.trim());
+			return mapper.textOrNullToValue(text.trim());
 		} catch (Exception e) {
-			throw new XSPFException("Cannot convert " + text + " value", e);
+			throw new XSPFException("Cannot convert " + text + " text", e);
 		}
 	}
 
 	/**
-	 * Converts the given value of particular type to text by the given mapper. If
-	 * the value is null, null is returned immediatelly.
+	 * Converts the given value of particular type to text by the given mapper.
 	 * 
 	 * @param <T>
 	 * @param value
@@ -471,13 +465,9 @@ public class XMLDocumentUtilityHelper {
 	 * @return
 	 * @throws XSPFException
 	 */
-	public <T> String valueToText(T value, NonNullValueToTextMapper<T> mapper) throws XSPFException {
+	public <T> String valueToText(T value, NullableValueToTextMapper<T> mapper) throws XSPFException {
 		try {
-			if (value == null) {
-				return null;
-			}
-
-			return mapper.valueToText(value);
+			return mapper.valueOrNullToText(value);
 		} catch (Exception e) {
 			throw new XSPFException("Cannot convert " + value + " value", e);
 		}
@@ -533,6 +523,22 @@ public class XMLDocumentUtilityHelper {
 		 * @throws Exception
 		 */
 		T textOrNullToValue(String text) throws Exception;
+		
+		/**
+		 * Encapsulates the given {@link NonNullTextToValueMapper} to be {@link NullableTextToValueMapper}.
+		 * 
+		 * @param <T>
+		 * @param nonNullMapper
+		 * @return
+		 */
+		public static <T> NullableTextToValueMapper<T> checked(NonNullTextToValueMapper<T> nonNullMapper) {
+			return (text) -> {
+				if (text == null) {
+					return null;
+				}
+				return nonNullMapper.textToValue(text);
+			};
+		}
 	}
 
 	/**
@@ -583,6 +589,22 @@ public class XMLDocumentUtilityHelper {
 		 * @throws Exception
 		 */
 		String valueOrNullToText(T value) throws Exception;
+		
+		/**
+		 * Encapsulates the given {@link NonNullValueToTextMapper} to be {@link NullableValueToTextMapper}.
+		 * 
+		 * @param <T>
+		 * @param nonNullMapper
+		 * @return
+		 */
+		public static <T> NullableValueToTextMapper<T> checked(NonNullValueToTextMapper<T> nonNullMapper) {
+			return (value) -> {
+				if (value == null) {
+					return null;
+				}
+				return nonNullMapper.valueToText(value);
+			};
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
