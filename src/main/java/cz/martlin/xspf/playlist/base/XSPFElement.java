@@ -160,7 +160,7 @@ public abstract class XSPFElement extends XSPFNode {
 	 */
 	protected String getStr() throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getElementValueOrNull(elem, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
+		return UTIL.getElementValueOrNull(elem, XMLDocumentUtilityHelper.NonNullTextToValueMapper.TEXT_TO_STRING);
 	}
 
 	/**
@@ -172,7 +172,7 @@ public abstract class XSPFElement extends XSPFNode {
 	 */
 	protected String getStr(String name) throws XSPFException {
 		Element elem = getElement();
-		return UTIL.getChildElementValueOrNull(elem, name, XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
+		return UTIL.getChildElementValueOrNull(elem, name, XMLDocumentUtilityHelper.NonNullTextToValueMapper.TEXT_TO_STRING);
 	}
 
 	/**
@@ -183,7 +183,7 @@ public abstract class XSPFElement extends XSPFNode {
 	 */
 	protected void setStr(String value) throws XSPFException {
 		Element elem = getElement();
-		UTIL.setElementValue(elem, value, XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
+		UTIL.setElementValue(elem, value, XMLDocumentUtilityHelper.NonNullValueToTextMapper.STRING_TO_TEXT);
 	}
 
 	/**
@@ -195,7 +195,7 @@ public abstract class XSPFElement extends XSPFNode {
 	 */
 	protected void setStr(String name, String value) throws XSPFException {
 		Element elem = getElement();
-		UTIL.setChildElementValue(elem, name, value, XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
+		UTIL.setChildElementValue(elem, name, value, XMLDocumentUtilityHelper.NonNullValueToTextMapper.STRING_TO_TEXT);
 	}
 
 	/**
