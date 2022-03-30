@@ -11,7 +11,8 @@ import java.util.stream.Stream;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import cz.martlin.xspf.util.XMLDocumentUtilityHelper;
+import cz.martlin.xspf.util.XMLDocumentUtilityHelper.NullableTextToValueMapper;
+import cz.martlin.xspf.util.XMLDocumentUtilityHelper.NullableValueToTextMapper;
 import cz.martlin.xspf.util.XSPFException;
 
 /**
@@ -161,7 +162,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected String getStr() throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getElementValueOrNull(elem, // 
-				XMLDocumentUtilityHelper.NullableTextToValueMapper.TEXT_TO_STRING);
+				NullableTextToValueMapper.TEXT_TO_STRING);
 	}
 
 	/**
@@ -174,7 +175,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected String getStr(String name) throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getChildElementValueOrNull(elem, name, // 
-				XMLDocumentUtilityHelper.NullableTextToValueMapper.TEXT_TO_STRING);
+				NullableTextToValueMapper.TEXT_TO_STRING);
 	}
 
 	/**
@@ -186,7 +187,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected void setStr(String value) throws XSPFException {
 		Element elem = getElement();
 		UTIL.setElementValue(elem, value, // 
-				XMLDocumentUtilityHelper.NullableValueToTextMapper.STRING_TO_TEXT);
+				NullableValueToTextMapper.STRING_TO_TEXT);
 	}
 
 	/**
@@ -199,7 +200,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected void setStr(String name, String value) throws XSPFException {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, // 
-				XMLDocumentUtilityHelper.NullableValueToTextMapper.STRING_TO_TEXT);
+				NullableValueToTextMapper.STRING_TO_TEXT);
 	}
 
 	/**
@@ -212,7 +213,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected URI getUri(String name) throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getChildElementValueOrNull(elem, name, // 
-				XMLDocumentUtilityHelper.NullableTextToValueMapper.checked(XSPFElement::strToUri));
+				NullableTextToValueMapper.checked(XSPFElement::strToUri));
 	}
 
 	/**
@@ -225,7 +226,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected void setUri(String name, URI value) throws XSPFException {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, //
-				XMLDocumentUtilityHelper.NullableValueToTextMapper.checked(XSPFElement::uriToStr));
+				NullableValueToTextMapper.checked(XSPFElement::uriToStr));
 	}
 
 	/**
@@ -238,7 +239,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected URI getUriAttr(String name) throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getElementAttrOrNull(elem, name, //
-				XMLDocumentUtilityHelper.NullableTextToValueMapper.checked(XSPFElement::strToUri));
+				NullableTextToValueMapper.checked(XSPFElement::strToUri));
 	}
 
 	/**
@@ -251,7 +252,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected void setUriAttr(String name, URI value) throws XSPFException {
 		Element elem = getElement();
 		UTIL.setElementAttr(elem, name, value, //
-				XMLDocumentUtilityHelper.NullableValueToTextMapper.checked(XSPFElement::uriToStr));
+				NullableValueToTextMapper.checked(XSPFElement::uriToStr));
 	}
 
 	/**
@@ -264,7 +265,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected LocalDateTime getDate(String name) throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getChildElementValueOrNull(elem, name, //
-				XMLDocumentUtilityHelper.NullableTextToValueMapper.checked(XSPFElement::textToDate));
+				NullableTextToValueMapper.checked(XSPFElement::textToDate));
 	}
 
 	/**
@@ -277,7 +278,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected void setDate(String name, LocalDateTime value) throws XSPFException {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, //
-				XMLDocumentUtilityHelper.NullableValueToTextMapper.checked(XSPFElement::dateToText));
+				NullableValueToTextMapper.checked(XSPFElement::dateToText));
 	}
 
 	/**
@@ -290,7 +291,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected Duration getDuration(String name) throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getChildElementValueOrNull(elem, name, //
-				XMLDocumentUtilityHelper.NullableTextToValueMapper.checked(XSPFElement::milisStrToDuration));
+				NullableTextToValueMapper.checked(XSPFElement::milisStrToDuration));
 	}
 
 	/**
@@ -303,7 +304,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected void setDuration(String name, Duration value) throws XSPFException {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, //
-				XMLDocumentUtilityHelper.NullableValueToTextMapper.checked(XSPFElement::durationToMilisStr));
+				NullableValueToTextMapper.checked(XSPFElement::durationToMilisStr));
 	}
 
 	/**
@@ -316,7 +317,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected Integer getInt(String name) throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getChildElementValueOrNull(elem, name, //
-				XMLDocumentUtilityHelper.NullableTextToValueMapper.checked(XSPFElement::strToInt));
+				NullableTextToValueMapper.checked(XSPFElement::strToInt));
 	}
 
 	/**
@@ -329,7 +330,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected void setInt(String name, int value) throws XSPFException {
 		Element elem = getElement();
 		UTIL.setChildElementValue(elem, name, value, //
-				XMLDocumentUtilityHelper.NullableValueToTextMapper.checked(XSPFElement::intToStr));
+				NullableValueToTextMapper.checked(XSPFElement::intToStr));
 	}
 
 	/**
@@ -341,7 +342,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected URI getUri() throws XSPFException {
 		Element elem = getElement();
 		return UTIL.getElementValueOrNull(elem, //
-				XMLDocumentUtilityHelper.NullableTextToValueMapper.checked(XSPFElement::strToUri));
+				NullableTextToValueMapper.checked(XSPFElement::strToUri));
 	}
 
 	/**
@@ -353,7 +354,7 @@ public abstract class XSPFElement extends XSPFNode {
 	protected void setUri(URI value) throws XSPFException {
 		Element elem = getElement();
 		UTIL.setElementValue(elem, value, //
-				XMLDocumentUtilityHelper.NullableValueToTextMapper.checked(XSPFElement::uriToStr));
+				NullableValueToTextMapper.checked(XSPFElement::uriToStr));
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
