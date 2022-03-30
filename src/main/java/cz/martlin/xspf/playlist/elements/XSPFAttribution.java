@@ -8,8 +8,8 @@ import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFElement;
 import cz.martlin.xspf.util.ExceptionWrapper;
-import cz.martlin.xspf.util.XMLDocumentUtilityHelper.NonNullTextToValueMapper;
-import cz.martlin.xspf.util.XMLDocumentUtilityHelper.NonNullValueToTextMapper;
+import cz.martlin.xspf.util.XMLDocumentUtilityHelper.NullableTextToValueMapper;
+import cz.martlin.xspf.util.XMLDocumentUtilityHelper.NullableValueToTextMapper;
 import cz.martlin.xspf.util.XSPFException;
 
 /**
@@ -52,7 +52,7 @@ public class XSPFAttribution extends XSPFElement {
 	 */
 	private XSPFAttributionItem createItem(Element elem) throws XSPFException {
 		String element = elem.getTagName();
-		String value = UTIL.getElementValueOrNull(elem, NonNullTextToValueMapper.TEXT_TO_STRING);
+		String value = UTIL.getElementValueOrNull(elem, NullableTextToValueMapper.TEXT_TO_STRING);
 
 		return new XSPFAttributionItem(element, value);
 	}
@@ -80,7 +80,7 @@ public class XSPFAttribution extends XSPFElement {
 
 		// FIXME the specification says it shall be inserted at the top, not appended
 
-		UTIL.setElementValue(child, value, NonNullValueToTextMapper.STRING_TO_TEXT);
+		UTIL.setElementValue(child, value, NullableValueToTextMapper.STRING_TO_TEXT);
 	}
 
 	// TODO remove item
