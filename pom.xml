@@ -10,9 +10,22 @@
 
 	<description>An Java library implementing the XSPF (XML Shareable Playlist Format) playlist files manipulation.</description>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<!-- https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven -->
 	<build>
 		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.2</version>
