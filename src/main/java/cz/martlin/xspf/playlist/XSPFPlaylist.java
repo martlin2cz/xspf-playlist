@@ -14,13 +14,13 @@ import cz.martlin.xspf.util.XSPFException;
 import cz.martlin.xspf.util.XMLFileLoaderStorer;
 import cz.martlin.xspf.util.XSPFDocumentUtility;
 
-public class XSPFPlaylist extends XSPFCommon /* implements BaseXSPFElement */ {
+public class XSPFPlaylist extends XSPFCommon {
 	protected static final String XSPF_STANDART_VERSION = "1";
 	private final Document document;
 
 	public XSPFPlaylist(Document document) throws XSPFException {
 		super();
-		
+
 		Objects.requireNonNull(document, "The document must be provided");
 		this.document = document;
 		util.init(document);
@@ -36,7 +36,7 @@ public class XSPFPlaylist extends XSPFCommon /* implements BaseXSPFElement */ {
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////
-	
+
 	public LocalDateTime getDate() throws XSPFException {
 		return getDate("date");
 	}
@@ -46,17 +46,19 @@ public class XSPFPlaylist extends XSPFCommon /* implements BaseXSPFElement */ {
 	}
 
 	public URI getLicence() throws XSPFException {
-		return getUri("info");
+		return getUri("licence");
 	}
 
 	public void setLicence(URI licence) throws XSPFException {
 		setUri("licence", licence);
 	}
 	
-	public Element getAttribution() throws XSPFException {
-		Element root = getRootElement();
-		return util.getChildElem(root, "attribution");
+	public XSPFAttribution getAttribution() throws XSPFException {
+		return getOne("attribution", (e) -> new XSPFAttribution(e));
 	}
+	
+	//TODO set attribution
+
 
 	public List<XSPFTrack> getTracks() throws XSPFException {
 		Element root = getRootElement();
@@ -81,24 +83,6 @@ public class XSPFPlaylist extends XSPFCommon /* implements BaseXSPFElement */ {
 	}
 
 
-	/////////////////////////////////////////////////////////////////////////////////////
-
-	private URI textToUri(String value) {
-		return URI.create(value);
-	}
-	
-	private String uriToText(URI uri) {
-		return uri.toASCIIString();
-	}
-
-	private LocalDateTime textToDate(String value) {
-		return LocalDateTime.parse(value);
-	}
-	
-	private String dateToText(LocalDateTime date) {
-		return date.toString();
-	}
-	
 	/////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -140,13 +124,11 @@ public class XSPFPlaylist extends XSPFCommon /* implements BaseXSPFElement */ {
 			throw new XSPFException("The supported version of XSPF is " + XSPF_STANDART_VERSION);
 		}
 	}
-	
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
 	private Element getRootElement() {
 		return document.getDocumentElement();
 	}
-	
-	
+
 }

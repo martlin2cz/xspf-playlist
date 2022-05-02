@@ -11,17 +11,17 @@ import cz.martlin.xspf.util.XSPFException;
 public class XSPFTrack extends XSPFCommon {
 	protected static final XSPFDocumentUtility util = XSPFPlaylist.util;
 
-	private final Element element;
+	private final Element track;
 
-	public XSPFTrack(Element element) {
+	public XSPFTrack(Element track) {
 		super();
-		Objects.requireNonNull(element, "The element must be provided");
-		this.element = element;
+		Objects.requireNonNull(track, "The track element must be provided");
+		this.track = track;
 	}
 
 	@Override
 	public Element getElement() {
-		return element;
+		return track;
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -36,11 +36,11 @@ public class XSPFTrack extends XSPFCommon {
 	}
 	
 	public String getAlbum() throws XSPFException {
-		return get("album");
+		return getStr("album");
 	}
 	
 	public void setAlbum(String album) throws XSPFException {
-		set("album", album);
+		setStr("album", album);
 	}
 	
 	public int getTrackNum() throws XSPFException {

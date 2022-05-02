@@ -30,7 +30,7 @@ public class XSPFDocumentUtility {
 		} else {
 			attrName = "xmlns";
 		}
-		
+
 		String atrrValue = nsURL;
 
 		Element root = getRootElem(document);
@@ -45,7 +45,6 @@ public class XSPFDocumentUtility {
 		}
 	}
 
-	
 	/////////////////////////////////////////////////////////////////////////////////////
 	// get/set element content text/value
 
@@ -59,10 +58,20 @@ public class XSPFDocumentUtility {
 		setElementValue(child, value);
 	}
 
-	public <T> T getElementValue(Element owner, String elemName, TextToValueMapper<T> mapper)
-			throws XSPFException {
+	public <T> T getElementValue(Element owner, String elemName, TextToValueMapper<T> mapper) throws XSPFException {
 
 		String text = getElementText(owner, elemName);
+		return textToValue(text, mapper);
+	}
+
+	public <T> void setElementValue(Element elem, T value, ValueToTextMapper<T> mapper) throws XSPFException {
+		String text = valueToText(value, mapper);
+		setElementValue(elem, text);
+	}
+
+	public <T> T getElementValue(Element elem, TextToValueMapper<T> mapper) throws XSPFException {
+
+		String text = getElementValue(elem);
 		return textToValue(text, mapper);
 	}
 
@@ -84,8 +93,7 @@ public class XSPFDocumentUtility {
 		setAttrValue(owner, attrName, value);
 	}
 
-	public <T> T getElementAttr(Element owner, String attrName, TextToValueMapper<T> mapper)
-			throws XSPFException {
+	public <T> T getElementAttr(Element owner, String attrName, TextToValueMapper<T> mapper) throws XSPFException {
 
 		String text = getAttrValue(owner, attrName);
 		return textToValue(text, mapper);
@@ -108,7 +116,7 @@ public class XSPFDocumentUtility {
 	public Element getOrCreateChildElem(Element owner, String elemName) throws XSPFException {
 		return getOrCreateChild(owner, elemName);
 	}
-	
+
 	public Element getOrCreateRootElem(Document doc, String elemName) throws XSPFException {
 		return getOrCreateChild(doc, elemName);
 	}
@@ -116,11 +124,11 @@ public class XSPFDocumentUtility {
 	public Element getChildElem(Element owner, String elemName) throws XSPFException {
 		return getChild(owner, elemName, true);
 	}
-	
+
 	public Element getRootElem(Document doc, String elemName) throws XSPFException {
 		return getChild(doc, elemName, true);
 	}
-	
+
 	private Element getRootElem(Document document) throws XSPFException {
 		Element root = document.getDocumentElement();
 		if (root == null) {
@@ -128,11 +136,22 @@ public class XSPFDocumentUtility {
 		}
 		return root;
 	}
-	
 
 	public Element replaceChildElem(Element owner, String elemName) throws XSPFException {
 		return replaceChild(owner, elemName);
 	}
+	
+	public Element replaceChildElem(Element owner, String elemName, Element replacement) throws XSPFException {
+		return replaceChild(owner, elemName, replacement);
+	}
+
+	public void replaceAllChildren(Element owner, String elemName, List<Element> elements) throws XSPFException {
+		removeChildren(owner, elemName);
+		for (Element elem: elements) {
+			owner.appendChild(elem);
+		}
+	}
+
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// create/remove/get child
@@ -144,12 +163,19 @@ public class XSPFDocumentUtility {
 		} else {
 			document = owner.getOwnerDocument();
 		}
-		
-		Element child = document.createElement(/*NS(nsURL,*/ fullName(elemName));
+
+		Element child = document.createElement(/* NS(nsURL, */ fullName(elemName));
 		owner.appendChild(child);
 		return child;
 	}
-
+	
+	private void removeChildren(Element owner, String elemName) throws XSPFException {
+		List<Element> children = listChildren(owner, elemName);
+		for (Element child: children)  {
+			owner.removeChild(child);
+		}
+	}
+	
 	private void removeChild(Element owner, String elemName) throws XSPFException {
 		Element child = getChild(owner, elemName, true);
 		owner.removeChild(child);
@@ -167,15 +193,24 @@ public class XSPFDocumentUtility {
 		if (hasChild(owner, elemName)) {
 			removeChild(owner, elemName);
 		}
-		
+
 		return createChild(owner, elemName);
+	}
+	
+	private Element replaceChild(Element owner, String elemName, Element replacement) throws XSPFException {
+		if (hasChild(owner, elemName)) {
+			removeChild(owner, elemName);
+		}
+
+		owner.appendChild(replacement);
+		return replacement;
 	}
 
 	private boolean hasChild(Node owner, String elemName) {
 		List<Element> children = listChildren(owner, elemName);
 		return !children.isEmpty();
 	}
-	
+
 	private Element getChild(Node owner, String elemName, boolean failOnMissing) throws XSPFException {
 		List<Element> children = listChildren(owner, elemName);
 		if (children.size() < 1) {
@@ -227,7 +262,7 @@ public class XSPFDocumentUtility {
 	}
 
 	private String getAttrValue(Element elem, String attrName) throws XSPFException {
-		String content = elem.getAttribute(/*NS(nsURL,*/ fullName(attrName));
+		String content = elem.getAttribute(/* NS(nsURL, */ fullName(attrName));
 		if (content == null) {
 			throw new XSPFException("The attribute " + attrName + " does not exist");
 		}
@@ -235,7 +270,7 @@ public class XSPFDocumentUtility {
 	}
 
 	private void setAttrValue(Element elem, String attrName, String value) {
-		elem.setAttribute(/*NS(nsURL,*/ fullName(attrName), value);
+		elem.setAttribute(/* NS(nsURL, */ fullName(attrName), value);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -266,5 +301,6 @@ public class XSPFDocumentUtility {
 	public interface ValueToTextMapper<T> {
 		String valueToText(T value) throws Exception;
 	}
+
 
 }
