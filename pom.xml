@@ -5,50 +5,44 @@
 
 	<groupId>cz.martlin</groupId>
 	<artifactId>xspf-playlist</artifactId>
-	<version>0.1.0</version>
-	<name>XSPF playlists manipulation library</name>
+	<version>0.1-SNAPSHOT</version>
+	<name>XML Shareable Playlist Format (XSPF) implementation</name>
 
-	<description>An Java library implementing the XSPF (XML Shareable Playlist Format) playlist files manipulation.</description>
+    <description>An Java library implementing the XSPF (XML Shareable Playlist Format) playlist files manipulation.</description>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-	<!-- https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven -->
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>11</source>
-					<target>11</target>
-				</configuration>
-			</plugin>
+    <!-- https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven -->
+    <build>
+            <plugins>
+                    <plugin>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <version>3.1</version>
+                            <configuration>
+                                    <source>11</source>
+                                    <target>11</target>
+                            </configuration>
+                    </plugin>
 
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.2</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.22.2</version>
-			</plugin>
-		</plugins>
-	</build>
-	
+                    <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>2.22.2</version>
+                    </plugin>
+                    <plugin>
+                            <artifactId>maven-failsafe-plugin</artifactId>
+                            <version>2.22.2</version>
+                    </plugin>
+            </plugins>
+    </build>
+
 	<dependencies>
 		<!-- JUnit -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.7.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.7.1</version>
+			<version>5.7.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

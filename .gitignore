@@ -1,1 +1,7 @@
+# the mvn builds
 /target/
+
+# the eclipse stuff
+.settings
+.classpath
+.projec
