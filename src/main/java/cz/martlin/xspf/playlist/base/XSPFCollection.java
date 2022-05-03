@@ -9,21 +9,21 @@ import cz.martlin.xspf.util.XSPFException;
 
 public abstract class XSPFCollection<T extends XSPFElement> extends XSPFElement {
 
-	private final String elemName;
-
-	public XSPFCollection(String elemName, Element container) {
+	public XSPFCollection(Element container) {
 		super(container);
-		this.elemName = elemName;
 	}
 
 	public T createNew() {
 		Element container = getElement();
+		String elemName = elemName();
 		Element elem = UTIL.createNewElement(container, elemName);
 		return create(elem);
 	}
 
 	protected abstract T create(Element child);
 
+	protected abstract String elemName();
+	
 	/////////////////////////////////////////////////////////////////////////////////////
 
 	public void add(T element) {
@@ -40,6 +40,7 @@ public abstract class XSPFCollection<T extends XSPFElement> extends XSPFElement 
 
 	public List<T> list() throws XSPFException {
 		Element container = getElement();
+		String elemName = elemName();
 		return UTIL.listChildrenElems(container, elemName).stream().map(e -> create(e)).collect(Collectors.toList());
 	}
 	

@@ -88,6 +88,9 @@ public class XMLDocumentUtility {
 		return helper.clone(elem);
 	}
 
+	public Element getElemClone(Element elem) {
+		return helper.clone(elem);
+	}
 	/////////////////////////////////////////////////////////////////////////////////////
 	// add/remove/replace by element name
 

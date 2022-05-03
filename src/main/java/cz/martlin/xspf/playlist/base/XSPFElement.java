@@ -5,7 +5,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,6 +27,13 @@ public abstract class XSPFElement extends XSPFNode {
 	protected Element getElement() {
 		return element;
 	}
+	
+	
+	private Element getElementClone() {
+		Element container = getElement();
+		return UTIL.getElemClone(container);
+	}
+
 
 	@Override
 	public Node getNode() {
@@ -143,5 +152,76 @@ public abstract class XSPFElement extends XSPFNode {
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected <E extends XSPFElement> XSPFCollection<E> getCollection(XSPFCollectionFactory<E> factory)
+			throws XSPFException {
+
+		Element clone = getElementClone();
+		return factory.create(clone);
+	}
+
+
+	protected <E extends XSPFElement> XSPFCollection<E> collection(XSPFCollectionFactory<E> factory)
+			throws XSPFException {
+
+		Element container = getElement();
+		return factory.create(container);
+	}
+
+	protected <E extends XSPFElement, C extends XSPFCollection<E>> void setCollection(XSPFCollection<E> collection)
+			throws XSPFException {
+
+		Element container = getElement();
+		String name = collection.elemName();
+
+		// TODO FIXME niceie!
+		List<Element> newElems = collection.list().stream().map(x -> x.getElement()).collect(Collectors.toList());
+		UTIL.replaceChildElementsByClone(container, name, newElems);
+	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected <E extends XSPFElement> XSPFCollection<E> getCollection(String name, XSPFCollectionFactory<E> factory)
+			throws XSPFException {
+
+		Element owner = getElement();
+		Element coontainerClone = UTIL.getChildElemClone(owner, name);
+		return factory.create(coontainerClone);
+	}
+
+	protected <E extends XSPFElement> XSPFCollection<E> collection(String name, XSPFCollectionFactory<E> factory)
+			throws XSPFException {
+
+		Element owner = getElement();
+		Element container = UTIL.getOrCreateChildElem(owner, name);
+		return factory.create(container);
+	}
+
+	protected <E extends XSPFElement, C extends XSPFCollection<E>> void setCollection(String name,
+			XSPFCollection<E> collection) throws XSPFException {
+
+		//TODO get(OrCreate?)(Tracks)list elem, work iwth that
+
+		Element owner = getElement();
+		Element container = UTIL.getOrCreateChildElem(owner, name);
+		String childrenName = collection.elemName();
+
+		// TODO FIXME niceie!
+		List<Element> newElems = collection.list().stream()
+				.map(x -> x.getElement())
+				.map(e -> UTIL.getElemClone(e))
+				.collect(Collectors.toList());
+		UTIL.replaceChildElementsByClone(container, childrenName, newElems);
+	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+	@FunctionalInterface
+	public static interface XSPFCollectionFactory<E extends XSPFElement> {
+//		public <C extends XSPFCollection<E>> C create(Element container);
+		public XSPFCollection<E> create(Element container);
+	}
 
 }

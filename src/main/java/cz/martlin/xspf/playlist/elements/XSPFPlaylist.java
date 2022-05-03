@@ -2,8 +2,6 @@ package cz.martlin.xspf.playlist.elements;
 
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 import org.w3c.dom.Element;
 
@@ -48,16 +46,15 @@ public class XSPFPlaylist extends XSPFCommon {
 	}
 
 	public XSPFTracks getTracks() throws XSPFException {
-		return  (XSPFTracks) getAll("trackList", XSPFTracks::new);
+		return  (XSPFTracks) getCollection("trackList", XSPFTracks::new);
 	}
 
 	public XSPFTracks tracks() throws XSPFException {
-		return  (XSPFTracks) all("trackList", XSPFTracks::new);
+		return  (XSPFTracks) collection("trackList", XSPFTracks::new);
 	}
 	
-	
 	public void setTracks(XSPFTracks tracks) throws XSPFException {
-		setAll("trackList", tracks);
+		setCollection("trackList", tracks);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////

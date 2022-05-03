@@ -1,4 +1,4 @@
-package cz.martlin.xspf.playlist;
+package cz.martlin.xspf.playlist.base;
 
 import java.net.URI;
 import java.time.Duration;

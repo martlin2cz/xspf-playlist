@@ -1,11 +1,10 @@
 package cz.martlin.xspf.playlist.base;
 
 import java.net.URI;
-import java.util.List;
 
 import org.w3c.dom.Element;
 
-import cz.martlin.xspf.playlist.collections.XSPFLink;
+import cz.martlin.xspf.playlist.collections.XSPFExtensions;
 import cz.martlin.xspf.playlist.collections.XSPFLinks;
 import cz.martlin.xspf.playlist.collections.XSPFMetas;
 import cz.martlin.xspf.playlist.elements.XSPFExtension;
@@ -76,31 +75,42 @@ public abstract class XSPFCommon extends XSPFElement {
 	}
 
 	public XSPFLinks getLinks() throws XSPFException {
-		return (XSPFLinks) getAll("link", XSPFLinks::new);
+		return (XSPFLinks) getCollection(XSPFLinks::new);
 	}
 	
 	public XSPFLinks links() throws XSPFException {
-		return (XSPFLinks) all("link", XSPFLinks::new);
+		return (XSPFLinks) collection(XSPFLinks::new);
 	}
 
 	public void setLinks(XSPFLinks links) throws XSPFException {
-		setAll("link", links);
+		setCollection(links);
 	}
 
 	public XSPFMetas getMetas() throws XSPFException {
-		return (XSPFMetas) getAll("meta", XSPFMetas::new);
+		return (XSPFMetas) getCollection(XSPFMetas::new);
 	}
 	
 	public XSPFMetas metas() throws XSPFException {
-		return (XSPFMetas) all("meta", XSPFMetas::new);
+		return (XSPFMetas) collection(XSPFMetas::new);
 	}
 	
 	public void setMetas(XSPFMetas metas) throws XSPFException {
-		setAll("meta", metas);
+		setCollection(metas);
 	}
 
-	//TODO getExtension, setExtension
+	public XSPFExtensions getExtensions() throws XSPFException {
+		return (XSPFExtensions) getCollection(XSPFExtensions::new);
+	}
 	
+	public XSPFExtensions extensions() throws XSPFException {
+		return (XSPFExtensions) collection(XSPFExtensions::new);
+	}
+	
+	public void setMetas(XSPFExtensions extensions) throws XSPFException {
+		setCollection(extensions);
+	}
+
+	@Deprecated
 	public XSPFExtension extension(URI application) throws XSPFException {
 		Element elem = getElement();
 		//TODO getOrCreateElem with application attr set to specified value

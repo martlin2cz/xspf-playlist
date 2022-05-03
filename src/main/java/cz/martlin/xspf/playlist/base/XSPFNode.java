@@ -1,4 +1,4 @@
-package cz.martlin.xspf.playlist;
+package cz.martlin.xspf.playlist.base;
 
 import java.util.List;
 import java.util.function.Function;
