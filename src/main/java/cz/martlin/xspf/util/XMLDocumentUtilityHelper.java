@@ -418,7 +418,11 @@ public class XMLDocumentUtilityHelper {
 	 * @throws XSPFException
 	 */
 	public String getAttrValueOrNull(Element elem, String attrName) throws XSPFException {
-		return elem.getAttribute(/* NS(nsURL, */ fullName(attrName));
+		if (elem.hasAttribute(fullName(attrName))) {
+			return elem.getAttribute(/* NS(nsURL, */ fullName(attrName));
+		} else {
+			return null;
+		}
 	}
 
 	/**
