@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFElement;
+import cz.martlin.xspf.util.ExceptionWrapper;
 import cz.martlin.xspf.util.XMLDocumentUtilityHelper.TextToValueMapper;
 import cz.martlin.xspf.util.XMLDocumentUtilityHelper.ValueToTextMapper;
 import cz.martlin.xspf.util.XSPFException;
@@ -38,13 +39,7 @@ public class XSPFAttribution extends XSPFElement {
 	public List<XSPFAttributionItem> list() throws XSPFException {
 		Element owner = getElement();
 		return UTIL.listChildrenElems(owner) //
-				.map(e -> { //
-					try {
-						return createItem(e);
-					} catch (XSPFException ex) {
-						throw new RuntimeException(ex);
-					}
-				}) //
+				.map(ExceptionWrapper.wrapFunction(e -> createItem(e))) //
 				.collect(Collectors.toList());
 	}
 
