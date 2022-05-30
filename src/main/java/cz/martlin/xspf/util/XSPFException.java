@@ -3,8 +3,8 @@ package cz.martlin.xspf.util;
 import java.io.IOException;
 
 /**
- * An general exception occured during the processing of the XSPF file. This may
- * indicate:
+ * An general (checked) exception occured during the processing of the XSPF
+ * file. This may indicate:
  * <ul>
  * <li>the file is completelly corrupted
  * <li>there is missing some mandatory elements or attributes

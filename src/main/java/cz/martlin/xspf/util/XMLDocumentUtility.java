@@ -338,13 +338,8 @@ public class XMLDocumentUtility {
 	 * @param elems
 	 */
 	public void addChildElements(Node owner, Stream<Element> elems) {
-		elems.forEach((e) -> {
-			try {
-				helper.addChild(owner, e);
-			} catch (XSPFException ex) {
-				throw new RuntimeException(ex);
-			}
-		});
+		elems.forEach(ExceptionWrapper.wrapConsumer( //
+				(e) -> helper.addChild(owner, e)));
 	}
 
 	/**
@@ -363,13 +358,8 @@ public class XMLDocumentUtility {
 	 * @param elems
 	 */
 	public void removeChildElements(Node owner, Stream<Element> elems) {
-		elems.forEach((e) -> {
-			try {
-				helper.removeChild(owner, e);
-			} catch (XSPFException ex) {
-				throw new RuntimeException(ex);
-			}
-		});
+		elems.forEach(ExceptionWrapper.wrapConsumer( //
+				(e) -> helper.removeChild(owner, e)));
 	}
 
 	/**
@@ -393,20 +383,11 @@ public class XMLDocumentUtility {
 	 */
 	public void replaceChildElements(Node owner, Stream<Element> originals, Stream<Element> replacements)
 			throws XSPFException {
-		originals.forEach((e) -> {
-			try {
-				helper.removeChild(owner, e);
-			} catch (XSPFException ex) {
-				throw new RuntimeException(ex);
-			}
-		});
-		replacements.forEach((e) -> {
-			try {
-				helper.addChild(owner, e);
-			} catch (XSPFException ex) {
-				throw new RuntimeException(ex);
-			}
-		});
+		originals.forEach(ExceptionWrapper.wrapConsumer( //
+				(e) -> helper.removeChild(owner, e)));
+		
+		replacements.forEach(ExceptionWrapper.wrapConsumer( //
+				(e) -> helper.addChild(owner, e)));
 	}
 
 }
