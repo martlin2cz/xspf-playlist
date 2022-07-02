@@ -1,7 +1,5 @@
 # xspf-playlist
 
-<a href="http://validator.xspf.org/referrer/"><img src="valid-xspf.png" width="88" height="31" style="border:0" alt="Valid XSPF Playlist" title="This website produces valid XSPF playlist files."></a>
-
 An simple Java library implementing the manipulation (reading, but also creating and modifing) of the XSPF playlist files. The implementation is valid agains the XSPF file format specification, version 1: [https://xspf.org/](https://xspf.org/xspf-v1.html). 
 
 ## Hello world
