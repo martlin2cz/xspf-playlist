@@ -156,4 +156,8 @@ Small changes, including:
  - added the "find by" methods to some collection types
  - examples moved from production _sources_ to _tests_
 
+#### Version 2.0.1
+Closes #1 (tons of blank spaces beeing generated in the produced xspf file).
+
+
 	
