@@ -42,7 +42,7 @@ public class WorkingWithExtensionsTest {
 		XSPFPlaylist playlist = file.playlist();
 
 		XSPFExtensions extensions = playlist.extensions();
-		XSPFExtension extension = extensions.find(URI.create("lorem-ipsum-generator.com"));
+		XSPFExtension extension = extensions.extension(URI.create("lorem-ipsum-generator.com"));
 
 		XMLDocumentUtility util = extension.getUtility("generator", "lorem-ipsum-generator.com");
 		Element extensionElem = extension.getElement();
@@ -74,7 +74,7 @@ public class WorkingWithExtensionsTest {
 		XSPFPlaylist playlist = file.playlist();
 
 		XSPFExtensions extensions = playlist.extensions();
-		XSPFExtension originalExtension = extensions.find(URI.create("lorem-ipsum-generator.com"));
+		XSPFExtension originalExtension = extensions.extension(URI.create("lorem-ipsum-generator.com"));
 		extensions.remove(originalExtension);
 
 		XSPFExtension newExtension = extensions.createExtension(URI.create("jmp-app.cz"));

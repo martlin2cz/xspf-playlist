@@ -82,7 +82,7 @@ public class Printer {
 	 * @param tracks
 	 * @throws XSPFException
 	 */
-	private static void print(int padding, String label, XSPFTracks tracks) throws XSPFException {
+	public static void print(int padding, String label, XSPFTracks tracks) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -100,7 +100,7 @@ public class Printer {
 	 * @param track
 	 * @throws XSPFException
 	 */
-	private static void print(int padding, String label, XSPFTrack track) throws XSPFException {
+	public static void print(int padding, String label, XSPFTrack track) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -127,7 +127,7 @@ public class Printer {
 	 * @param metas
 	 * @throws XSPFException
 	 */
-	private static void print(int padding, String label, XSPFMetas metas) throws XSPFException {
+	public static void print(int padding, String label, XSPFMetas metas) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -145,7 +145,7 @@ public class Printer {
 	 * @param meta
 	 * @throws XSPFException
 	 */
-	private static void print(int padding, String label, XSPFMeta meta) throws XSPFException {
+	public static void print(int padding, String label, XSPFMeta meta) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -161,7 +161,7 @@ public class Printer {
 	 * @param extensions
 	 * @throws XSPFException
 	 */
-	private static void print(int padding, String label, XSPFExtensions extensions) throws XSPFException {
+	public static void print(int padding, String label, XSPFExtensions extensions) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -179,7 +179,7 @@ public class Printer {
 	 * @param extension
 	 * @throws XSPFException
 	 */
-	private static void print(int padding, String label, XSPFExtension extension) throws XSPFException {
+	public static void print(int padding, String label, XSPFExtension extension) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -195,7 +195,7 @@ public class Printer {
 	 * @param links
 	 * @throws XSPFException
 	 */
-	private static void print(int padding, String label, XSPFLinks links) throws XSPFException {
+	public static void print(int padding, String label, XSPFLinks links) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -213,7 +213,7 @@ public class Printer {
 	 * @param link
 	 * @throws XSPFException
 	 */
-	private static void print(int padding, String label, XSPFLink link) throws XSPFException {
+	public static void print(int padding, String label, XSPFLink link) throws XSPFException {
 		printLabel(padding, label);
 		int p = padding + 1;
 
@@ -229,7 +229,7 @@ public class Printer {
 	 * @param attribution
 	 * @throws XSPFException
 	 */
-	private static void print(int padding, String label, XSPFAttribution attribution) throws XSPFException {
+	public static void print(int padding, String label, XSPFAttribution attribution) throws XSPFException {
 		if (attribution == null) {
 			printLabeled(padding, label, null);
 			return;

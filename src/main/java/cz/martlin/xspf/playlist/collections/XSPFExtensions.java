@@ -6,6 +6,7 @@ import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFCollection;
 import cz.martlin.xspf.playlist.elements.XSPFExtension;
+import cz.martlin.xspf.util.ExceptionWrapper;
 import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
@@ -64,22 +65,17 @@ public class XSPFExtensions extends XSPFCollection<XSPFExtension> {
 	}
 
 	/**
-	 * Finds the extension for the given application.
+	 * Finds the extension for the given application. Null if no such.
 	 * 
 	 * @param application
 	 * @return
 	 * @throws XSPFException
 	 */
-	public XSPFExtension find(URI application) throws XSPFException {
+	public XSPFExtension extension(URI application) throws XSPFException {
 		return list() //
-				.filter(e -> {
-					try {
-						return application.equals(e.getApplication());
-					} catch (XSPFException ex) {
-						throw new RuntimeException(ex);
-					}
-				}) //
-				.findAny().get(); //
+				.filter(ExceptionWrapper.wrapPredicate( //
+						e -> application.equals(e.getApplication()))) //
+				.findAny().orElse(null); //
 	}
 
 }

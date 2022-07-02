@@ -2,11 +2,13 @@ package cz.martlin.xspf.playlist.collections;
 
 import java.net.URI;
 import java.time.Duration;
+import java.util.Objects;
 
 import org.w3c.dom.Element;
 
 import cz.martlin.xspf.playlist.base.XSPFCollection;
 import cz.martlin.xspf.playlist.elements.XSPFTrack;
+import cz.martlin.xspf.util.ExceptionWrapper;
 import cz.martlin.xspf.util.Names;
 import cz.martlin.xspf.util.XSPFException;
 
@@ -121,6 +123,35 @@ public class XSPFTracks extends XSPFCollection<XSPFTrack> {
 		track.setTrackNum(trackNum);
 		track.setDuration(duration);
 		return track;
+	}
+/////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns track having the given trackNum. Null if no such.
+	 * 
+	 * @param trackNum
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFTrack track(int trackNum) throws XSPFException {
+		return list() //
+				.filter(ExceptionWrapper.wrapPredicate( //
+						t -> Objects.equals(trackNum, t.getTrackNum()))) //
+				.findAny().orElse(null);
+	}
+	
+	/**
+	 * Returns track having the given title. Null if no such.
+	 * 
+	 * @param title
+	 * @return
+	 * @throws XSPFException
+	 */
+	public XSPFTrack track(String title) throws XSPFException {
+		return list() //
+				.filter(ExceptionWrapper.wrapPredicate( //
+						t -> Objects.equals(title, t.getTitle()))) //
+				.findAny().orElse(null);
 	}
 
 }
