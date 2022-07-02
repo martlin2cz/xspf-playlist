@@ -129,7 +129,7 @@ Finally save the xspf file.
 ````
 
 ### Examples
-There are some sample programs in the `examples` package. Like the `TracksFinder`:
+There are some sample programs in the `cz.martlin.xspf.examples` package in `src/test/java`. Like the `TracksFinder`:
 ````
 $ TracksFinder "Kraftwerk - Computer World.xspf" "Compute"
 Computer World
