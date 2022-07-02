@@ -440,8 +440,7 @@ public class XMLDocumentUtilityHelper {
 	// text <-> value
 
 	/**
-	 * Converts the given text to value of particular type by the given mapper. If
-	 * the text is null, null is returned immediatelly.
+	 * Converts the given text to value of particular type by the given mapper.
 	 * 
 	 * @param <T>
 	 * @param text
@@ -449,21 +448,16 @@ public class XMLDocumentUtilityHelper {
 	 * @return
 	 * @throws XSPFException
 	 */
-	public <T> T textToValue(String text, TextToValueMapper<T> mapper) throws XSPFException {
+	public <T> T textToValue(String text, NullableTextToValueMapper<T> mapper) throws XSPFException {
 		try {
-			if (text == null) {
-				return null;
-			}
-
-			return mapper.textToValue(text.trim());
+			return mapper.textOrNullToValue(text.trim());
 		} catch (Exception e) {
-			throw new XSPFException("Cannot convert " + text + " value", e);
+			throw new XSPFException("Cannot convert " + text + " text", e);
 		}
 	}
 
 	/**
-	 * Converts the given value of particular type to text by the given mapper. If
-	 * the value is null, null is returned immediatelly.
+	 * Converts the given value of particular type to text by the given mapper.
 	 * 
 	 * @param <T>
 	 * @param value
@@ -471,20 +465,18 @@ public class XMLDocumentUtilityHelper {
 	 * @return
 	 * @throws XSPFException
 	 */
-	public <T> String valueToText(T value, ValueToTextMapper<T> mapper) throws XSPFException {
+	public <T> String valueToText(T value, NullableValueToTextMapper<T> mapper) throws XSPFException {
 		try {
-			if (value == null) {
-				return null;
-			}
-
-			return mapper.valueToText(value);
+			return mapper.valueOrNullToText(value);
 		} catch (Exception e) {
 			throw new XSPFException("Cannot convert " + value + " value", e);
 		}
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
 	/**
-	 * An mapping of the text obtained from the XML file to some particular java
+	 * An mapping of the text (never null) obtained from the XML file to some particular java
 	 * type. To convert to string, you can use {@link #TEXT_TO_STRING} mapping.
 	 * 
 	 * @author martin
@@ -492,11 +484,11 @@ public class XMLDocumentUtilityHelper {
 	 * @param <T>
 	 */
 	@FunctionalInterface
-	public interface TextToValueMapper<T> {
+	public interface NonNullTextToValueMapper<T> {
 		/**
 		 * An identity (i.e. empty) mapping.
 		 */
-		public static final TextToValueMapper<String> TEXT_TO_STRING = (s) -> s;
+		public static final NonNullTextToValueMapper<String> TEXT_TO_STRING = (s) -> s;
 
 		/**
 		 * Converts the given (non-null) text to the particular value.
@@ -507,9 +499,50 @@ public class XMLDocumentUtilityHelper {
 		 */
 		T textToValue(String text) throws Exception;
 	}
+	
+	/**
+	 * An mapping of the text (or null) obtained from the XML file to some particular java
+	 * type. To convert to string, you can use {@link #TEXT_TO_STRING} mapping.
+	 * 
+	 * @author martin
+	 *
+	 * @param <T>
+	 */
+	@FunctionalInterface
+	public interface NullableTextToValueMapper<T> {
+		/**
+		 * An identity (i.e. empty) mapping.
+		 */
+		public static final NullableTextToValueMapper<String> TEXT_TO_STRING = (s) -> s;
+
+		/**
+		 * Converts the given (possibly null) text to the particular value.
+		 * 
+		 * @param text
+		 * @return
+		 * @throws Exception
+		 */
+		T textOrNullToValue(String text) throws Exception;
+		
+		/**
+		 * Encapsulates the given {@link NonNullTextToValueMapper} to be {@link NullableTextToValueMapper}.
+		 * 
+		 * @param <T>
+		 * @param nonNullMapper
+		 * @return
+		 */
+		public static <T> NullableTextToValueMapper<T> checked(NonNullTextToValueMapper<T> nonNullMapper) {
+			return (text) -> {
+				if (text == null) {
+					return null;
+				}
+				return nonNullMapper.textToValue(text);
+			};
+		}
+	}
 
 	/**
-	 * An mapping of the particular java object to text to fill into the XML file.
+	 * An mapping of the particular java object (never null) to text to fill into the XML file.
 	 * To convert a string, you can use {@link #STRING_TO_TEXT} mapping.
 	 * 
 	 * @author martin
@@ -517,11 +550,11 @@ public class XMLDocumentUtilityHelper {
 	 * @param <T>
 	 */
 	@FunctionalInterface
-	public interface ValueToTextMapper<T> {
+	public interface NonNullValueToTextMapper<T> {
 		/**
 		 * An identity (i.e. empty) mapping.
 		 */
-		public static final ValueToTextMapper<String> STRING_TO_TEXT = (s) -> s;
+		public static final NonNullValueToTextMapper<String> STRING_TO_TEXT = (s) -> s;
 
 		/**
 		 * Converts the given (non-null) java object to the xml text.
@@ -531,6 +564,47 @@ public class XMLDocumentUtilityHelper {
 		 * @throws Exception
 		 */
 		String valueToText(T value) throws Exception;
+	}
+	
+	/**
+	 * An mapping of the particular java object (or null) to text to fill into the XML file.
+	 * To convert a string, you can use {@link #STRING_TO_TEXT} mapping.
+	 * 
+	 * @author martin
+	 *
+	 * @param <T>
+	 */
+	@FunctionalInterface
+	public interface NullableValueToTextMapper<T> {
+		/**
+		 * An identity (i.e. empty) mapping.
+		 */
+		public static final NullableValueToTextMapper<String> STRING_TO_TEXT = (s) -> s;
+
+		/**
+		 * Converts the given (possibly null) java object to the xml text.
+		 * 
+		 * @param value
+		 * @return
+		 * @throws Exception
+		 */
+		String valueOrNullToText(T value) throws Exception;
+		
+		/**
+		 * Encapsulates the given {@link NonNullValueToTextMapper} to be {@link NullableValueToTextMapper}.
+		 * 
+		 * @param <T>
+		 * @param nonNullMapper
+		 * @return
+		 */
+		public static <T> NullableValueToTextMapper<T> checked(NonNullValueToTextMapper<T> nonNullMapper) {
+			return (value) -> {
+				if (value == null) {
+					return null;
+				}
+				return nonNullMapper.valueToText(value);
+			};
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////

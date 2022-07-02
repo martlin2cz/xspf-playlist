@@ -232,7 +232,7 @@ public class XSPFFile extends XSPFNode {
 	 */
 	private static void specifyVersion(Element root) throws XSPFException {
 		XSPFNode.UTIL.setElementAttr(root, Names.VERSION, XSPF_STANDART_VERSION,
-				XMLDocumentUtilityHelper.ValueToTextMapper.STRING_TO_TEXT);
+				XMLDocumentUtilityHelper.NullableValueToTextMapper.STRING_TO_TEXT);
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class XSPFFile extends XSPFNode {
 	 */
 	private static void verifyVersion(Element root) throws XSPFException {
 		String version = XSPFNode.UTIL.getElementAttrOrNull(root, Names.VERSION,
-				XMLDocumentUtilityHelper.TextToValueMapper.TEXT_TO_STRING);
+				XMLDocumentUtilityHelper.NullableTextToValueMapper.TEXT_TO_STRING);
 
 		if (!version.equals(XSPF_STANDART_VERSION)) {
 			throw new XSPFException("The supported version of XSPF is " + XSPF_STANDART_VERSION);
