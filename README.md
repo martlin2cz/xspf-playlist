@@ -162,4 +162,3 @@ Closes #1 (tons of blank spaces beeing generated in the produced xspf file).
 #### Version 3.0
 Closes #2 (nullable vs. non-nullable converters).
 
-	
