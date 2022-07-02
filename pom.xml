@@ -11,11 +11,27 @@
 	<description>An Java library implementing the XSPF (XML Shareable Playlist Format) playlist files manipulation.</description>
 	<url>https://github.com/martlin2cz/xspf-playlist</url>
 	
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007</name>
+			<url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+		</license>
+	</licenses>
+
 	<developers>
 		<developer>
 			<name>martlin2cz</name>
+			<email>martlin@seznam.cz</email>
+			<organization>martlin</organization>
+			<organizationUrl>http://www.martlins-web.tode.cz</organizationUrl>
 		</developer>
 	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/martlin2cz/xspf-playlist.git</connection>
+		<developerConnection>scm:git:ssh://github.com:martlin2cz/xspf-playlist.git</developerConnection>
+		<url>http://github.com/martlin2cz/xspf-playlist/tree/master</url>
+	</scm>
 
     <properties>
             <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
