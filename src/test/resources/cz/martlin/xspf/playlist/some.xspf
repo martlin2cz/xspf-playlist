@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<playlist xmlns="http://xspf.org/ns/0/" version="1">
+    <title>Discovery</title>
+    <trackList>
+        <track>
+            <title>One More Time</title>
+            <creator>Daft Punk</creator>
+            <album>Discovery</album>
+            <duration>320000</duration>
+            <location>file://Daft%20Punk/One%20More%20Time.mp3</location>
+        </track>
+        <track>
+            <title>Aerodynamic</title>
+            <creator>Daft Punk</creator>
+            <album>Discovery</album>
+            <duration>207000</duration>
+           <location>file://Daft%20Punk/Aerodynamic.mp3</location>
+        </track>
+        <track>
+            <title>Veridis Quo</title>
+            <creator>Daft Punk</creator>
+            <album>Discovery</album>
+            <duration>344000</duration>
+           	<location>file://Daft%20Punk/Veridis%Quo.mp3</location>
+        </track>
+    </trackList>
+</playlist>
+
