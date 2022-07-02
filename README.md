@@ -148,6 +148,12 @@ It's More Fun To Compute
 #### Version 1.0
 First oficial version. The basic features may be working correctly.
 
-
+#### Version 2.0
+Small changes, including:
+ - `Printer` methods made public
+ - when node has not the attribute present, null gets returned instead of empty string
+ - `XSPFRuntimeException` replaces `RuntimeException` where it used to happen
+ - added the "find by" methods to some collection types
+ - examples moved from production _sources_ to _tests_
 
 	
