@@ -28,13 +28,6 @@ Home Computer
 It's More Fun To Compute
 ````
 
-### Further notes
- - If some element or attribute is missing in the document, the corresponding method returns null.
- - In some rare cases, the `XSPFException` can be thrown. Think about that as like the `IOException`.
- - After you `set` some element or collection, it's recomended to re-obtain all the corresponding view instances (the `x()` methods).
- - Some more sample use cases can be found in the JUnit tests.
- - The code is documented and quite well structured.
-
 ### Changelog
 #### Version 1.0
 First oficial version. The basic features may be working correctly.
