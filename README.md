@@ -17,7 +17,7 @@ The basic usage (create empty playlist, add one track, save to file) can be acch
 Further usage can be found in the Wiki: [Usage](https://github.com/martlin2cz/xspf-playlist/wiki/Usage) 
 
 
-### Examples
+## Examples
 There are some sample programs in the `cz.martlin.xspf.examples` package in `src/test/java`. Like the `TracksFinder`:
 ````
 $ TracksFinder "Kraftwerk - Computer World.xspf" "Compute"
@@ -28,21 +28,6 @@ Home Computer
 It's More Fun To Compute
 ````
 
-### Changelog
-#### Version 1.0
-First oficial version. The basic features may be working correctly.
-
-#### Version 2.0
-Small changes, including:
- - `Printer` methods made public
- - when node has not the attribute present, null gets returned instead of empty string
- - `XSPFRuntimeException` replaces `RuntimeException` where it used to happen
- - added the "find by" methods to some collection types
- - examples moved from production _sources_ to _tests_
-
-#### Version 2.0.1
-Closes #1 (tons of blank spaces beeing generated in the produced xspf file).
-
-#### Version 3.0
-Closes #2 (nullable vs. non-nullable converters).
+## Changelog
+Moved to Wiki: [Changelog](github.com/martlin2cz/xspf-playlist/wiki/Changelog-release-info) 
 
