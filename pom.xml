@@ -37,9 +37,10 @@
 			<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<!-- https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven -->
+	
 	<build>
 			<plugins>
+					<!-- https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven -->
 					<plugin>
 							<artifactId>maven-compiler-plugin</artifactId>
 							<version>3.1</version>
@@ -48,7 +49,6 @@
 									<target>11</target>
 							</configuration>
 					</plugin>
-
 					<plugin>
 							<artifactId>maven-surefire-plugin</artifactId>
 							<version>2.22.2</version>
@@ -56,6 +56,19 @@
 					<plugin>
 							<artifactId>maven-failsafe-plugin</artifactId>
 							<version>2.22.2</version>
+					</plugin>
+					
+					<!-- https://central.sonatype.org/publish/publish-maven/#nexus-staging-maven-plugin-for-deployment-and-release -->
+					<plugin>
+					  <groupId>org.sonatype.plugins</groupId>
+					  <artifactId>nexus-staging-maven-plugin</artifactId>
+					  <version>1.6.7</version>
+					  <extensions>true</extensions>
+					  <configuration>
+					     <serverId>ossrh</serverId>
+					     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+					     <autoReleaseAfterClose>false</autoReleaseAfterClose>
+					  </configuration>
 					</plugin>
 			</plugins>
 	</build>
@@ -78,7 +91,7 @@
 
 <profiles>
 	<profile>
-		<id>deploy-to-ossrh</id>
+		<id>prepare-ossrh-deploy</id>
 		<build>
 			<plugins>
 
