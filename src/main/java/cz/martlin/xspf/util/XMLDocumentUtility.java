@@ -5,8 +5,8 @@ import java.util.stream.Stream;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import cz.martlin.xspf.util.XMLDocumentUtilityHelper.TextToValueMapper;
-import cz.martlin.xspf.util.XMLDocumentUtilityHelper.ValueToTextMapper;
+import cz.martlin.xspf.util.XMLDocumentUtilityHelper.NullableTextToValueMapper;
+import cz.martlin.xspf.util.XMLDocumentUtilityHelper.NullableValueToTextMapper;
 
 /**
  * An xml document utility. Provides some usefull methods to simplify
@@ -52,7 +52,7 @@ public class XMLDocumentUtility {
 	 * @return
 	 * @throws XSPFException
 	 */
-	public <T> T getChildElementValueOrNull(Element owner, String elemName, TextToValueMapper<T> mapper)
+	public <T> T getChildElementValueOrNull(Element owner, String elemName, NullableTextToValueMapper<T> mapper)
 			throws XSPFException {
 
 		Element elem = helper.getChildOrNull(owner, elemName);
@@ -71,7 +71,7 @@ public class XMLDocumentUtility {
 	 * @param mapper
 	 * @throws XSPFException
 	 */
-	public <T> void setChildElementValue(Element owner, String elemName, T value, ValueToTextMapper<T> mapper)
+	public <T> void setChildElementValue(Element owner, String elemName, T value, NullableValueToTextMapper<T> mapper)
 			throws XSPFException {
 
 		Element elem = helper.getOrCreateChild(owner, elemName);
@@ -86,7 +86,7 @@ public class XMLDocumentUtility {
 	 * @return
 	 * @throws XSPFException
 	 */
-	public <T> T getElementValueOrNull(Element elem, TextToValueMapper<T> mapper) throws XSPFException {
+	public <T> T getElementValueOrNull(Element elem, NullableTextToValueMapper<T> mapper) throws XSPFException {
 
 		String text = helper.getElementValueOrNull(elem);
 		return helper.textToValue(text, mapper);
@@ -100,7 +100,7 @@ public class XMLDocumentUtility {
 	 * @param mapper
 	 * @throws XSPFException
 	 */
-	public <T> void setElementValue(Element elem, T value, ValueToTextMapper<T> mapper) throws XSPFException {
+	public <T> void setElementValue(Element elem, T value, NullableValueToTextMapper<T> mapper) throws XSPFException {
 
 		String text = helper.valueToText(value, mapper);
 		if (text != null) {
@@ -117,7 +117,7 @@ public class XMLDocumentUtility {
 	 * @return
 	 * @throws XSPFException
 	 */
-	public <T> T getElementAttrOrNull(Element owner, String attrName, TextToValueMapper<T> mapper)
+	public <T> T getElementAttrOrNull(Element owner, String attrName, NullableTextToValueMapper<T> mapper)
 			throws XSPFException {
 
 		String text = helper.getAttrValueOrNull(owner, attrName);
@@ -133,7 +133,7 @@ public class XMLDocumentUtility {
 	 * @param mapper
 	 * @throws XSPFException
 	 */
-	public <T> void setElementAttr(Element owner, String attrName, T value, ValueToTextMapper<T> mapper)
+	public <T> void setElementAttr(Element owner, String attrName, T value, NullableValueToTextMapper<T> mapper)
 			throws XSPFException {
 
 		String text = helper.valueToText(value, mapper);
