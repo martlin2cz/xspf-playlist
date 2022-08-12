@@ -5,44 +5,73 @@
 
 	<groupId>cz.martlin</groupId>
 	<artifactId>xspf-playlist</artifactId>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<name>XML Shareable Playlist Format (XSPF) implementation</name>
 
 	<description>An Java library implementing the XSPF (XML Shareable Playlist Format) playlist files manipulation.</description>
 	<url>https://github.com/martlin2cz/xspf-playlist</url>
 	
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007</name>
+			<url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+		</license>
+	</licenses>
+
 	<developers>
 		<developer>
 			<name>martlin2cz</name>
+			<email>martlin@seznam.cz</email>
+			<organization>martlin</organization>
+			<organizationUrl>http://www.martlins-web.tode.cz</organizationUrl>
 		</developer>
 	</developers>
 
-    <properties>
-            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+	<scm>
+		<connection>scm:git:git://github.com/martlin2cz/xspf-playlist.git</connection>
+		<developerConnection>scm:git:ssh://github.com:martlin2cz/xspf-playlist.git</developerConnection>
+		<url>http://github.com/martlin2cz/xspf-playlist/tree/master</url>
+	</scm>
 
-    <!-- https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven -->
-    <build>
-            <plugins>
-                    <plugin>
-                            <artifactId>maven-compiler-plugin</artifactId>
-                            <version>3.1</version>
-                            <configuration>
-                                    <source>11</source>
-                                    <target>11</target>
-                            </configuration>
-                    </plugin>
+	<properties>
+			<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-                    <plugin>
-                            <artifactId>maven-surefire-plugin</artifactId>
-                            <version>2.22.2</version>
-                    </plugin>
-                    <plugin>
-                            <artifactId>maven-failsafe-plugin</artifactId>
-                            <version>2.22.2</version>
-                    </plugin>
-            </plugins>
-    </build>
+	
+	<build>
+			<plugins>
+					<!-- https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven -->
+					<plugin>
+							<artifactId>maven-compiler-plugin</artifactId>
+							<version>3.1</version>
+							<configuration>
+									<source>11</source>
+									<target>11</target>
+							</configuration>
+					</plugin>
+					<plugin>
+							<artifactId>maven-surefire-plugin</artifactId>
+							<version>2.22.2</version>
+					</plugin>
+					<plugin>
+							<artifactId>maven-failsafe-plugin</artifactId>
+							<version>2.22.2</version>
+					</plugin>
+					
+					<!-- https://central.sonatype.org/publish/publish-maven/#nexus-staging-maven-plugin-for-deployment-and-release -->
+					<plugin>
+					  <groupId>org.sonatype.plugins</groupId>
+					  <artifactId>nexus-staging-maven-plugin</artifactId>
+					  <version>1.6.7</version>
+					  <extensions>true</extensions>
+					  <configuration>
+					     <serverId>ossrh</serverId>
+					     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+					     <autoReleaseAfterClose>false</autoReleaseAfterClose>
+					  </configuration>
+					</plugin>
+			</plugins>
+	</build>
 
 	<dependencies>
 		<!-- JUnit -->
@@ -59,4 +88,58 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+<profiles>
+	<profile>
+		<id>prepare-ossrh-deploy</id>
+		<build>
+			<plugins>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.2.1</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9.1</version>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+					 	</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.5</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+					 	</execution>
+					</executions>
+				</plugin>	
+
+			</plugins>	
+		</build>
+	</profile>
+</profiles>
 </project>
