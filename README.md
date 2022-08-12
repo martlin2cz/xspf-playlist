@@ -1,7 +1,5 @@
 # xspf-playlist
 
-<a href="http://validator.xspf.org/referrer/"><img src="valid-xspf.png" width="88" height="31" style="border:0" alt="Valid XSPF Playlist" title="This website produces valid XSPF playlist files."></a>
-
 An simple Java library implementing the manipulation (reading, but also creating and modifing) of the XSPF playlist files. The implementation is valid agains the XSPF file format specification, version 1: [https://xspf.org/](https://xspf.org/xspf-v1.html). 
 
 ## Hello world
@@ -129,7 +127,7 @@ Finally save the xspf file.
 ````
 
 ### Examples
-There are some sample programs in the `examples` package. Like the `TracksFinder`:
+There are some sample programs in the `cz.martlin.xspf.examples` package in `src/test/java`. Like the `TracksFinder`:
 ````
 $ TracksFinder "Kraftwerk - Computer World.xspf" "Compute"
 Computer World
@@ -150,6 +148,12 @@ It's More Fun To Compute
 #### Version 1.0
 First oficial version. The basic features may be working correctly.
 
-
+#### Version 2.0
+Small changes, including:
+ - `Printer` methods made public
+ - when node has not the attribute present, null gets returned instead of empty string
+ - `XSPFRuntimeException` replaces `RuntimeException` where it used to happen
+ - added the "find by" methods to some collection types
+ - examples moved from production _sources_ to _tests_
 
 	
